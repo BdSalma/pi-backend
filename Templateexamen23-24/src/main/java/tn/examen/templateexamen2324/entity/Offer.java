@@ -22,6 +22,7 @@ public class Offer implements Serializable {
     private Long idOffre;
     @Temporal(TemporalType.DATE)
     private Date dateEmission;
+    private String offerName;
     @Enumerated(EnumType.STRING)
     private Category OffreCategory;
     private int Candidatnumber;
