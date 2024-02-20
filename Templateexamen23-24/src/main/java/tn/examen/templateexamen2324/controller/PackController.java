@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.examen.templateexamen2324.entity.Pack;
 import tn.examen.templateexamen2324.entity.Stand;
+import tn.examen.templateexamen2324.entity.User;
 import tn.examen.templateexamen2324.services.IPackService;
 import tn.examen.templateexamen2324.services.IStandService;
 
@@ -30,15 +31,42 @@ public class PackController {
         return pack;
     }
 
-    @DeleteMapping("/delete-pack/{id}")
+    @DeleteMapping("/delete-pack/{packId}")
     @ResponseBody
-    public void deletePack(@PathVariable("id") int packId) {
+    public void deletePack(@PathVariable("packId") long packId) {
         packService.deletePack(packId);
     }
 
-    @PutMapping("/update-pack/{id}")
+    @PutMapping("/update-pack/{packId}")
     @ResponseBody
-    public Pack updateBloc(@PathVariable("id") int packId, @RequestBody Pack pack) {
+    public Pack updateBloc(@PathVariable("packId") long packId, @RequestBody Pack pack) {
         return packService.updatePack(packId, pack);
 
-    }}
+    }
+    @PostMapping("/create_Pack_And_Assign_To_Stand/{idStand}")
+    @ResponseBody
+    public Pack createPackAndAssignToStand(@PathVariable("idStand") Long idStand, @RequestBody Pack pack){
+        return packService.createPackAndAssignToStand(idStand,pack);
+    }
+
+    @PutMapping("/unassign_Stand_from_Pack/{idPack}")
+    @ResponseBody
+    public Pack unassignStandfromPack(@PathVariable("idPack") Long idPack){
+        return packService.unassignStandfromPack(idPack);
+    }
+
+    @PutMapping("/book_Pack/{idPack}/{idUser}")
+    @ResponseBody
+    public Pack bookPack(@PathVariable("idPack") Long idPack,@PathVariable("idUser") Long idUser){
+        return packService.bookPack(idUser,idPack);
+    }
+
+    @PutMapping("/validate_Reservation/{idPack}")
+    @ResponseBody
+    public Pack validate_Reservation(@PathVariable("idPack") Long idPack){
+        return packService.validateReservation(idPack);
+    }
+
+
+
+}

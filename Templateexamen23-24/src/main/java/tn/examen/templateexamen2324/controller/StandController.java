@@ -10,7 +10,7 @@ import tn.examen.templateexamen2324.services.IStandService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/examen")
+@RequestMapping("/stand")
 public class StandController {
 
     @Autowired
