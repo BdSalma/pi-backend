@@ -10,7 +10,8 @@ import tn.examen.templateexamen2324.services.IStandService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/examen")
+@RequestMapping("/stand")
+@CrossOrigin(origins="http://localhost:4200")
 public class StandController {
 
     @Autowired

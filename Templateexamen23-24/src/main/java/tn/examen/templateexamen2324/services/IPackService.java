@@ -1,6 +1,7 @@
 package tn.examen.templateexamen2324.services;
 
 import tn.examen.templateexamen2324.entity.Pack;
+import tn.examen.templateexamen2324.entity.User;
 
 import java.util.List;
 
@@ -11,6 +12,11 @@ public interface IPackService {
      void deletePack(long id);
      Pack updatePack(long id,Pack stand);
 
-     Pack assignStandToPack(long idStand , Pack pack);
+     Pack createPackAndAssignToStand(long idStand , Pack pack);
+     Pack unassignStandfromPack(Long idPack);
+
+     Pack bookPack(Long userId, Long packId);
+
+     Pack validateReservation(Long packId);
 
 }

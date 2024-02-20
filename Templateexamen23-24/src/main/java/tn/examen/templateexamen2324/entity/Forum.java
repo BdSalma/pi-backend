@@ -1,5 +1,6 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,13 +20,19 @@ import java.util.Set;
 @Entity
 public class Forum  implements Serializable{
     @Id
-    private int id ;
-    LocalDate dateDebut ;
-    String localisation ;
-    String description ;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id ;
+    private LocalDate date ;
+    private String localisation ;
+    private String theme;
+    private String description ;
+    private ForumStatus forumStatus = ForumStatus.In_Progress;
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     Set<User> User = new HashSet<>();
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy="Forum")
+    @JsonIgnore
     Set<Pack> Pack = new HashSet<>();
 }
