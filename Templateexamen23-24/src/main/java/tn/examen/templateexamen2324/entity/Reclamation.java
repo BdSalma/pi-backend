@@ -1,5 +1,6 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class Reclamation implements Serializable {
     String description;
     TypeReclamation typeReclamation;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     private User User;
 }
