@@ -8,7 +8,7 @@ import tn.examen.templateexamen2324.entity.Offer;
 import tn.examen.templateexamen2324.services.OfferService;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/Offer")
 public class OfferController {
@@ -22,7 +22,6 @@ public class OfferController {
         List<Offer> listOffers = offerService.getOffers();
 
         return listOffers;
-
     }
     @GetMapping("/offer/{idOffer}")
     @ResponseBody

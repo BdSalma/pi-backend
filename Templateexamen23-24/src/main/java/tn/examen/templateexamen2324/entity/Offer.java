@@ -21,7 +21,7 @@ public class Offer implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idOffre;
     @Temporal(TemporalType.DATE)
-    private Date dateEmission;
+    private Date dateEmission = new Date();
     private String offerName;
     @Enumerated(EnumType.STRING)
     private Category OffreCategory;

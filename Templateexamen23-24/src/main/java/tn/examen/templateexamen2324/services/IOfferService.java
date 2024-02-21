@@ -10,7 +10,9 @@ public interface IOfferService {
     List<Offer> getOffers ();
     Offer updateOffer(Long id);
     void deleteOffer(Long id);
+    void affecetOfferToSociety(Offer o, Long idS);
 
+    List<Offer> getOfferBySociety(Long idS);
 
 
 }
