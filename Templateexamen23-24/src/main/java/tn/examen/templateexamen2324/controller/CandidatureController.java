@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/candidat")
 public class CandidatureController {
     @Autowired
@@ -20,10 +21,10 @@ public class CandidatureController {
         return candiService.findAllCadidature();
     }
 
-    @PostMapping("/addcandidat")
-    public ResponseEntity<Candidature> ajouterCandidat(@RequestBody Candidature candidature) {
-        Candidature nouveauC = candiService.addCandidat(candidature);
-        return new ResponseEntity<>(nouveauC, HttpStatus.CREATED);
+    @PostMapping("/addcandidat/{id}")
+    public ResponseEntity<Candidature> ajouterCandidat(@RequestBody Candidature candidature, @PathVariable  Long id) {
+        Candidature nouveauC = candiService.addCandidat(candidature, id);
+        return new ResponseEntity <>(nouveauC, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -36,5 +37,15 @@ public class CandidatureController {
     public void deleteCandidat(@PathVariable("id") Long id) {
         candiService.deleteById(id);
     }
+    @PutMapping("/updateCandidat/{id}")
+    public ResponseEntity<Candidature> UpdateCandidat(@RequestBody Candidature candidature, @PathVariable  Long id) {
+        Candidature candidatureMaj = candiService.updateCandidature(id, candidature);
+        if (candidatureMaj != null) {
+            return new ResponseEntity<>(candidatureMaj, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
 }

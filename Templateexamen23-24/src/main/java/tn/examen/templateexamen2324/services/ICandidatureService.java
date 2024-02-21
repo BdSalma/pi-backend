@@ -4,9 +4,9 @@ import tn.examen.templateexamen2324.entity.Candidature;
 import java.util.List;
 import java.util.Optional;
 public interface ICandidatureService {
-    Candidature addCandidat(Candidature c);
+    Candidature addCandidat(Candidature c, Long id);
     List<Candidature> findAllCadidature();
     void deleteById(Long id);
-    Candidature updateCandidature(Long id, Candidature candidature);
+    Candidature updateCandidature(Long id, Candidature updatedCandidature);
     Candidature FindCandidatById(Long id);
 }

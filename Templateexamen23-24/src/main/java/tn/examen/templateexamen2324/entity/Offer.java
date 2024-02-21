@@ -1,5 +1,7 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +30,7 @@ public class Offer implements Serializable {
     private String candidatProfil;
     private String duree;
     private String description;
+    @JsonBackReference
     @OneToMany(cascade = CascadeType.ALL,mappedBy="offer")
     private Set<Candidature> candidatures = new HashSet<>();
     @ManyToOne(cascade = CascadeType.ALL)
