@@ -18,7 +18,7 @@ public class InvoiceController {
     public ResponseEntity<Invoice> ajouterInvoice(@RequestBody Invoice i) {
         Invoice invoice = invoiceIService.addInvoice(i);
         return new ResponseEntity<>(invoice, HttpStatus.CREATED);
-    }
+     }
     @GetMapping("/retrieveAllInvoices")
     @ResponseBody
     public List<Invoice> getInvoices() {
