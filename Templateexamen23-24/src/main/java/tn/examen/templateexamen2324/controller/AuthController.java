@@ -72,12 +72,10 @@ public class AuthController {
 
 
     @GetMapping("/user-details")
-    public Map<String, Object> getUserDetails(Authentication authentication) {
+    public User getUserDetails(Authentication authentication) {
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
-        Map<String, Object> claims = jwtToken.getClaims();
-        //String username = jwtToken.getClaim("preferred_username");
-        //String email = jwtToken.getClaim("email");
-        return claims;
+        String userId = jwtToken.getClaim("sub");
+        return authService.getUserById(userId);
     }
 
     @PutMapping("/emailVerification")

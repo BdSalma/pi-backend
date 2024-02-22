@@ -74,7 +74,8 @@ public class SecurityConfiguration {
             web.ignoring().requestMatchers(
                     HttpMethod.POST,
                     "/auth/create-user",
-                    "/auth/login"
+                    "/auth/login",
+                    "/auth/logout"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.PUT,

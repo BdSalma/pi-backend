@@ -114,13 +114,19 @@ public class AuthService implements IAuthService{
 
     @Override
     public Object[] createUser(Map<String, String> userRegistration){
-        IndividuRole role = IndividuRole.valueOf(userRegistration.get("role"));
-        if(role.equals("Exposant") || role.equals("Fourniseur")){
-            Society userSociety = new Society(userRegistration);
-            return createSociety(userSociety);
-        }else{
+        boolean isIndividuRole = false;
+        for (IndividuRole role : IndividuRole.values()) {
+            if (role.toString().equals(userRegistration.get("role"))) {
+                isIndividuRole = true;
+                break;
+            }
+        }
+        if(isIndividuRole){
             Individu userIndividu = new Individu(userRegistration);
             return createIndividu(userIndividu);
+        }else{
+            Society userSociety = new Society(userRegistration);
+            return createSociety(userSociety);
         }
     }
 
@@ -157,8 +163,6 @@ public class AuthService implements IAuthService{
                 URI location = response.getLocation();
                 if (location != null) {
                     String userId = location.getPath().substring(location.getPath().lastIndexOf('/') + 1);
-
-
                     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
                     String hashedPassword = passwordEncoder.encode(userRegistration.getPassword());
                     User userData = userRegistration;
@@ -218,7 +222,6 @@ public class AuthService implements IAuthService{
                 URI location = response.getLocation();
                 if (location != null) {
                     String userId = location.getPath().substring(location.getPath().lastIndexOf('/') + 1);
-
                     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
                     String hashedPassword = passwordEncoder.encode(userRegistration.getPassword());
                     User userData = userRegistration;
