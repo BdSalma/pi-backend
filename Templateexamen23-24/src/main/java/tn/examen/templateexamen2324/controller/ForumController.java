@@ -24,6 +24,8 @@ public class ForumController {
         return listForum;
     }
 
+
+
     @PostMapping("/add-forum")
     @ResponseBody
     public Forum createPack(@RequestBody Forum b) {
@@ -37,10 +39,10 @@ public class ForumController {
 
     }
 
-    @PutMapping("/cancel-forum")
+    @PutMapping("/cancel-forum/{id}")
     @ResponseBody
-    public Forum updateBloc() {
-        return forumService.cancelForum();
+    public Forum updateBloc(@PathVariable("id") Long id) {
+        return forumService.cancelForum(id);
 
     }
    /* @DeleteMapping("/delete-pack/{id}")

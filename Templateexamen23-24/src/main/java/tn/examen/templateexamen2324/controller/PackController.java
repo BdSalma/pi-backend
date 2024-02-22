@@ -25,6 +25,13 @@ public class PackController {
         return listPack;
     }
 
+    @GetMapping("/find-pack/{packId}")
+    @ResponseBody
+    public Pack getPackById(@PathVariable("packId") long packId) {
+       return  packService.getPackById(packId);
+
+    }
+
     @PostMapping("/add-pack")
     @ResponseBody
     public Pack createPack(@RequestBody Pack b) {

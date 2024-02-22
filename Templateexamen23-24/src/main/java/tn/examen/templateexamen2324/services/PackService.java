@@ -52,6 +52,11 @@ public class PackService implements IPackService{
     }
 
     @Override
+    public Pack getPackById(long id) {
+        return  packRepo.findById(id).get();
+    }
+
+    @Override
     public Pack createPackAndAssignToStand(long idStand, Pack pack) {
        Stand stand = this.standRepo.findById(idStand).get();
        if(stand.getReserved() == false){
@@ -71,6 +76,7 @@ public class PackService implements IPackService{
 
         return this.packRepo.save(pack);
     }
+
 
     @Override
     public Pack bookPack(Long userId, Long packId) {

@@ -11,7 +11,7 @@ public interface IPackService {
      Pack retrievePackById(long id);
      void deletePack(long id);
      Pack updatePack(long id,Pack stand);
-
+     Pack getPackById(long id);
      Pack createPackAndAssignToStand(long idStand , Pack pack);
      Pack unassignStandfromPack(Long idPack);
 

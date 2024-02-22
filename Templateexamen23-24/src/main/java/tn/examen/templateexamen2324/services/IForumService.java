@@ -13,7 +13,7 @@ public interface IForumService {
      void deleteForum(long id);
      Forum updateForum(long id,Forum forum);
      Forum getCurrentForum();
-     Forum cancelForum();
+     Forum cancelForum(Long id  );
      Forum getForumByStatus(ForumStatus forumStatus);
 
 }

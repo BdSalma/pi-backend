@@ -53,8 +53,10 @@ public class ForumService implements IForumService{
     }
 
     @Override
-    public Forum cancelForum() {
-        return null;
+    public Forum cancelForum(Long id  ) {
+        Forum f = this.forumRepo.findById(id).get();
+        f.setForumStatus(ForumStatus.Canceled);
+         return forumRepo.save(f);
     }
 
     @Override
