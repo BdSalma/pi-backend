@@ -7,19 +7,22 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
 import tn.examen.templateexamen2324.entity.ResponseMessage;
 import tn.examen.templateexamen2324.entity.User;
 import tn.examen.templateexamen2324.services.AuthService;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins="http://localhost:4200")
 public class AuthController {
 
     @Autowired
     AuthService authService;
 
     @GetMapping("/hello")
-    @PreAuthorize("hasRole('test')")
+    @PreAuthorize("hasRole('Student')")
     public String hello(){
         return "Hello there!";
     }
@@ -83,12 +86,31 @@ public class AuthController {
         try {
             Jwt jwtToken = (Jwt) authentication.getPrincipal();
             authService.emailVerification(jwtToken.getClaim("sub"));
-            message.setMessage("Email verification sent successfully");
+            message.setMessage("Email verification sent successfully, check your Inbox");
             return ResponseEntity.ok(message);
         } catch (Exception e) {
             message.setMessage("Failed to send email verification");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
         }
+    }
+
+    @GetMapping("/check-user")
+    public ResponseEntity<?> checkValidity(Authentication authentication) {
+        ResponseMessage message = new ResponseMessage();
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        Map<String, Object> claims = jwtToken.getClaims();
+        String approved = jwtToken.getClaim("approved");
+        boolean email = jwtToken.getClaim("email_verified");
+        if(email){
+            if(Objects.equals(approved, "NO")){
+                message.setMessage("Not approved");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+            }
+        }else{
+            message.setMessage("Not verified");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+        return ResponseEntity.ok(claims);
     }
 
 }
