@@ -1,5 +1,6 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,7 +21,11 @@ public class Devis {
     private boolean status;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+
     private RequestSupply RequestSupply;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+
     private Society Society;
 }

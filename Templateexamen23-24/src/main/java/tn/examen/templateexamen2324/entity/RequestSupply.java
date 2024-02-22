@@ -1,5 +1,6 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,11 +23,13 @@ public class RequestSupply {
     public  String description;
     public Date date;
     public int validity;
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "RequestSupply")
     private Set<Devis> Devis = new HashSet<>();
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Invoice Invoice;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Individu Individu;
 }

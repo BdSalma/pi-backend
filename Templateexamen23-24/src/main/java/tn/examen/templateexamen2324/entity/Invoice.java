@@ -1,5 +1,6 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,5 +20,7 @@ public class Invoice {
     public  String comment;
 
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "Invoice")
+    @JsonIgnore
+
     private RequestSupply RequestSupply;
 }
