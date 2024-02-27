@@ -1,12 +1,12 @@
 package tn.examen.templateexamen2324.services;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.examen.templateexamen2324.dao.CandidatureRepo;
 import tn.examen.templateexamen2324.dao.InterviewRepo;
 import tn.examen.templateexamen2324.dao.OfferRepo;
-import tn.examen.templateexamen2324.entity.Candidature;
-import tn.examen.templateexamen2324.entity.Interview;
-import tn.examen.templateexamen2324.entity.Offer;
+import tn.examen.templateexamen2324.dao.UserRepo;
+import tn.examen.templateexamen2324.entity.*;
 
 import java.util.Date;
 import java.util.List;
@@ -19,11 +19,16 @@ public class CandidatureService implements ICandidatureService{
     OfferRepo offerRepo;
     @Autowired
     InterviewRepo interviewRepo;
+    @Autowired
+    UserRepo urepo;
     @Override
-    public Candidature addCandidat(Candidature c, Long id) {
+    public Candidature addCandidat(Candidature c, Long id,Long idUser) {
         Offer offer = offerRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Offer not found"));
+        User user =urepo.findById(idUser).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        c.setStatus(Status.In_progress);
         c.setDate(new Date());
         c.setOffer(offer);
+        c.setIndividu(user);
         return crepo.save(c);
     }
 
@@ -63,5 +68,10 @@ public class CandidatureService implements ICandidatureService{
     @Override
     public Candidature FindCandidatById(Long id) {
         return crepo.findById(id).get();
+    }
+
+    @Override
+    public List<Candidature> FindCandidatByIdOffer(Long id) {
+        return crepo.findCandidaturesByOffer_IdOffre(id);
     }
 }

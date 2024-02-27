@@ -5,11 +5,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -31,4 +29,8 @@ public class User implements Serializable {
     Set<Reclamation> Reclamation = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "User")
     Set<Sponsors> Sponsors = new HashSet<>();
+    @JsonIgnore
+    @ToString.Exclude
+    @OneToMany(cascade = CascadeType.ALL,mappedBy="individu")
+    private Set<Candidature> candidatures = new HashSet<>();
 }

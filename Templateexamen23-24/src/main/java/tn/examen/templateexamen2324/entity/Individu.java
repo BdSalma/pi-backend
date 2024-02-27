@@ -1,10 +1,10 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -25,8 +25,9 @@ public class Individu extends User implements Serializable {
     public String lastName;
     @Enumerated(EnumType.STRING)
     private IndividuRole role;
-    @ManyToMany(cascade=CascadeType.ALL)
-    private Set<Offer> offers = new HashSet<>();
+
+
+
     @OneToMany(mappedBy="Individu", cascade = CascadeType.ALL)
     private Set<RequestSupply> RequestSupply=new HashSet<>();
 }

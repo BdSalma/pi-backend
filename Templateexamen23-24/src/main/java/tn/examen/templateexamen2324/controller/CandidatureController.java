@@ -20,10 +20,13 @@ public class CandidatureController {
     public List<Candidature> GetAllCandidats(){
         return candiService.findAllCadidature();
     }
-
-    @PostMapping("/addcandidat/{id}")
-    public ResponseEntity<Candidature> ajouterCandidat(@RequestBody Candidature candidature, @PathVariable  Long id) {
-        Candidature nouveauC = candiService.addCandidat(candidature, id);
+    @GetMapping("/candidatbyoffer/{id}")
+    public List<Candidature> FindCandidatByIdOffer(@PathVariable Long id){
+        return candiService.FindCandidatByIdOffer(id);
+    }
+    @PostMapping("/addcandidat/{id}/{idUser}")
+    public ResponseEntity<Candidature> ajouterCandidat(@RequestBody Candidature candidature, @PathVariable  Long id,@PathVariable  Long idUser) {
+        Candidature nouveauC = candiService.addCandidat(candidature, id,idUser);
         return new ResponseEntity <>(nouveauC, HttpStatus.CREATED);
     }
 

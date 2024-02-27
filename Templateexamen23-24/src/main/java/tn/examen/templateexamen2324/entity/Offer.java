@@ -1,7 +1,6 @@
 package tn.examen.templateexamen2324.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idOffre")
 @Entity
 @Getter
 @Setter
@@ -31,12 +30,14 @@ public class Offer implements Serializable {
     private String candidatProfil;
     private String duree;
     private String description;
-    @JsonBackReference
+    //@JsonBackReference
     @OneToMany(cascade = CascadeType.ALL,mappedBy="offer")
     private Set<Candidature> candidatures = new HashSet<>();
     @ManyToOne(cascade = CascadeType.ALL)
     private Society Society;
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="offers")
-    private Set<Individu> Individus = new HashSet<>();
+
+    //@JsonIgnoreProperties("offers")
+
+
 
 }
