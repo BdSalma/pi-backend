@@ -74,4 +74,9 @@ public class CandidatureService implements ICandidatureService{
     public List<Candidature> FindCandidatByIdOffer(Long id) {
         return crepo.findCandidaturesByOffer_IdOffre(id);
     }
+
+    @Override
+    public List<Candidature> FindCandidatByIdUser(String idUser) {
+        return crepo.findCandidaturesByIndividu_Id(idUser);
+    }
 }

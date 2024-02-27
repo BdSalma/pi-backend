@@ -10,4 +10,5 @@ public interface ICandidatureService {
     Candidature updateCandidature(Long id, Candidature updatedCandidature);
     Candidature FindCandidatById(Long id);
     List<Candidature> FindCandidatByIdOffer(Long id);
+    List<Candidature> FindCandidatByIdUser(String idUser);
 }
