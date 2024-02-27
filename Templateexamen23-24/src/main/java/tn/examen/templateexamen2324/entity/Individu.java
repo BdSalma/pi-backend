@@ -25,10 +25,8 @@ public class Individu extends User implements Serializable {
     public String lastName;
     @Enumerated(EnumType.STRING)
     private IndividuRole role;
-
-
+    @ManyToMany(cascade=CascadeType.ALL)
+    private Set<Offer> offers = new HashSet<>();
     @OneToMany(mappedBy="Individu", cascade = CascadeType.ALL)
     private Set<RequestSupply> RequestSupply=new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL,mappedBy="individu")
-    private Set<Candidature> candidatures = new HashSet<>();
 }

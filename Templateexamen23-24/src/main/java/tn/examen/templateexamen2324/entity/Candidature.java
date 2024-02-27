@@ -34,7 +34,5 @@ public class Candidature implements Serializable {
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     private Offer offer;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Individu individu;
 
 }
