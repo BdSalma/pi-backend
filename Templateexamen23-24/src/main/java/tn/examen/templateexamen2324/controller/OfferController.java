@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tn.examen.templateexamen2324.entity.Category;
 import tn.examen.templateexamen2324.entity.Offer;
+import tn.examen.templateexamen2324.entity.Society;
+import tn.examen.templateexamen2324.entity.User;
 import tn.examen.templateexamen2324.services.OfferService;
 
 import java.util.List;
@@ -14,7 +17,20 @@ import java.util.List;
 public class OfferController {
     @Autowired
     OfferService offerService;
+    @PostMapping("/add-offer/{idSociety}")
+    @ResponseBody
+    public void affectOffer(@RequestBody Offer o, @PathVariable("idSociety") String id) {
 
+        offerService.affecetOfferToSociety(o,id);
+    }
+    @GetMapping("/allOffers/{idSociety}")
+    @ResponseBody
+    public List<Offer> getOfferBySociete(@PathVariable("idSociety") String id) {
+
+        List<Offer> listOffers = offerService.getOfferBySociety(id);
+
+        return listOffers;
+    }
     @GetMapping("/allOffers")
     @ResponseBody
     public List<Offer> getOffers() {
@@ -29,6 +45,12 @@ public class OfferController {
         return offerService.getOfferById(id);
 
     }
+    @GetMapping("/society/{idSociety}")
+    @ResponseBody
+    public User getSociety(@PathVariable("idSociety") String id) {
+        return offerService.getSociety(id);
+
+    }
     @PostMapping("/add-offer")
     @ResponseBody
     public Offer addOffer(@RequestBody Offer o){
@@ -41,7 +63,7 @@ public class OfferController {
     }
     @PutMapping("/updateOffer/{id}")
     @ResponseBody
-    public ResponseEntity<String> updateOffer(@PathVariable("id") Long id, @RequestBody Offer updatedOffer) {
+    public Offer updateOffer(@PathVariable("id") Long id, @RequestBody Offer updatedOffer) {
         Offer existingOffer = offerService.getOfferById(id);
 
         if (existingOffer!=null) {
@@ -53,8 +75,22 @@ public class OfferController {
 
 
             offerService.updateOffer(existingOffer.getIdOffre());
-            return ResponseEntity.ok("L'offre a été mis à jour avec succès.");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("L'offre avec l'ID " + id + " n'existe pas.");
         }
-    }}
+        return updatedOffer;
+
+    }
+    @GetMapping("/getofferByCategory/{category}")
+    @ResponseBody
+    public List<Offer> getOffer(@PathVariable("category") String categorie) {
+        Category category = Category.valueOf(categorie);
+        return offerService.getOfferByCategory(category);
+
+    }
+    @GetMapping("/filter")
+    @ResponseBody
+    public List<Offer> filterOffersByParams(@RequestParam(required = false) String category,
+                                            @RequestParam(required = false) String society,
+                                            @RequestParam(required = false) String offerName) {
+        return offerService.filterOffersByParams(category, society, offerName);
+    }
+}

@@ -6,5 +6,5 @@ import tn.examen.templateexamen2324.entity.Offer;
 import tn.examen.templateexamen2324.entity.Society;
 
 @Repository
-public interface SocietyRepo extends JpaRepository<Society, Long> {
+public interface SocietyRepo extends JpaRepository<Society, String> {
 }
