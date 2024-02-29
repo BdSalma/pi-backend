@@ -22,7 +22,7 @@ public class AuthController {
     AuthService authService;
 
     @GetMapping("/hello")
-    @PreAuthorize("hasRole('Student')")
+    @PreAuthorize("hasRole('Admin')")
     public String hello(){
         return "Hello there!";
     }
@@ -109,6 +109,24 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
         }
         return ResponseEntity.ok(claims);
+    }
+
+    @PutMapping("/addRoleToUser/{userId}")
+    public void checkValidity(@PathVariable String userId, @RequestBody Map<String, String> requestBody) {
+        authService.addRoleToUser(userId,requestBody.get("role"));
+    }
+
+    @PutMapping("/update-user/{userId}")
+    public ResponseEntity<Object> updateUser(@PathVariable String userId,@RequestBody Map<String, String> requestBody) {
+        Object[] result = authService.updateUser(userId, requestBody);
+        int statusCode = (Integer) result[0];
+        if (statusCode == 200) {
+            Object data = result[1];
+            return ResponseEntity.ok(data);
+        } else {
+            ResponseMessage errorMessage = (ResponseMessage) result[1];
+            return ResponseEntity.status(statusCode).body(errorMessage);
+        }
     }
 
 }

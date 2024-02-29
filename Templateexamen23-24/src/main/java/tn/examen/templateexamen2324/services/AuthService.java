@@ -296,4 +296,75 @@ public class AuthService implements IAuthService{
         }
     }
 
+    @Override
+    public void addRoleToUser(String userId, String roleName) {
+        RealmResource realmResource = keycloak.realm(realm);
+        UsersResource usersResource = getUsersResource();
+        List<RoleRepresentation> roles = realmResource.roles().list();
+        RoleRepresentation role = roles.stream()
+                .filter(r -> r.getName().equals(roleName))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+        usersResource.get(userId).roles().realmLevel().add(Arrays.asList(role));
+    }
+
+
+    @Override
+    public Object[] updateUser(String id,Map<String, String> userRegistration) {
+        boolean isIndividuRole = false;
+        for (IndividuRole role : IndividuRole.values()) {
+            if (role.toString().equals(userRegistration.get("role"))) {
+                isIndividuRole = true;
+                break;
+            }
+        }
+        if (isIndividuRole) {
+            Individu userIndividu = new Individu(userRegistration);
+            return updateIndividu(id,userIndividu);
+        } else {
+            Society userSociety = new Society(userRegistration);
+            return updateSociety(id,userSociety);
+        }
+    }
+
+    public Object[] updateIndividu(String id,Individu individu) {
+        ResponseMessage message = new ResponseMessage();
+        int statusId = 200;
+        try{
+            UsersResource usersResource = getUsersResource();
+            UserResource userResource = usersResource.get(id);
+            UserRepresentation updatedUser = new UserRepresentation();
+            updatedUser.setFirstName(individu.getFirstName());
+            updatedUser.setLastName(individu.getLastName());
+            userResource.update(updatedUser);
+            Individu individu1 = this.individuRepository.findById(id).orElse(null);
+            individu1.setFirstName(individu.getFirstName());
+            individu1.setLastName(individu.getLastName());
+            userRepository.save(individu1);
+            return new Object[]{statusId, individu1};
+        } catch (Exception e) {
+            message.setMessage("Error occurred while updating your account: " + e.getMessage());
+            return new Object[]{HttpStatus.INTERNAL_SERVER_ERROR.value(), message};
+        }
+    }
+
+    public Object[] updateSociety(String id,Society society) {
+        ResponseMessage message = new ResponseMessage();
+        int statusId = 200;
+        try{
+            Society society1 = this.societyRepository.findById(id).orElse(null);
+            society1.setSector(society.getSector());
+            society1.setMatricule(society.getMatricule());
+            society1.setLogo(society.getLogo());
+            society1.setAdresse(society.getAdresse());
+            society1.setRepresentative(society.getRepresentative());
+            userRepository.save(society1);
+            //message.setMessage("Profile updated successfully");
+            return new Object[]{statusId, society1};
+        } catch (Exception e) {
+            message.setMessage("Error occurred while updating your account: " + e.getMessage());
+            return new Object[]{HttpStatus.INTERNAL_SERVER_ERROR.value(), message};
+        }
+    }
+
 }

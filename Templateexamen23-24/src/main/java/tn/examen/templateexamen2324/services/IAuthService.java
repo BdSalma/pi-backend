@@ -15,4 +15,6 @@ public interface IAuthService {
     public User getUserById(String userId);
     public ResponseEntity<String> deleteUserById(String userId);
     public List<User> getAllUsers();
+    public void addRoleToUser(String userId, String roleName);
+    public Object[] updateUser(String id,Map<String, String> userRegistration);
 }
