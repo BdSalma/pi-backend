@@ -33,6 +33,7 @@ import tn.examen.templateexamen2324.repository.UserRepository;
 
 import java.net.URI;
 import java.util.*;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 @Service
 public class AuthService implements IAuthService{
@@ -142,12 +143,6 @@ public class AuthService implements IAuthService{
             credentialRepresentation.setTemporary(false);
             credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
             List<CredentialRepresentation> list = new ArrayList<>();
-            Map<String, List<String>> attributes = new HashMap<>();
-            List<String> attribute1Value = new ArrayList<>();
-            attribute1Value.add("NO");
-            attributes.put("approved", attribute1Value);
-            user.setAttributes(attributes);
-
             user.setUsername(userRegistration.getUsername());
             user.setEmail(userRegistration.getEmail());
             user.setFirstName(userRegistration.getFirstName());
@@ -168,6 +163,8 @@ public class AuthService implements IAuthService{
                     User userData = userRegistration;
                     userData.setId(userId);
                     userData.setPassword(hashedPassword);
+                    userData.setActivate(true);
+                    userData.setApprove(false);
                     userRepository.save(userData);
 
                     //emailVerification(userId);
@@ -204,11 +201,6 @@ public class AuthService implements IAuthService{
             credentialRepresentation.setTemporary(false);
             credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
             List<CredentialRepresentation> list = new ArrayList<>();
-            Map<String, List<String>> attributes = new HashMap<>();
-            List<String> attribute1Value = new ArrayList<>();
-            attribute1Value.add("NO");
-            attributes.put("approved", attribute1Value);
-            user.setAttributes(attributes);
             user.setUsername(userRegistration.getUsername());
             user.setEmail(userRegistration.getEmail());
             credentialRepresentation.setValue(userRegistration.getPassword());
@@ -227,6 +219,8 @@ public class AuthService implements IAuthService{
                     User userData = userRegistration;
                     userData.setId(userId);
                     userData.setPassword(hashedPassword);
+                    userData.setActivate(true);
+                    userData.setApprove(false);
                     userRepository.save(userData);
 
                     //emailVerification(userId);
@@ -365,6 +359,28 @@ public class AuthService implements IAuthService{
             message.setMessage("Error occurred while updating your account: " + e.getMessage());
             return new Object[]{HttpStatus.INTERNAL_SERVER_ERROR.value(), message};
         }
+    }
+
+    @Override
+    public ResponseEntity<?> checkUser(Jwt jwtToken){
+        ResponseMessage message = new ResponseMessage();
+        Map<String, Object> claims = jwtToken.getClaims();
+        boolean email = jwtToken.getClaim("email_verified");
+        String userId = jwtToken.getClaim("sub");
+        User user = userRepository.findById(userId).orElse(null);
+        if(email){
+            if(!user.isApprove()){
+                message.setMessage("Not approved");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+            }else if (!user.isActivate()){
+                message.setMessage("This account is inactive for some reasons.Contact the administration");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+            }
+        }else{
+            message.setMessage("Not verified");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+        return ResponseEntity.ok(claims);
     }
 
 }

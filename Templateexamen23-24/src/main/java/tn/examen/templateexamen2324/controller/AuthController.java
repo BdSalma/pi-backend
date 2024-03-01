@@ -94,21 +94,8 @@ public class AuthController {
 
     @GetMapping("/check-user")
     public ResponseEntity<?> checkValidity(Authentication authentication) {
-        ResponseMessage message = new ResponseMessage();
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
-        Map<String, Object> claims = jwtToken.getClaims();
-        String approved = jwtToken.getClaim("approved");
-        boolean email = jwtToken.getClaim("email_verified");
-        if(email){
-            if(Objects.equals(approved, "NO")){
-                message.setMessage("Not approved");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
-            }
-        }else{
-            message.setMessage("Not verified");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
-        }
-        return ResponseEntity.ok(claims);
+        return authService.checkUser(jwtToken);
     }
 
     @PutMapping("/addRoleToUser/{userId}")
