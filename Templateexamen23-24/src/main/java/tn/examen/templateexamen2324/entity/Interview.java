@@ -30,7 +30,7 @@ public class Interview implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date date;
     private String Lien;
-   // @JsonIgnore
+    // @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL,mappedBy="Interview")
     private Candidature Candidature;
     @JsonBackReference

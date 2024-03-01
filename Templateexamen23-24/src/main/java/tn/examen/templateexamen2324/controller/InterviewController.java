@@ -2,6 +2,7 @@ package tn.examen.templateexamen2324.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.examen.templateexamen2324.entity.Interview;
@@ -16,6 +17,7 @@ public class InterviewController {
     @Autowired
     IinterviewService service;
     @PostMapping("/addI/{id}")
+
     public ResponseEntity<Interview> ajouterInterview(
             @RequestBody Interview i,
             @PathVariable Long id, // Utilisez @RequestParam pour les paramètres de requête

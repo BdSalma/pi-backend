@@ -1,10 +1,12 @@
 package tn.examen.templateexamen2324.services;
+import org.springframework.web.multipart.MultipartFile;
 import tn.examen.templateexamen2324.entity.Candidature;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 public interface ICandidatureService {
-    Candidature addCandidat(Candidature c, Long id,Long idUser);
+    Candidature addCandidat(Candidature c, Long id,Long idUser, MultipartFile cvFile) throws IOException;
     List<Candidature> findAllCadidature();
     void deleteById(Long id);
     Candidature updateCandidature(Long id, Candidature updatedCandidature);

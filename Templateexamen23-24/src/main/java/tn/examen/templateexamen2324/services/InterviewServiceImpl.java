@@ -30,7 +30,9 @@ public class InterviewServiceImpl implements IinterviewService {
         Candidature candidature = crepo.findById(candidatureId)
                 .orElseThrow(() -> new IllegalArgumentException("Candidature not found"));
         i.setCandidature(candidature);
-
+        if (candidature.getInterview() == null) {
+            candidature.setInterview(i);
+        }
 
             Room room = roomRepo.findRoomByNum(roomNum);
             i.getRoom().add(room);
