@@ -23,6 +23,7 @@ public class Individu extends User implements Serializable {
     private String identity;
     public String firstName;
     public String lastName;
+    public String competence;
     @Enumerated(EnumType.STRING)
     private IndividuRole role;
     @ManyToMany(cascade=CascadeType.ALL)
