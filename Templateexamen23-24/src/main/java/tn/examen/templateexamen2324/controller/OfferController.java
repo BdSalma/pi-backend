@@ -86,11 +86,11 @@ public class OfferController {
         return offerService.getOfferByCategory(category);
 
     }
-    @GetMapping("/filter")
-    @ResponseBody
-    public List<Offer> filterOffersByParams(@RequestParam(required = false) String category,
-                                            @RequestParam(required = false) String society,
-                                            @RequestParam(required = false) String offerName) {
-        return offerService.filterOffersByParams(category, society, offerName);
+
+    @GetMapping("/Offer/filterByCriteria/{criteria}")
+    public List<Offer> filterByCriteria(@PathVariable("criteria") String criteria) {
+        // Implement filtering logic based on criteria and return filtered offers
+        List<Offer> filteredOffers = offerService.filterOffersByInput(criteria);
+        return filteredOffers;
     }
 }

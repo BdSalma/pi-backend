@@ -4,24 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="affectation">
+    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="filtring offer">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/OfferRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/OfferRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/SocietyRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/SocietyRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Individu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Individu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Offer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Offer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Society.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Society.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/TestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/TestRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IOfferService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IOfferService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Individu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Individu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Offer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Offer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Society.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Society.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/User.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +102,10 @@
       <workItem from="1709118916840" duration="2004000" />
       <workItem from="1709131297165" duration="5965000" />
       <workItem from="1709146100994" duration="3129000" />
-      <workItem from="1709154254181" duration="2663000" />
+      <workItem from="1709154254181" duration="3410000" />
+      <workItem from="1709197261418" duration="717000" />
+      <workItem from="1709203497468" duration="315000" />
+      <workItem from="1709372465880" duration="7184000" />
     </task>
     <task id="LOCAL-00001" summary="affectation">
       <option name="closed" value="true" />
@@ -132,7 +123,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708534511214</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="filtring offer">
+      <option name="closed" value="true" />
+      <created>1709158704511</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1709158704511</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -163,14 +162,15 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="affectation" />
-    <option name="LAST_COMMIT_MESSAGE" value="affectation" />
+    <MESSAGE value="filtring offer" />
+    <option name="LAST_COMMIT_MESSAGE" value="filtring offer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java</url>
-          <line>105</line>
+          <line>104</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

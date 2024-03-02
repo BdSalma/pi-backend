@@ -12,15 +12,17 @@ import tn.examen.templateexamen2324.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class OfferService implements IOfferService{
+public class OfferService implements IOfferService {
     @Autowired
     OfferRepo offerRepo;
     @Autowired
     SocietyRepo societyRepo;
     @Autowired
     UserRepo userRepo;
+
     @Override
     public Offer addOffer(Offer o) {
         return offerRepo.save(o);
@@ -53,8 +55,7 @@ public class OfferService implements IOfferService{
         if (s instanceof Society) {
             o.setSociety(s);
             offerRepo.save(o);
-        }
-        else {
+        } else {
             System.out.println("societe n'est pas un user");
         }
     }
@@ -63,7 +64,7 @@ public class OfferService implements IOfferService{
     public List<Offer> getOfferBySociety(String idS) {
         Society s = societyRepo.findById(idS).orElse(null);
         List<Offer> offers = new ArrayList<>();
-        for (Offer o : s.getOffers()){
+        for (Offer o : s.getOffers()) {
             offers.add(o);
         }
         return offers;
@@ -76,33 +77,31 @@ public class OfferService implements IOfferService{
 
     @Override
     public User getSociety(String id) {
-        return userRepo.findById(id).orElse(null);    }
-
-    @Override
-    public List<Offer> filterOffersByParams(String category, String society, String offerName) {
-        if (category != null && society != null && offerName != null) {
-            Category categoryEnum = Category.valueOf(category);
-            return offerRepo.findOffersByOffreCategoryAndOfferNameAndSocietyUsername(categoryEnum, offerName, society);
-        } else if (category != null && society != null) {
-            Category categoryEnum = Category.valueOf(category);
-            return offerRepo.findOffersByOffreCategoryAndSocietyUsername(categoryEnum, society);
-        } else if (category != null && offerName != null) {
-            Category categoryEnum = Category.valueOf(category);
-            return offerRepo.findOffersByOffreCategoryAndOfferName(categoryEnum, offerName);
-        } else if (society != null && offerName != null) {
-            return offerRepo.findOffersByOfferNameAndSocietyUsername(offerName, society);
-        } else if (category != null) {
-            Category categoryEnum = Category.valueOf(category);
-            return offerRepo.findOffersByOffreCategory(categoryEnum);
-        } else if (society != null) {
-            return offerRepo.findOffersBySocietyUsername(society);
-        } else if (offerName != null) {
-            return offerRepo.findOffersByOfferNameContaining(offerName);
-        } else {
-            return offerRepo.findAll();
-        }
+        return userRepo.findById(id).orElse(null);
     }
 
+@Override
+    public List<Offer> filterOffersByInput(String input) {
+        // Perform filtering based on the provided input
+        // You can define your filter logic here
+        // For example, filtering based on offer name, category, or other attributes
 
+        // Filtering by offer name containing the specified input (case-insensitive)
+        List<Offer> filteredOffers = offerRepo.findAll().stream()
+                .filter(offer -> offer.getOfferName().toLowerCase().contains(input.toLowerCase()) ||
+                        offer.getCandidatProfil().toLowerCase().contains(input.toLowerCase()) ||
+                        offer.getDuree().toLowerCase().contains(input.toLowerCase()) ||
+                        offer.getDescription().toLowerCase().contains(input.toLowerCase())||
+                        offer.getOffreCategory().toString().contains(input.toLowerCase())||
+                        offer.getSociety().getUsername().toLowerCase().contains(input.toLowerCase()))
+                .collect(Collectors.toList());
 
+        // You can add more filtering logic here for other attributes
+
+        return filteredOffers; // Return the filtered list
+    }
 }
+
+
+
+

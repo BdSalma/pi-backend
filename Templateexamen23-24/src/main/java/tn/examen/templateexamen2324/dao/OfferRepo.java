@@ -9,11 +9,15 @@ import java.util.List;
 @Repository
 public interface OfferRepo extends JpaRepository<Offer, Long> {
     List<Offer> findOffersByOffreCategory(Category OffreCategory);
-    List<Offer> findOffersBySocietyUsername(String username);
-    List<Offer> findOffersByOfferNameContaining(String string);
-    List<Offer> findOffersByOffreCategoryAndSocietyUsername(Category OffreCategory,String username);
-    List<Offer> findOffersByOffreCategoryAndOfferName(Category OffreCategory,String offer);
-    List<Offer> findOffersByOfferNameAndSocietyUsername(String offer,String username);
-    List<Offer> findOffersByOffreCategoryAndOfferNameAndSocietyUsername(Category OffreCategory,String offer,String username);
 
+    List<Offer> findByCandidatProfilContainingIgnoreCase(String candidatProfil);
+
+    List<Offer> findByDureeContainingIgnoreCase(String duree);
+
+    List<Offer> findByDescriptionContainingIgnoreCase(String description);
+    List<Offer> findByOfferNameContainingIgnoreCase(String offerName);
+
+
+
+    
 }

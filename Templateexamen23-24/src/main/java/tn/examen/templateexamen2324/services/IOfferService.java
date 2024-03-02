@@ -25,6 +25,6 @@ public interface IOfferService {
     List<Offer> getOfferByCategory(Category categoryOffer);
 
     User getSociety(String id);
+    public List<Offer> filterOffersByInput(String input);
 
-    public List<Offer> filterOffersByParams(String category, String society, String offerName);
-}
+    }
