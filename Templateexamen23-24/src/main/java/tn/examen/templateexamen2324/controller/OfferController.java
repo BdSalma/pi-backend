@@ -51,6 +51,12 @@ public class OfferController {
         return offerService.getSociety(id);
 
     }
+    @GetMapping("/AcceptedOffer")
+    @ResponseBody
+    public List<Offer> getAcceptedOffer() {
+        return offerService.getAcceptedOffer();
+
+    }
     @PostMapping("/add-offer")
     @ResponseBody
     public Offer addOffer(@RequestBody Offer o){
@@ -92,5 +98,13 @@ public class OfferController {
         // Implement filtering logic based on criteria and return filtered offers
         List<Offer> filteredOffers = offerService.filterOffersByInput(criteria);
         return filteredOffers;
+    }
+    @PostMapping("/Accept/{idOffer}")
+    public void Accept(@PathVariable("idOffer") Long idOffer) {
+                offerService.changeEtatToApprouvé(idOffer);
+    }
+    @PostMapping("/Refuse/{idOffer}")
+    public void Refuse(@PathVariable("idOffer") Long idOffer) {
+        offerService.changeEtatToRefuse(idOffer);
     }
 }

@@ -4,12 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="filtring offer">
+    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="update display offers">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/EtatOffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_02_2024_12_05__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_02_2024_12_05__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/Templateexamen2324Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/Templateexamen2324Application.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/OfferRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/OfferRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Offer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Offer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Society.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Society.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IOfferService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IOfferService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/Templateexamen2324Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/Templateexamen2324Application.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/OfferController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/OfferController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/OfferRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/OfferRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Society.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Society.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IOfferService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IOfferService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/OfferService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/OfferService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-tn.examen.templateexamen2324.Templateexamen2324ApplicationTests.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/tn.examen.templateexamen2324.Templateexamen2324ApplicationTests.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,10 +46,24 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="gestion-offre" />
+        <entry key="$PROJECT_DIR$/.." value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;allouchyrihem&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="a585b874-3c1d-4c40-9337-81726b82f4a1" />
+        <option name="url" value="https://github.com/BdSalma/pi-backend.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -43,28 +76,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;gestion-offre&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/asus/IdeaProjects/lastForum/pi-backend/Templateexamen23-24&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "gestion-offre",
+    "last_opened_file_path": "C:/Users/asus/IdeaProjects/lastForum/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/services",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\asus\IdeaProjects\lastForum\pi-backend\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\services" />
       <recent name="C:\Users\Salma\Desktop\back-end\Salma_Beddakhlia\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\entity" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="tn.examen.templateexamen2324.controller" />
+      <recent name="tn.examen.templateexamen2324.repository" />
     </key>
   </component>
   <component name="RunManager">
@@ -86,52 +124,27 @@
       <updated>1701685534513</updated>
       <workItem from="1701685536998" duration="1132000" />
       <workItem from="1708379055176" duration="1345000" />
-      <workItem from="1708380907439" duration="580000" />
-      <workItem from="1708541018433" duration="6557000" />
-      <workItem from="1708585139768" duration="10543000" />
-      <workItem from="1708597847450" duration="4740000" />
-      <workItem from="1708782925439" duration="6067000" />
-      <workItem from="1708809115986" duration="2010000" />
-      <workItem from="1708858703244" duration="1014000" />
-      <workItem from="1708946728467" duration="4871000" />
-      <workItem from="1708964967486" duration="1949000" />
-      <workItem from="1709031974608" duration="2824000" />
-      <workItem from="1709060485730" duration="2914000" />
-      <workItem from="1709107277907" duration="796000" />
-      <workItem from="1709114582360" duration="1641000" />
-      <workItem from="1709118916840" duration="2004000" />
-      <workItem from="1709131297165" duration="5965000" />
-      <workItem from="1709146100994" duration="3129000" />
-      <workItem from="1709154254181" duration="3410000" />
-      <workItem from="1709197261418" duration="717000" />
-      <workItem from="1709203497468" duration="315000" />
-      <workItem from="1709372465880" duration="7184000" />
+      <workItem from="1709411837837" duration="252000" />
+      <workItem from="1709412397467" duration="2545000" />
+      <workItem from="1709480569679" duration="5141000" />
     </task>
-    <task id="LOCAL-00001" summary="affectation">
+    <task id="LOCAL-00001" summary="add attribute">
       <option name="closed" value="true" />
-      <created>1708534454180</created>
+      <created>1709390239221</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1708534454180</updated>
+      <updated>1709390239221</updated>
     </task>
-    <task id="LOCAL-00002" summary="affectation">
+    <task id="LOCAL-00002" summary="add attribute">
       <option name="closed" value="true" />
-      <created>1708534511214</created>
+      <created>1709390250039</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1708534511214</updated>
+      <updated>1709390250039</updated>
     </task>
-    <task id="LOCAL-00003" summary="filtring offer">
-      <option name="closed" value="true" />
-      <created>1709158704511</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1709158704511</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,35 +155,23 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="gestion-offre" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="affectation" />
-    <MESSAGE value="filtring offer" />
-    <option name="LAST_COMMIT_MESSAGE" value="filtring offer" />
+    <MESSAGE value="add attribute" />
+    <MESSAGE value="update display offers" />
+    <option name="LAST_COMMIT_MESSAGE" value="update display offers" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java</url>
-          <line>104</line>
+          <line>131</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

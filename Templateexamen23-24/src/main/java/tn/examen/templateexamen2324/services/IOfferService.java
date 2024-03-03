@@ -26,5 +26,9 @@ public interface IOfferService {
 
     User getSociety(String id);
     public List<Offer> filterOffersByInput(String input);
+    void changeEtatToApprouvé(Long idOffer);
+    void changeEtatToRefuse(Long idOffer);
+    List<Offer> getAcceptedOffer();
 
-    }
+
+}

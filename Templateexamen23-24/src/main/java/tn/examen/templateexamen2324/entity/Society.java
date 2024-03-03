@@ -26,7 +26,7 @@ public class Society extends User implements Serializable {
     public String sitFin;
     @Column(name = "society_role")
     @Enumerated(EnumType.STRING)
-    private SocietyRole role;
+    private SocietyRole societyRole;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "Society")
     private Set<Devis> Devis = new HashSet<>();
     @JsonIgnore
@@ -43,6 +43,6 @@ public class Society extends User implements Serializable {
         this.representative = userData.get("representative");
         this.sector = userData.get("sector");
         this.sitFin = userData.get("sitFin");
-        this.role = SocietyRole.valueOf(userData.get("role"));
+        this.societyRole = SocietyRole.valueOf(userData.get("role"));
     }
 }
