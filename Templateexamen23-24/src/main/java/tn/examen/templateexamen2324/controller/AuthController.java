@@ -133,12 +133,6 @@ public class AuthController {
         return authService.getAllIndividu();
     }
 
-    @GetMapping("/get-All-society")
-    @PreAuthorize("hasRole('Admin')")
-    public List<Society> getAllSociety() {
-        return authService.getAllSociety();
-    }
-
     @GetMapping("/individus-byRole/{role}")
     @PreAuthorize("hasRole('Admin')")
     public List<Individu> getAllIndividuFilteredByRole(@PathVariable IndividuRole role) {
@@ -149,6 +143,24 @@ public class AuthController {
     @PreAuthorize("hasRole('Admin')")
     public List<Individu> getAllIndividuFilteredByFields(@PathVariable String field) {
         return authService.getAllIndividuFilteredByFields(field);
+    }
+
+    @GetMapping("/get-All-society")
+    @PreAuthorize("hasRole('Admin')")
+    public List<Society> getAllSociety() {
+        return authService.getAllSociety();
+    }
+
+    @GetMapping("/societies-byRole/{role}")
+    @PreAuthorize("hasRole('Admin')")
+    public List<Society> getAllSocietiesFilteredByRole(@PathVariable SocietyRole role) {
+        return authService.getAllSocietiesFilteredByRole(role);
+    }
+
+    @GetMapping("/societies-byFiled/{field}")
+    @PreAuthorize("hasRole('Admin')")
+    public List<Society> getAllSocietiesFilteredByFields(@PathVariable String field) {
+        return authService.getAllSocietiesFilteredByFields(field);
     }
 
 }

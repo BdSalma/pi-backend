@@ -426,4 +426,10 @@ public class AuthService implements IAuthService{
 
     @Override
     public List<Individu> getAllIndividuFilteredByFields(String field){return individuRepository.findAllByFields(field);}
+
+    @Override
+    public List<Society> getAllSocietiesFilteredByRole(SocietyRole role){return societyRepository.findAllByRole(role);}
+
+    @Override
+    public List<Society> getAllSocietiesFilteredByFields(String field){return societyRepository.findAllByFields(field);}
 }

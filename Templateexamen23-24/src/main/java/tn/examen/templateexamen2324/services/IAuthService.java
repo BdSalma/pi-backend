@@ -24,4 +24,6 @@ public interface IAuthService {
     public List<Society> getAllSociety();
     public List<Individu> getAllIndividuFilteredByRole(IndividuRole role);
     public List<Individu> getAllIndividuFilteredByFields(String fields);
+    public List<Society> getAllSocietiesFilteredByRole(SocietyRole role);
+    public List<Society> getAllSocietiesFilteredByFields(String field);
 }
