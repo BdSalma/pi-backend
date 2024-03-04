@@ -17,15 +17,7 @@ public class Templateexamen2324Application {
     public static void main(String[] args) {
         SpringApplication.run(Templateexamen2324Application.class, args);
     }
-    @Autowired
-    ReclamationService reclamationService;
-    @EventListener(ApplicationReadyEvent.class)
-    public void triggerMail() throws MessagingException {
-        reclamationService.sendSimpleEmail("walahamdi0@gmail.com",
-                "This is email body",
-                "This is email subject");
 
-    }
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder){
         return restTemplateBuilder.build();

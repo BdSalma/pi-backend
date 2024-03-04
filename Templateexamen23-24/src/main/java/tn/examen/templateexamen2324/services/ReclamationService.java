@@ -6,7 +6,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import tn.examen.templateexamen2324.entity.Reclamation;
 import tn.examen.templateexamen2324.entity.TypeReclamation;
+import tn.examen.templateexamen2324.entity.User;
 import tn.examen.templateexamen2324.repository.ReclamationRepository;
+import tn.examen.templateexamen2324.repository.UserRepository;
 import java.util.List;
 
 @Service
@@ -46,6 +48,23 @@ public class ReclamationService implements IReclamationService {
     }
 
     @Autowired
+    UserRepository userRepository;
+
+    @Override
+    public void Review(String id,int Rid) {
+        User user = userRepository.findById(id).get();
+        Reclamation reclamation = reclamationRepository.findById(Rid).get();
+        reclamation.setReview(true);
+        reclamationRepository.save(reclamation);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("walahamdi0@gmail.com");
+        message.setTo(user.email);
+        message.setText("Your reclamation has been reviewed ! We are working further to maintain the best user experience for you. Thanks for your feed-back");
+        message.setSubject("Reviewed");
+        mailSender.send(message);
+    }
+
+    @Autowired
     private JavaMailSender mailSender;
 
     public void sendSimpleEmail(String toEmail,
@@ -59,8 +78,6 @@ public class ReclamationService implements IReclamationService {
         message.setSubject(subject);
         mailSender.send(message);
         System.out.println("Mail Send...");
-
-
     }
 
 }

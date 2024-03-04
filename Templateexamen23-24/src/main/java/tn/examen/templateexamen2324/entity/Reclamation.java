@@ -21,8 +21,11 @@ public class Reclamation implements Serializable {
     int id;
     String description;
     TypeReclamation typeReclamation;
+    boolean review;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     private User User;
+
+
 }

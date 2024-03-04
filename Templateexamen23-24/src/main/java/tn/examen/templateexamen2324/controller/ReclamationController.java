@@ -52,4 +52,10 @@ public class ReclamationController {
         iReclamationService.DeleteReclamation(id
         );
     }
+
+    @PostMapping("/review/{id}/{Rid}")
+    @ResponseBody
+    public void Review(@PathVariable("id") String id,@PathVariable("Rid") int Rid){
+        iReclamationService.Review(id,Rid);
+    }
 }
