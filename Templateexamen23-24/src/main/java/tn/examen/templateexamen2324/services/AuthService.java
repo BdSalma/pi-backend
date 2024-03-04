@@ -383,4 +383,47 @@ public class AuthService implements IAuthService{
         return ResponseEntity.ok(claims);
     }
 
+    @Override
+    public ResponseEntity<?> approveUser(String userId){
+        ResponseMessage message = new ResponseMessage();
+        try {
+            User user = userRepository.findById(userId).orElse(null);
+            user.setApprove(true);
+            userRepository.save(user);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            message.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> activateUser(String userId){
+        ResponseMessage message = new ResponseMessage();
+        try {
+            User user = userRepository.findById(userId).orElse(null);
+            user.setActivate(!user.isActivate());
+            userRepository.save(user);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            message.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+    }
+
+    @Override
+    public List<Individu> getAllIndividu() {
+        List<IndividuRole> excludedRoles = Arrays.asList(IndividuRole.Community, IndividuRole.FinancialDirection, IndividuRole.Admin);
+        List<Individu> individus = individuRepository.getAllIndividuExcepte(excludedRoles);
+        return individus;
+    }
+
+    @Override
+    public List<Society> getAllSociety() {return societyRepository.findAll();}
+
+    @Override
+    public List<Individu> getAllIndividuFilteredByRole(IndividuRole role){return individuRepository.findAllByRole(role);}
+
+    @Override
+    public List<Individu> getAllIndividuFilteredByFields(String field){return individuRepository.findAllByFields(field);}
 }

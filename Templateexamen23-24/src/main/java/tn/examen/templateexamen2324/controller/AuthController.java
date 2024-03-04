@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import tn.examen.templateexamen2324.entity.ResponseMessage;
-import tn.examen.templateexamen2324.entity.User;
+import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.services.AuthService;
 
 @RestController
@@ -29,9 +28,9 @@ public class AuthController {
 
     @GetMapping("/hello-2")
     //@PreAuthorize("hasRole('client_societe') OR hasRole('client_individu')")
-    @PreAuthorize("hasRole('client_societe')")
+    @PreAuthorize("hasRole('Student')")
     public String hello2(){
-        return "Hello there! - Admin";
+        return "Hello there! - Student";
     }
 
     @PostMapping("/login")
@@ -53,19 +52,19 @@ public class AuthController {
     }
 
     @GetMapping("/user-id/{userId}")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('Admin')")
     public User getUser(@PathVariable String userId) {
         return authService.getUserById(userId);
     }
 
     @GetMapping("/all-users")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('Admin')")
     public List<User> getAllUsers() {
         return authService.getAllUsers();
     }
 
     @DeleteMapping("delete-user/{userId}")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<String> deleteUserById(@PathVariable String userId) {
         return authService.deleteUserById(userId);
     }
@@ -114,6 +113,42 @@ public class AuthController {
             ResponseMessage errorMessage = (ResponseMessage) result[1];
             return ResponseEntity.status(statusCode).body(errorMessage);
         }
+    }
+
+    @PutMapping("/approve-user/{userId}")
+    @PreAuthorize("hasRole('Admin')")
+    public ResponseEntity<?> approveUser(@PathVariable String userId) {
+        return authService.approveUser(userId);
+    }
+
+    @PutMapping("/activate-user/{userId}")
+    @PreAuthorize("hasRole('Admin')")
+    public ResponseEntity<?> activateUser(@PathVariable String userId) {
+       return authService.activateUser(userId);
+    }
+
+    @GetMapping("/get-All-individu")
+    @PreAuthorize("hasRole('Admin')")
+    public List<Individu> getAllIndividu() {
+        return authService.getAllIndividu();
+    }
+
+    @GetMapping("/get-All-society")
+    @PreAuthorize("hasRole('Admin')")
+    public List<Society> getAllSociety() {
+        return authService.getAllSociety();
+    }
+
+    @GetMapping("/individus-byRole/{role}")
+    @PreAuthorize("hasRole('Admin')")
+    public List<Individu> getAllIndividuFilteredByRole(@PathVariable IndividuRole role) {
+        return authService.getAllIndividuFilteredByRole(role);
+    }
+
+    @GetMapping("/individus-byFiled/{field}")
+    @PreAuthorize("hasRole('Admin')")
+    public List<Individu> getAllIndividuFilteredByFields(@PathVariable String field) {
+        return authService.getAllIndividuFilteredByFields(field);
     }
 
 }
