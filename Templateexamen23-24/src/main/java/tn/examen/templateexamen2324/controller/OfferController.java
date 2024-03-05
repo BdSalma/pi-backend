@@ -125,7 +125,10 @@ public class OfferController {
         double average = offerService.calculateAverageOffersPerDay();
         return ResponseEntity.ok(average);
     }
-
+    @GetMapping("/ListAcceptedOffer")
+    public List<Offer> getOfferEnAttente() {
+        return offerService.getOfferEnAttente();
+    }
     @GetMapping("/nbAcceptedOffer")
     public int numberOffersEnAttente() {
         return offerService.numberOffersEnAttente();

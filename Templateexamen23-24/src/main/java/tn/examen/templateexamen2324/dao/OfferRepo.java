@@ -11,12 +11,6 @@ import java.util.List;
 public interface OfferRepo extends JpaRepository<Offer, Long> {
     List<Offer> findOffersByOffreCategory(Category OffreCategory);
 
-    List<Offer> findByCandidatProfilContainingIgnoreCase(String candidatProfil);
-
-    List<Offer> findByDureeContainingIgnoreCase(String duree);
-    List<Offer> findByDescriptionContainingIgnoreCase(String description);
-    List<Offer> findByOfferNameContainingIgnoreCase(String offerName);
-    List<Offer> findOffersByEtatOffer(EtatOffer etatOffer);
 
     
 }

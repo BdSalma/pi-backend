@@ -36,6 +36,7 @@ public interface IOfferService {
 
     List<Offer> getAcceptedOffer();
 
-    public double calculateAverageOffersPerDay() ;
-    public int numberOffersEnAttente();
+    double calculateAverageOffersPerDay() ;
+    int numberOffersEnAttente();
+    List<Offer> getOfferEnAttente();
 }

@@ -166,7 +166,17 @@ public int numberOffersEnAttente(){
         }
         return offreEnattente.size();
 }
-
+@Override
+public List<Offer> getOfferEnAttente(){
+        List<Offer> offers = offerRepo.findAll();
+        List<Offer> offreEnattente = new ArrayList<>();
+    for (Offer f : offers){
+        if (f.getEtatOffer().equals(EtatOffer.Enattente)){
+            offreEnattente.add(f);
+        }
+    }
+    return offreEnattente;
+}
 
 }
 
