@@ -51,11 +51,11 @@ public class ReclamationService implements IReclamationService {
     UserRepository userRepository;
 
     @Override
-    public void Review(String id,int Rid) {
+    public void Review(String id) {
         User user = userRepository.findById(id).get();
-        Reclamation reclamation = reclamationRepository.findById(Rid).get();
+        /*Reclamation reclamation = reclamationRepository.findById(Rid).get();
         reclamation.setReview(true);
-        reclamationRepository.save(reclamation);
+        reclamationRepository.save(reclamation);*/
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("walahamdi0@gmail.com");
         message.setTo(user.email);

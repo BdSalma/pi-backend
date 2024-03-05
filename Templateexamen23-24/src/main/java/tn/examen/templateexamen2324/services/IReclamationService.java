@@ -13,7 +13,7 @@ public interface IReclamationService {
     List<Reclamation> getReclamationType(TypeReclamation typeReclamation);
     void DeleteReclamation(int id);
 
-    public void Review(String id,int Rid);
+    public void Review(String id);
 
 
 }

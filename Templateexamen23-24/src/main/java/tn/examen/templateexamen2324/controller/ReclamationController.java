@@ -53,9 +53,9 @@ public class ReclamationController {
         );
     }
 
-    @PostMapping("/review/{id}/{Rid}")
+    @PostMapping("/review/{id}")
     @ResponseBody
-    public void Review(@PathVariable("id") String id,@PathVariable("Rid") int Rid){
-        iReclamationService.Review(id,Rid);
+    public void Review(@PathVariable("id") String id){
+        iReclamationService.Review(id);
     }
 }
