@@ -17,13 +17,20 @@ public class InterviewController {
     @Autowired
     IinterviewService service;
     @PostMapping("/addI/{id}")
-
     public ResponseEntity<Interview> ajouterInterview(
             @RequestBody Interview i,
             @PathVariable Long id, // Utilisez @RequestParam pour les paramètres de requête
             @RequestParam(name = "room",required = false)int roomId) {
         Interview nouveauI = service.addInter(i, id, roomId);
         return new ResponseEntity<>(nouveauI, HttpStatus.CREATED);
+    }
+    @PostMapping("/addIEnligne/{id}")
+    public ResponseEntity<Interview> ajouterInterviewEnligne(
+            @RequestBody Interview i,
+            @PathVariable Long id) {
+        Interview nouveauI = service.addInterEnligne(i, id);
+
+         return new ResponseEntity<>(nouveauI, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/deleteI/{id}")

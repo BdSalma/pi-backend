@@ -26,8 +26,10 @@ public class CandidatureService implements ICandidatureService{
     InterviewRepo interviewRepo;
     @Autowired
     UserRepo urepo;
+
+
     @Override
-    public Candidature addCandidat(Candidature c, Long id, Long idUser, MultipartFile cv) throws IOException {
+    public Candidature addCandidat(Candidature c, Long id, Long idUser, MultipartFile cv, MultipartFile lettre) throws IOException {
 
         // Existing code to retrieve offer and user
         Offer offer = offerRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Offer not found"));
@@ -36,7 +38,7 @@ public class CandidatureService implements ICandidatureService{
         // File upload logic
         if (cv != null) { // Ensure a file was actually uploaded
             String fileName = UUID.randomUUID().toString() + "." + getFileExtension(cv);
-            String uploadPath = "C:/Users/Salma/IdeaProjects/pi/pi-backend/Templateexamen23-24/src/main/resources"; // Replace with your designated upload path
+            String uploadPath = "C:/Users/Salma/IdeaProjects/pi/pi-backend/Templateexamen23-24/src/main/resources/fils"; // Replace with your designated upload path
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdir(); // Create the directory if it doesn't exist
@@ -46,6 +48,20 @@ public class CandidatureService implements ICandidatureService{
             cv.transferTo(uploadFile); // Save the file to the specified path
 
             c.setCv(fileName); // Store the file path in the Candidature object
+        }
+        // File upload logic
+        if (lettre != null) { // Ensure a file was actually uploaded
+            String filelettre = UUID.randomUUID().toString() + "." + getFileExtension(lettre);
+            String uploadPath = "C:/Users/Salma/IdeaProjects/pi/pi-backend/Templateexamen23-24/src/main/resources/fils"; // Replace with your designated upload path
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir(); // Create the directory if it doesn't exist
+            }
+
+            File uploadFile = new File(uploadPath + "/" + filelettre);
+            lettre.transferTo(uploadFile); // Save the file to the specified path
+
+            c.setLettre(filelettre); // Store the file path in the Candidature object
         }
 
         // Remaining code to set candidature properties
@@ -79,20 +95,18 @@ public class CandidatureService implements ICandidatureService{
         // Retrieve existing Candidature
         Candidature candidature = crepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid candidature id: " + id));
-
-        // Check if Interview ID is provided in the updatedCandidature
-        if (updatedCandidature.getInterview() != null && updatedCandidature.getInterview().getIdInterview() != null) {
-            // Retrieve existing Interview by its ID
-            Interview existingInterview = interviewRepo.findById(updatedCandidature.getInterview().getIdInterview())
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid interview id: " + updatedCandidature.getInterview().getIdInterview()));
-
-            // Update Candidature with the existing Interview
-            candidature.setInterview(existingInterview);
-        }
-
         // Update other fields
         candidature.setStatus(updatedCandidature.getStatus());
-
+        // Save and return the updated Candidature
+        return crepo.save(candidature);
+    }
+    @Override
+    public Candidature AccepterCandidature(Long id, Candidature updatedCandidature) {
+        // Retrieve existing Candidature
+        Candidature candidature = crepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid candidature id: " + id));
+        // Update other fields
+        candidature.setStatus(Status.Accepted);
         // Save and return the updated Candidature
         return crepo.save(candidature);
     }

@@ -9,10 +9,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 
 @Getter
 @Setter
@@ -27,9 +27,10 @@ public class Interview implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private InterviewType interviewType;
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime date;
     private String Lien;
+    private String titre;
     // @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL,mappedBy="Interview")
     private Candidature Candidature;

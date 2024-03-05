@@ -73,16 +73,15 @@ public class CandidatureController {
 
 
     @PostMapping("/addcandidat/{id}/{idUser}")
-    public ResponseEntity<Candidature> ajouterCandidat(   @RequestParam String lettre,
+    public ResponseEntity<Candidature> ajouterCandidat(
             @RequestParam MultipartFile cv, // Change to @RequestParam
             @PathVariable Long id,
-            @PathVariable Long idUser) throws IOException {
+            @PathVariable Long idUser,@RequestParam MultipartFile lettre) throws IOException {
 
         // Create a new Candidature object
         Candidature candidature = new Candidature();
-        candidature.setLettre(lettre);
         // Call the service method to add the candidature
-        Candidature savedCandidature = candiService.addCandidat(candidature, id, idUser, cv);
+        Candidature savedCandidature = candiService.addCandidat(candidature, id, idUser, cv,lettre);
 
         // Return the saved candidature with CREATED status
         return new ResponseEntity<>(savedCandidature, HttpStatus.CREATED);
@@ -108,5 +107,13 @@ public class CandidatureController {
         }
     }
 
-
+    @PutMapping("/accepterCandidat/{id}")
+    public ResponseEntity<Candidature> AccepterCandidat( Candidature candidature, @PathVariable  Long id) {
+        Candidature candidatureMaj = candiService.AccepterCandidature(id, candidature);
+        if (candidatureMaj != null) {
+            return new ResponseEntity<>(candidatureMaj, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

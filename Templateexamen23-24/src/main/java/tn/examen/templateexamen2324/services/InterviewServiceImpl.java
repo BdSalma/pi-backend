@@ -38,6 +38,17 @@ public class InterviewServiceImpl implements IinterviewService {
             i.getRoom().add(room);
             room.setInterview(i);
 
+        return irepo.save(i);
+    }
+
+    @Override
+    public Interview addInterEnligne(Interview i, Long candidatureId) {
+        Candidature candidature = crepo.findById(candidatureId)
+                .orElseThrow(() -> new IllegalArgumentException("Candidature not found"));
+        i.setCandidature(candidature);
+        if (candidature.getInterview() == null) {
+            candidature.setInterview(i);
+        }
 
         return irepo.save(i);
     }
