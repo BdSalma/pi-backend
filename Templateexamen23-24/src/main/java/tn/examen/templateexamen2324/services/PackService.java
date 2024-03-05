@@ -2,10 +2,8 @@ package tn.examen.templateexamen2324.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.examen.templateexamen2324.entity.Pack;
-import tn.examen.templateexamen2324.entity.ReservationStatus;
-import tn.examen.templateexamen2324.entity.Stand;
-import tn.examen.templateexamen2324.entity.User;
+import tn.examen.templateexamen2324.entity.*;
+import tn.examen.templateexamen2324.repository.ForumRepo;
 import tn.examen.templateexamen2324.repository.PackRepo;
 import tn.examen.templateexamen2324.repository.StandRepo;
 import tn.examen.templateexamen2324.repository.UserRepository;
@@ -20,20 +18,31 @@ public class PackService implements IPackService{
     PackRepo packRepo;
 
     @Autowired
+    ForumRepo forumRepo;
+
+    @Autowired
     StandRepo standRepo;
 
     @Autowired
     UserRepository userRepository;
 
     @Override
-    public Pack addPack(Pack stand) {
-
-        return packRepo.save(stand);
+    public Pack addPack(Pack pack) {
+        Forum forum  = this.forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
+        forum.getPack().add(pack);
+        forumRepo.save(forum);
+        pack.setForum(forum);
+        return packRepo.save(pack);
     }
 
     @Override
     public List<Pack> retrieveAllPacks() {
         return packRepo.findAll();
+    }
+
+    @Override
+    public List<Pack> retrieveAllPacksByForum(Forum forum) {
+        return packRepo.findPackByForum(forum.getId());
     }
 
     @Override
@@ -48,7 +57,10 @@ public class PackService implements IPackService{
 
     @Override
     public Pack updatePack(long id, Pack pack) {
-        return packRepo.save(pack);
+        Pack p = packRepo.findById(id).get();
+        p.setPrix(pack.getPrix());
+        p.setTypePack(pack.getTypePack());
+        return packRepo.save(p);
     }
 
     @Override
@@ -77,9 +89,15 @@ public class PackService implements IPackService{
         return this.packRepo.save(pack);
     }
 
+    @Override
+    public   List<Pack> findPackByStatut(Boolean statut) {
+        return packRepo.findPackByStatut(statut);
+    }
+
 
     @Override
     public Pack bookPack(Long userId, Long packId) {
+
         Pack pack = this.packRepo.findById(packId).get();
         if(pack.getReservationStatus() == ReservationStatus.Not_Reserved){
             User user = this.userRepository.findById(userId).get();
@@ -100,6 +118,25 @@ public class PackService implements IPackService{
         LocalDate date = LocalDate.now();
         pack.setReservationDate(date);
         return  this.packRepo.save(pack);
+    }
+
+    @Override
+    public Pack cancelReservation(Long packId) {
+        Pack pack = this.packRepo.findById(packId).get();
+        pack.setReservationStatus(ReservationStatus.Not_Reserved);
+        pack.setReservationDate(null);
+        pack.setReserver(null);
+        return  this.packRepo.save(pack);
+    }
+
+    @Override
+    public void reservationNotice() {
+
+    }
+
+    @Override
+    public List<Pack> findPackByTypePackAndReservationStatus(TypePack typePack, ReservationStatus reservationStatus) {
+        return this.packRepo.findPackByTypePackAndReservationStatus(typePack,reservationStatus);
     }
 
 

@@ -2,6 +2,7 @@ package tn.examen.templateexamen2324.services;
 
 import tn.examen.templateexamen2324.entity.Forum;
 import tn.examen.templateexamen2324.entity.ForumStatus;
+import tn.examen.templateexamen2324.entity.Pack;
 import tn.examen.templateexamen2324.entity.Stand;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface IForumService {
      Forum cancelForum(Long id  );
      Forum getForumByStatus(ForumStatus forumStatus);
 
+     Forum getForumById(long forumId);
 }

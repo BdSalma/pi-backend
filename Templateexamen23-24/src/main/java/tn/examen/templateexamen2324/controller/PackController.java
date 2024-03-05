@@ -2,9 +2,7 @@ package tn.examen.templateexamen2324.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tn.examen.templateexamen2324.entity.Pack;
-import tn.examen.templateexamen2324.entity.Stand;
-import tn.examen.templateexamen2324.entity.User;
+import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.services.IPackService;
 import tn.examen.templateexamen2324.services.IStandService;
 
@@ -25,10 +23,31 @@ public class PackController {
         return listPack;
     }
 
+    @GetMapping("/find-all-packs-by-forum/{forum}")
+    @ResponseBody
+    public List<Pack> getPacksByForum(@PathVariable("forum") Forum forum) {
+        List<Pack> listPack = packService.retrieveAllPacksByForum(forum);
+        return listPack;
+    }
+
     @GetMapping("/find-pack/{packId}")
     @ResponseBody
     public Pack getPackById(@PathVariable("packId") long packId) {
        return  packService.getPackById(packId);
+
+    }
+
+    @GetMapping("/find-pack-By-Status/{Status}")
+    @ResponseBody
+    public List<Pack> getPackById(@PathVariable("Status") Boolean  statut ) {
+        return  packService.findPackByStatut(statut);
+
+    }
+
+    @GetMapping("/find-pack-By-typePack-reservationStatus/{type}/{reservationStatus}")
+    @ResponseBody
+    public List<Pack> getPackByTypeAndReservationStatus(@PathVariable("type") TypePack type, @PathVariable("reservationStatus") ReservationStatus reservationStatus ) {
+        return  packService.findPackByTypePackAndReservationStatus(type,reservationStatus);
 
     }
 
@@ -73,6 +92,12 @@ public class PackController {
     @ResponseBody
     public Pack validate_Reservation(@PathVariable("idPack") Long idPack){
         return packService.validateReservation(idPack);
+    }
+
+    @PutMapping("/cancel_Reservation/{idPack}")
+    @ResponseBody
+    public Pack cancel_Reservation(@PathVariable("idPack") Long idPack){
+        return packService.cancelReservation(idPack);
     }
 
 

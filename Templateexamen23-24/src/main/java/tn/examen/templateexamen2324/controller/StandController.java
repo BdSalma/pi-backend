@@ -41,5 +41,17 @@ public class StandController {
     @ResponseBody
     public Stand updateStand(@PathVariable("id") int standId, @RequestBody Stand stand) {
         return standService.updateStand(standId, stand);
+    }
+    @GetMapping("/find-stand-By-Status/{Status}")
+    @ResponseBody
+    public List<Stand> findStandByStatut(@PathVariable("Status") Boolean  statut ) {
+        return  standService.findStandByStatut(statut);
+    }
 
-    }}
+    @GetMapping("/find-stand/{idStand}")
+    @ResponseBody
+    public Stand findStandByStatut(@PathVariable("idStand") Long  idStand ) {
+        return standService.findStandById(idStand);
+    }
+
+}

@@ -11,4 +11,7 @@ public interface IStandService {
      void deleteStand(long id);
      Stand updateStand(long id,Stand stand);
 
+     List<Stand> findStandByStatut(Boolean statut);
+
+     Stand  findStandById(Long idStand);
 }

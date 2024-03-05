@@ -42,10 +42,19 @@ public class ForumService implements IForumService{
         forumRepo.deleteById(id);
     }
 
-    @Override
+   @Override
     public Forum updateForum(long id, Forum forum) {
-        return forumRepo.save(forum);
+        Forum f = forumRepo.findById(id).get();
+        f.setId(id);
+        f.setForumStatus(forum.getForumStatus());
+        f.setDate(forum.getDate());
+        f.setDescription(forum.getDescription());
+        f.setLocalisation(forum.getLocalisation());
+        f.setTheme(forum.getTheme());
+        return forumRepo.save(f);
     }
+
+
 
     @Override
     public Forum getCurrentForum() {
@@ -56,12 +65,17 @@ public class ForumService implements IForumService{
     public Forum cancelForum(Long id  ) {
         Forum f = this.forumRepo.findById(id).get();
         f.setForumStatus(ForumStatus.Canceled);
-         return forumRepo.save(f);
+        return forumRepo.save(f);
     }
 
     @Override
     public Forum getForumByStatus(ForumStatus forumStatus) {
         return null;
+    }
+
+    @Override
+    public Forum getForumById(long forumId) {
+        return this.forumRepo.findById(forumId).get();
     }
 
 

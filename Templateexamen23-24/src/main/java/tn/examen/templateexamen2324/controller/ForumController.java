@@ -24,7 +24,12 @@ public class ForumController {
         return listForum;
     }
 
+    @GetMapping("/find-forum/{forumId}")
+    @ResponseBody
+    public Forum getForumById(@PathVariable("forumId") long forumId) {
+        return  forumService.getForumById(forumId);
 
+    }
 
     @PostMapping("/add-forum")
     @ResponseBody
