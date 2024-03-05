@@ -8,6 +8,5 @@ import tn.examen.templateexamen2324.entity.Stand;
 
 @Repository
 public interface ForumRepo extends JpaRepository<Forum, Long> {
-
     Forum findForumByForumStatus(ForumStatus forumStatus);
 }

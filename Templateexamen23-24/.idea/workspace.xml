@@ -6,30 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="some modifications in the classes and controllers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/Templateexamen2324Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/Templateexamen2324Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/ForumController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/ForumController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/PackController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/PackController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/StandController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/StandController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/PackRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/PackRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/StandRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/StandRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/ForumService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/ForumService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IForumService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IForumService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IPackService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IPackService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IStandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IStandService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/PackService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/PackService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/StandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/StandService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/Templateexamen2324Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/Templateexamen2324Application.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/ForumController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/ForumController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/PackController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/PackController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/StandController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/StandController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/repository/PackRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/repository/PackRepo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/repository/StandRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/repository/StandRepo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/ForumService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/ForumService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IForumService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IForumService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IPackService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IPackService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IStandService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IStandService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/PackService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/PackService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/StandService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/StandService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/ForumRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/ForumRepo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +96,7 @@
       <workItem from="1709571324464" duration="2289000" />
       <workItem from="1709573651294" duration="7051000" />
       <workItem from="1709660066990" duration="1825000" />
+      <workItem from="1709673399307" duration="1118000" />
     </task>
     <task id="LOCAL-00001" summary="some modifications in the classes and controllers">
       <option name="closed" value="true" />
