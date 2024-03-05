@@ -7,8 +7,13 @@ import tn.examen.templateexamen2324.dao.UserRepo;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.dao.OfferRepo;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -127,6 +132,42 @@ public class OfferService implements IOfferService {
         }
         return off;
     }
+
+    @Override
+    public double calculateAverageOffersPerDay() {
+        List<Offer> offers = offerRepo.findAll();
+        Set<LocalDate> uniqueDates = new HashSet<>();
+
+        for (Offer offer : offers) {
+            // Convert java.sql.Date to java.util.Date
+            java.util.Date utilDate = new java.util.Date(offer.getDateEmission().getTime());
+            // Convert java.util.Date to LocalDate
+            LocalDate localDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            // Add the date to the uniqueDates set
+            uniqueDates.add(localDate);
+        }
+
+        int totalDays = uniqueDates.size();
+        int totalOffers = offers.size();
+
+        // Calculate the average percentage by dividing the total days by the total offers and multiplying by 100
+        double averagePercentage = totalOffers / (double) totalDays;
+        System.out.println(averagePercentage);
+        return averagePercentage;
+    }
+@Override
+public int numberOffersEnAttente(){
+        List<Offer> offers = offerRepo.findAll();
+        List<Offer> offreEnattente = new ArrayList<>();
+        for (Offer f : offers){
+            if (f.getEtatOffer().equals(EtatOffer.Enattente)){
+                offreEnattente.add(f);
+            }
+        }
+        return offreEnattente.size();
+}
+
+
 }
 
 

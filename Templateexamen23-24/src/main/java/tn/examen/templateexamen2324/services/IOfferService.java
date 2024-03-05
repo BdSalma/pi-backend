@@ -5,7 +5,9 @@ import tn.examen.templateexamen2324.entity.Offer;
 import tn.examen.templateexamen2324.entity.Society;
 import tn.examen.templateexamen2324.entity.User;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface IOfferService {
     Offer addOffer(Offer o);
@@ -25,10 +27,15 @@ public interface IOfferService {
     List<Offer> getOfferByCategory(Category categoryOffer);
 
     User getSociety(String id);
+
     public List<Offer> filterOffersByInput(String input);
+
     void changeEtatToApprouvé(Long idOffer);
+
     void changeEtatToRefuse(Long idOffer);
+
     List<Offer> getAcceptedOffer();
 
-
+    public double calculateAverageOffersPerDay() ;
+    public int numberOffersEnAttente();
 }
