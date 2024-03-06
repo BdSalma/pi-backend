@@ -3,9 +3,8 @@ package tn.examen.templateexamen2324.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.examen.templateexamen2324.entity.Forum;
-import tn.examen.templateexamen2324.entity.Pack;
+
 import tn.examen.templateexamen2324.services.IForumService;
-import tn.examen.templateexamen2324.services.IPackService;
 
 import java.util.List;
 
@@ -20,8 +19,7 @@ public class ForumController {
     @GetMapping("/find-all-forums")
     @ResponseBody
     public List<Forum> getForums() {
-        List<Forum> listForum = forumService.retrieveAllForums();
-        return listForum;
+        return  forumService.retrieveAllForums();
     }
 
     @GetMapping("/find-forum/{forumId}")
@@ -34,8 +32,8 @@ public class ForumController {
     @PostMapping("/add-forum")
     @ResponseBody
     public Forum createPack(@RequestBody Forum b) {
-        Forum forum = forumService.addForum(b);
-        return forum;
+
+        return forumService.addForum(b);
     }
     @PutMapping("/update-forum/{id}")
     @ResponseBody
