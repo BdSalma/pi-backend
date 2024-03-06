@@ -78,16 +78,14 @@ public class DevisService implements DevisIService {
     @Override
     public Devis updateDevisStatus(int idDevis, boolean newStatus) {
         Devis updatedDevis = this.devisRepository.findById(idDevis).orElse(null);
-
         if (updatedDevis != null) {
-            // Set the new status for the updated Devis
+
             updatedDevis.setStatus(newStatus);
             devisRepository.save(updatedDevis);
 
             // If the new status is true, update the status of other Devis objects to false
             if (newStatus) {
                 List<Devis> otherDevisList = devisRepository.findByRequestSupplyIdRequestSupply(updatedDevis.getRequestSupply().getIdRequestSupply());
-
                 for (Devis otherDevis : otherDevisList) {
                     // Avoid updating the status of the same Devis object again
                     if (otherDevis.getId() != updatedDevis.getId()) {

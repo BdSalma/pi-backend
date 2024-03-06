@@ -1,10 +1,13 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -13,14 +16,24 @@ import lombok.Setter;
 @Entity
 public class Pack {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    TypePack typePack;
-    float prix;
-    Boolean statut;
+    private TypePack typePack;
+    private float prix;
+    private Boolean statut;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    Forum Forum;
+    @JsonIgnore
+    private Forum Forum;
+
     @OneToOne(cascade = CascadeType.ALL)
-    Stand Stand;
+    private Stand Stand;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private User reserver;
+
+    private LocalDate reservationDate;
+    private LocalDate validationDate;
+    private ReservationStatus reservationStatus = ReservationStatus.Not_Reserved;
 }
 
