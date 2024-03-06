@@ -97,7 +97,7 @@
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
             <version>1.8.0</version>
-        </dependency>_èè__
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

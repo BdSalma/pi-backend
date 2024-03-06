@@ -98,7 +98,7 @@ public class AuthController {
     }
 
     @PutMapping("/addRoleToUser/{userId}")
-    public void checkValidity(@PathVariable String userId, @RequestBody Map<String, String> requestBody) {
+    public void addRoleToUser(@PathVariable String userId, @RequestBody Map<String, String> requestBody) {
         authService.addRoleToUser(userId,requestBody.get("role"));
     }
 
