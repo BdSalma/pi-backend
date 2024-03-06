@@ -7,6 +7,7 @@ import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,7 @@ import tn.examen.templateexamen2324.repository.UserRepository;
 
 import java.net.URI;
 import java.util.*;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 @Service
 public class AuthService implements IAuthService{
@@ -133,12 +135,6 @@ public class AuthService implements IAuthService{
             credentialRepresentation.setTemporary(false);
             credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
             List<CredentialRepresentation> list = new ArrayList<>();
-            Map<String, List<String>> attributes = new HashMap<>();
-            List<String> attribute1Value = new ArrayList<>();
-            attribute1Value.add("NO");
-            attributes.put("approved", attribute1Value);
-            user.setAttributes(attributes);
-
             user.setUsername(userRegistration.getUsername());
             user.setEmail(userRegistration.getEmail());
             user.setFirstName(userRegistration.getFirstName());
@@ -159,6 +155,8 @@ public class AuthService implements IAuthService{
                     User userData = userRegistration;
                     userData.setId(userId);
                     userData.setPassword(hashedPassword);
+                    userData.setActivate(true);
+                    userData.setApprove(false);
                     userRepository.save(userData);
 
                     //emailVerification(userId);
@@ -195,11 +193,6 @@ public class AuthService implements IAuthService{
             credentialRepresentation.setTemporary(false);
             credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
             List<CredentialRepresentation> list = new ArrayList<>();
-            Map<String, List<String>> attributes = new HashMap<>();
-            List<String> attribute1Value = new ArrayList<>();
-            attribute1Value.add("NO");
-            attributes.put("approved", attribute1Value);
-            user.setAttributes(attributes);
             user.setUsername(userRegistration.getUsername());
             user.setEmail(userRegistration.getEmail());
             credentialRepresentation.setValue(userRegistration.getPassword());
@@ -218,6 +211,8 @@ public class AuthService implements IAuthService{
                     User userData = userRegistration;
                     userData.setId(userId);
                     userData.setPassword(hashedPassword);
+                    userData.setActivate(true);
+                    userData.setApprove(false);
                     userRepository.save(userData);
 
                     //emailVerification(userId);
@@ -287,4 +282,146 @@ public class AuthService implements IAuthService{
         }
     }
 
+    @Override
+    public void addRoleToUser(String userId, String roleName) {
+        RealmResource realmResource = keycloak.realm(realm);
+        UsersResource usersResource = getUsersResource();
+        List<RoleRepresentation> roles = realmResource.roles().list();
+        RoleRepresentation role = roles.stream()
+                .filter(r -> r.getName().equals(roleName))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+        usersResource.get(userId).roles().realmLevel().add(Arrays.asList(role));
+    }
+
+
+    @Override
+    public Object[] updateUser(String id,Map<String, String> userRegistration) {
+        boolean isIndividuRole = false;
+        for (IndividuRole role : IndividuRole.values()) {
+            if (role.toString().equals(userRegistration.get("role"))) {
+                isIndividuRole = true;
+                break;
+            }
+        }
+        if (isIndividuRole) {
+            Individu userIndividu = new Individu(userRegistration);
+            return updateIndividu(id,userIndividu);
+        } else {
+            Society userSociety = new Society(userRegistration);
+            return updateSociety(id,userSociety);
+        }
+    }
+
+    public Object[] updateIndividu(String id,Individu individu) {
+        ResponseMessage message = new ResponseMessage();
+        int statusId = 200;
+        try{
+            UsersResource usersResource = getUsersResource();
+            UserResource userResource = usersResource.get(id);
+            UserRepresentation updatedUser = new UserRepresentation();
+            updatedUser.setFirstName(individu.getFirstName());
+            updatedUser.setLastName(individu.getLastName());
+            userResource.update(updatedUser);
+            Individu individu1 = this.individuRepository.findById(id).orElse(null);
+            individu1.setFirstName(individu.getFirstName());
+            individu1.setLastName(individu.getLastName());
+            userRepository.save(individu1);
+            return new Object[]{statusId, individu1};
+        } catch (Exception e) {
+            message.setMessage("Error occurred while updating your account: " + e.getMessage());
+            return new Object[]{HttpStatus.INTERNAL_SERVER_ERROR.value(), message};
+        }
+    }
+
+    public Object[] updateSociety(String id,Society society) {
+        ResponseMessage message = new ResponseMessage();
+        int statusId = 200;
+        try{
+            Society society1 = this.societyRepository.findById(id).orElse(null);
+            society1.setSector(society.getSector());
+            society1.setMatricule(society.getMatricule());
+            society1.setLogo(society.getLogo());
+            society1.setAdresse(society.getAdresse());
+            society1.setRepresentative(society.getRepresentative());
+            userRepository.save(society1);
+            //message.setMessage("Profile updated successfully");
+            return new Object[]{statusId, society1};
+        } catch (Exception e) {
+            message.setMessage("Error occurred while updating your account: " + e.getMessage());
+            return new Object[]{HttpStatus.INTERNAL_SERVER_ERROR.value(), message};
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> checkUser(Jwt jwtToken){
+        ResponseMessage message = new ResponseMessage();
+        Map<String, Object> claims = jwtToken.getClaims();
+        boolean email = jwtToken.getClaim("email_verified");
+        String userId = jwtToken.getClaim("sub");
+        User user = userRepository.findById(userId).orElse(null);
+        if(email){
+            if(!user.isApprove()){
+                message.setMessage("Not approved");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+            }else if (!user.isActivate()){
+                message.setMessage("This account is inactive for some reasons.Contact the administration");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+            }
+        }else{
+            message.setMessage("Not verified");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+        return ResponseEntity.ok(claims);
+    }
+
+    @Override
+    public ResponseEntity<?> approveUser(String userId){
+        ResponseMessage message = new ResponseMessage();
+        try {
+            User user = userRepository.findById(userId).orElse(null);
+            user.setApprove(true);
+            userRepository.save(user);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            message.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> activateUser(String userId){
+        ResponseMessage message = new ResponseMessage();
+        try {
+            User user = userRepository.findById(userId).orElse(null);
+            user.setActivate(!user.isActivate());
+            userRepository.save(user);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            message.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+    }
+
+    @Override
+    public List<Individu> getAllIndividu() {
+        List<IndividuRole> excludedRoles = Arrays.asList(IndividuRole.Community, IndividuRole.FinancialDirection, IndividuRole.Admin);
+        List<Individu> individus = individuRepository.getAllIndividuExcepte(excludedRoles);
+        return individus;
+    }
+
+    @Override
+    public List<Society> getAllSociety() {return societyRepository.findAll();}
+
+    @Override
+    public List<Individu> getAllIndividuFilteredByRole(IndividuRole role){return individuRepository.findAllByRole(role);}
+
+    @Override
+    public List<Individu> getAllIndividuFilteredByFields(String field){return individuRepository.findAllByFields(field);}
+
+    @Override
+    public List<Society> getAllSocietiesFilteredByRole(SocietyRole role){return societyRepository.findAllByRole(role);}
+
+    @Override
+    public List<Society> getAllSocietiesFilteredByFields(String field){return societyRepository.findAllByFields(field);}
 }

@@ -3,6 +3,8 @@ package tn.examen.templateexamen2324.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import tn.examen.templateexamen2324.entity.Reclamation;
 import tn.examen.templateexamen2324.entity.TypeReclamation;
@@ -23,10 +25,19 @@ public class ReclamationController {
         List<Reclamation> reclamationList = iReclamationService.getAllReclamation();
         return ResponseEntity.ok().body(reclamationList);
     }
+    @GetMapping("/feed")
+    @ResponseBody
+    public ResponseEntity<List<Reclamation>> getFeed() {
+        TypeReclamation reclamationType = TypeReclamation.Feed;
+        List<Reclamation> reclamationList = iReclamationService.getFeed(reclamationType);
+        return ResponseEntity.ok().body(reclamationList);
+    }
     @PostMapping("/create")
     @ResponseBody
-    public Reclamation publishReclamation(@RequestBody Reclamation r) {
-        Reclamation reclamation = iReclamationService.publishReclamation(r);
+    public Reclamation publishReclamation(@RequestBody Reclamation r, Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        Reclamation reclamation = iReclamationService.publishReclamation(r,userId);
         return reclamation;
     }
     @GetMapping("/find-type/{typeR}")

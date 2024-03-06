@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,8 @@ public class User implements Serializable {
     public String username;
     public String password;
     public String email;
+    public boolean approve;
+    public boolean activate;
 
     @ManyToMany(cascade = CascadeType.ALL,mappedBy = "User")
     Set<Forum> Forum = new HashSet<>();

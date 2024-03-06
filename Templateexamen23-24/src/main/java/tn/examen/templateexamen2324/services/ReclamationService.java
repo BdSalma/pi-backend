@@ -16,9 +16,14 @@ public class ReclamationService implements IReclamationService {
 
     @Autowired
     ReclamationRepository reclamationRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
-    public Reclamation publishReclamation(Reclamation r) {
+    public Reclamation publishReclamation(Reclamation r,String userId) {
+        r.setTypeReclamation(TypeReclamation.Feed);
+        User user = userRepository.findById(userId).get();
+        r.setUser(user);
         return reclamationRepository.save(r);
     }
 
@@ -47,8 +52,7 @@ public class ReclamationService implements IReclamationService {
         reclamationRepository.deleteById(id);
     }
 
-    @Autowired
-    UserRepository userRepository;
+
 
     @Override
     public void Review(String id) {
@@ -62,6 +66,12 @@ public class ReclamationService implements IReclamationService {
         message.setText("Your reclamation has been reviewed ! We are working further to maintain the best user experience for you. Thanks for your feed-back");
         message.setSubject("Reviewed");
         mailSender.send(message);
+    }
+
+    @Override
+    public List<Reclamation> getFeed(TypeReclamation typeReclamation) {
+        TypeReclamation reclamationType = TypeReclamation.Feed;
+        return reclamationRepository.getFeed(reclamationType);
     }
 
     @Autowired

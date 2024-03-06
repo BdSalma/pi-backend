@@ -16,4 +16,7 @@ public interface ReclamationRepository extends JpaRepository<Reclamation,Integer
 
     @Query("SELECT r FROM Reclamation r  WHERE r.typeReclamation = :typeR")
     List<Reclamation> findReclamationType(@Param("typeR") TypeReclamation typeR);
+
+    @Query("SELECT r FROM Reclamation r WHERE r.typeReclamation = :reclamationType")
+    List<Reclamation> getFeed(@Param("reclamationType") TypeReclamation reclamationType);
 }

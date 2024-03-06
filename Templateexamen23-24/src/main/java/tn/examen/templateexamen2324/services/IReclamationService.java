@@ -6,7 +6,7 @@ import tn.examen.templateexamen2324.entity.TypeReclamation;
 import java.util.List;
 
 public interface IReclamationService {
-    Reclamation publishReclamation(Reclamation r);
+    Reclamation publishReclamation(Reclamation r,String userId);
     Reclamation getReclamationsById(int id);
     List<Reclamation> getReclamationsByUser(int id);
     List<Reclamation> getAllReclamation();
@@ -14,6 +14,7 @@ public interface IReclamationService {
     void DeleteReclamation(int id);
 
     public void Review(String id);
+    List<Reclamation> getFeed(TypeReclamation typeReclamation);
 
 
 }
