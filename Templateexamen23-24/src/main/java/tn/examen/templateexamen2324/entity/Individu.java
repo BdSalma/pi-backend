@@ -26,7 +26,8 @@ public class Individu extends User implements Serializable {
     private IndividuRole role;
 
 
-
+    @ManyToMany(cascade=CascadeType.ALL)
+    private Set<Offer> offers = new HashSet<>();
     @OneToMany(mappedBy="Individu", cascade = CascadeType.ALL)
     private Set<RequestSupply> RequestSupply=new HashSet<>();
 

@@ -69,7 +69,10 @@ public class SecurityConfiguration {
         return (web) -> {
             web.ignoring().requestMatchers(
                     HttpMethod.GET,
-                    "/auth/hello-2"
+                    "/auth/hello-2",
+                    "/Offer/allOffers",
+                    "/Offer/AcceptedOffer",
+                    "/Offer/Offer/filterByCriteria/{criteria}"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.POST,
