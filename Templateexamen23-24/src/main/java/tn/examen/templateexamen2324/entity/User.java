@@ -6,11 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@ToString
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,8 +20,10 @@ public class User implements Serializable {
     @Column(name = "id")
     private String id;
     public String username;
-    private String password;
-    private String email;
+    public String password;
+    public String email;
+    public boolean approve;
+    public boolean activate;
 
     @ManyToMany(cascade = CascadeType.ALL,mappedBy = "User")
     Set<Forum> Forum = new HashSet<>();
