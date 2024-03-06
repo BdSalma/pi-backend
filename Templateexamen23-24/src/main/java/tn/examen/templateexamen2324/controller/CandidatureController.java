@@ -3,6 +3,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -30,11 +31,15 @@ public class CandidatureController {
         return candiService.findAllCadidature();
     }
     @GetMapping("/candidatbyoffer/{id}")
+    @PreAuthorize("hasRole('Exposant')")
+
     public List<Candidature> FindCandidatByIdOffer(@PathVariable Long id){
         return candiService.FindCandidatByIdOffer(id);
     }
 
     @GetMapping("/candidatbyuser")
+    @PreAuthorize("hasRole('Student')")
+
     public List<Candidature> FindCandidatByIdUser(Authentication authentication){
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
         String userId = jwtToken.getClaim("sub");
@@ -42,15 +47,10 @@ public class CandidatureController {
     }
     @GetMapping("/download-cv/{id}")
     public ResponseEntity<byte[]> downloadCv(@PathVariable Long id, HttpServletRequest request) throws Exception {
-        // Implement authentication and authorization logic (not shown)
-        // ...
 
-        // Validate candidate ID
         if (id <= 0) {
             throw new BadRequestException("Invalid candidate ID");
         }
-
-        // Retrieve candidate information and CV file path
         Candidature candidate = candiService.FindCandidatById(id); // Replace with your logic
         if (candidate == null) {
             throw new ClassNotFoundException("Candidate not found");
@@ -77,6 +77,7 @@ public class CandidatureController {
 
 
     @PostMapping("/addcandidat/{id}")
+    @PreAuthorize("hasRole('Student')")
     public ResponseEntity<Candidature> ajouterCandidat(
             @RequestParam MultipartFile cv, // Change to @RequestParam
             @PathVariable Long id, @RequestParam MultipartFile lettre, Authentication authentication) throws IOException {
@@ -112,6 +113,7 @@ public class CandidatureController {
     }
 
     @PutMapping("/accepterCandidat/{id}")
+    @PreAuthorize("hasRole('Exposant')")
     public ResponseEntity<Candidature> AccepterCandidat( Candidature candidature, @PathVariable  Long id) throws Exception {
         Candidature candidatureMaj = candiService.AccepterCandidature(id, candidature);
         if (candidatureMaj != null) {

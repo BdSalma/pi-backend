@@ -92,6 +92,7 @@ public class OfferController {
             existingOffer.setDuree(updatedOffer.getDuree());
             existingOffer.setOffreCategory(updatedOffer.getOffreCategory());
             existingOffer.setCandidatProfil(updatedOffer.getCandidatProfil());
+            existingOffer.setOfferName(updatedOffer.getOfferName());
 
 
             offerService.updateOffer(existingOffer.getIdOffre());

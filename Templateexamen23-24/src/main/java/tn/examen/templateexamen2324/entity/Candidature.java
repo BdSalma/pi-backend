@@ -31,10 +31,9 @@ public class Candidature implements Serializable {
     @OneToOne(cascade = {CascadeType.ALL, CascadeType.MERGE})
     private Interview Interview;
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Offer offer;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne( fetch = FetchType.EAGER)
     private User individu;
-
 }
