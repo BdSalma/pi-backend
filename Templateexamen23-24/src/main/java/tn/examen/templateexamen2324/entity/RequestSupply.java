@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,19 +18,19 @@ import java.util.Set;
 public class RequestSupply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  long idRequestSupply;
+    private  int idRequestSupply;
     public int quantity;
     public String category;
     public  String description;
-    public Date date;
+    public LocalDate date;
     public int validity;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "requestSupply")
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "RequestSupply")
-    private Set<Devis> Devis = new HashSet<>();
+    private Set<Devis> devis = new HashSet<>();
     @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
-    private Invoice Invoice;
+    private Invoice invoice;
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
-    private Individu Individu;
+    private Individu individu;
 }

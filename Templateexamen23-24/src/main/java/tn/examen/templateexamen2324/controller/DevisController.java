@@ -12,10 +12,10 @@ import java.util.List;
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
 @RequestMapping("/devis")
-public class DevisController {
+public class DevisController  {
     @Autowired
     DevisIService devisIService;
-    @PostMapping("/addInvoice")
+    @PostMapping("/addDevis")
     public ResponseEntity<Devis> ajouterDevis(@RequestBody Devis i) {
         Devis devis = devisIService.addDevis(i);
         return new ResponseEntity<>(devis, HttpStatus.CREATED);
@@ -26,25 +26,49 @@ public class DevisController {
         List<Devis> listDevis = devisIService.retrieveAllDevis();
         return listDevis;
     }
-
+    @GetMapping("/getDevis/{id}")
+    @ResponseBody
+    public Devis getDevisById(@PathVariable("id") int idDevis) {
+        return devisIService.retrieveDevisById(idDevis);
+    }
     @DeleteMapping("/deleteDevis/{id}")
     @ResponseBody
     public void deleteInvoice(@PathVariable("id") int idDevis) {
 
         devisIService.deleteDevis(idDevis);
     }
-
     @PutMapping("/updateDevis/{id}")
     @ResponseBody
-    public Devis updateInvoice(@PathVariable("id") int idDevis, @RequestBody Devis devis) {
-        return devisIService.updateDevis(idDevis, devis);
+    public Devis updateDevis(@PathVariable("id") int id, @RequestBody Devis updatedDevis) {
+        Devis existingDevis = devisIService.retrieveDevisById(id);
+
+            existingDevis.setFile(updatedDevis.getFile());
+            existingDevis.setDescription(updatedDevis.getDescription());
+            existingDevis.setPrice(updatedDevis.getPrice());
+            existingDevis.setQuantity(updatedDevis.getQuantity());
+            return devisIService.updateDevis(existingDevis.getId());
+
     }
 
-    @PostMapping("/assignToRequest")
-    public Devis assignInvoiceToRequest(
-            @RequestBody Devis devis,
-            @RequestParam("requestSupplyId") int requestSupplyId
-    ) {
-        return devisIService.createDevisAndAssignToRequest(devis, requestSupplyId);
+    @GetMapping("/getDevisByRequestSupply/{requestSupplyId}")
+    public List<Devis> getDevisByRequestSupply(@PathVariable("requestSupplyId") int requestSupplyId) {
+        return devisIService.getDevisByRequestSupply(requestSupplyId);
     }
+    @PostMapping("/createDevisAndAssignToRequest/{requestId}/{idS}")
+    @ResponseBody
+    public Devis createDevisAndAssignToRequest(@PathVariable("requestId") int requestSupplyId, @RequestBody Devis devis,@PathVariable("idS") String id){
+        return devisIService.createDevisAndAssignToRequest(devis,requestSupplyId,id);
+    }
+    @GetMapping("/getDevisBySociety/{idS}")
+    public List<Devis> getDevisBySociety(@PathVariable("idS") String societyId) {
+
+        return devisIService.getDevisBySociety(societyId);
+    }
+    @PutMapping("/updateDevisStatus/{id}/{newStatus}")
+    @ResponseBody
+    public Devis updateDevisStatus(@PathVariable("id") int id, @PathVariable("newStatus") boolean newStatus) {
+        return devisIService.updateDevisStatus(id, newStatus);
+    }
+
+
 }

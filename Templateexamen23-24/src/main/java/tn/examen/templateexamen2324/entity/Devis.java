@@ -23,9 +23,9 @@ public class Devis {
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
 
-    private RequestSupply RequestSupply;
+    private RequestSupply requestSupply;
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
 
-    private Society Society;
+    private Society society;
 }

@@ -16,11 +16,11 @@ public class Invoice {
     private int idInvoice;
     public  String description;
     public  String file;
-    public  Boolean staus;
+    public  Boolean status;
     public  String comment;
 
-    @OneToOne(cascade = CascadeType.ALL,mappedBy = "Invoice")
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "invoice")
     @JsonIgnore
 
-    private RequestSupply RequestSupply;
+    private RequestSupply requestSupply;
 }

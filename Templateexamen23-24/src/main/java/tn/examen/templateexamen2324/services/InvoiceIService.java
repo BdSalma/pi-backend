@@ -6,10 +6,16 @@ import java.util.List;
 
 public interface InvoiceIService {
     Invoice addInvoice(Invoice invoice);
-    List<Invoice> retrieveAllInvoices();
-    Invoice retrieveInvoiceById(int idInvoice);
-    void deleteInvoice(int idInvoice);
-    Invoice updateInvoice(int idInvoice,Invoice invoice);
 
-    void assignInvoiceToRequest( Invoice invoice, int requestSupplyId);
+    List<Invoice> retrieveAllInvoices();
+
+    Invoice retrieveInvoiceById(int idInvoice);
+
+    void deleteInvoice(int idInvoice);
+
+    Invoice updateInvoice(int idInvoice);
+
+    void addAndAssignInvoiceToRequest(Invoice invoice, int requestSupplyId);
+    List<Invoice> getInvoicesBySocietyId(String societyId);
+
 }

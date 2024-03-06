@@ -30,8 +30,8 @@ public class Society extends User implements Serializable {
     @Enumerated(EnumType.STRING)
     private SocietyRole role;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "Society")
-    private Set<Devis> Devis = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "society")
+    private Set<Devis> devis = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "Society")
     private Set<Offer> Offer = new HashSet<>();
 }

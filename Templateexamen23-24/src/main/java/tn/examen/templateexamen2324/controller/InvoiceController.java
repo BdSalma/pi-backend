@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.examen.templateexamen2324.entity.Invoice;
 import tn.examen.templateexamen2324.services.InvoiceIService;
-
 import java.util.List;
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
@@ -32,17 +31,36 @@ public class InvoiceController {
 
         invoiceIService.deleteInvoice(idInvoice);
     }
-
-    @PutMapping("/updateInvoice/{id}")
+    @GetMapping("/getInvoice/{id}")
     @ResponseBody
-    public Invoice updateInvoice(@PathVariable("id") int idInvoice, @RequestBody Invoice invoice) {
-        return invoiceIService.updateInvoice(idInvoice, invoice);
+    public Invoice getOfferById(@PathVariable("id") int idInvoice) {
+        return invoiceIService.retrieveInvoiceById(idInvoice);
+
     }
-    @PostMapping("/assignToRequest")
+
+    @PutMapping("/updateInvoice/{idInvoice}")
+    @ResponseBody
+    public Invoice updateInvoice(@PathVariable("idInvoice") int id, @RequestBody Invoice updatedInvoice) {
+        Invoice existingInvoice = invoiceIService.retrieveInvoiceById(id);
+
+        // Update only the status and comment fields
+        existingInvoice.setStatus(updatedInvoice.getStatus());
+        existingInvoice.setComment(updatedInvoice.getComment());
+
+        return invoiceIService.updateInvoice(existingInvoice.getIdInvoice());
+    }
+
+    @PostMapping("/assignToRequest/{requestSupplyId}")
     public void assignInvoiceToRequest(
             @RequestBody Invoice invoice,
-            @RequestParam("requestSupplyId") int requestSupplyId
+            @PathVariable("requestSupplyId") int requestSupplyId
     ) {
-        invoiceIService.assignInvoiceToRequest(invoice, requestSupplyId);
+        invoiceIService.addAndAssignInvoiceToRequest(invoice, requestSupplyId);
+    }
+    @GetMapping("/getInvoicesBySociety/{societyId}")
+    @ResponseBody
+    public List<Invoice> getInvoicesBySocietyId(@PathVariable("societyId") String societyId) {
+        List<Invoice> invoices = invoiceIService.getInvoicesBySocietyId(societyId);
+        return invoices;
     }
 }
