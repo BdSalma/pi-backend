@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="update">
+    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="updates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Candidature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Candidature.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Individu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Individu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Offer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Offer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/TestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/TestRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Offer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Offer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/OfferRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/OfferRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IOfferService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IOfferService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,9 +27,10 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="gestion-offre" />
+        <entry key="$PROJECT_DIR$/.." value="main" />
       </map>
     </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -58,24 +57,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/asus/IdeaProjects/lastForum/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/services",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;gestion-offre&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/asus/IdeaProjects/lastForum/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/services&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\asus\IdeaProjects\lastForum\pi-backend\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\services" />
@@ -105,10 +105,77 @@
       <updated>1701685534513</updated>
       <workItem from="1701685536998" duration="1132000" />
       <workItem from="1708379055176" duration="1345000" />
+      <workItem from="1709411837837" duration="252000" />
+      <workItem from="1709412397467" duration="2545000" />
+      <workItem from="1709480569679" duration="5546000" />
+      <workItem from="1709582871296" duration="2915000" />
+      <workItem from="1709634013049" duration="7461000" />
+      <workItem from="1709650267903" duration="3963000" />
     </task>
+    <task id="LOCAL-00001" summary="add attribute">
+      <option name="closed" value="true" />
+      <created>1709390239221</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1709390239221</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add attribute">
+      <option name="closed" value="true" />
+      <created>1709390250039</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1709390250039</updated>
+    </task>
+    <task id="LOCAL-00003" summary="update display offers">
+      <option name="closed" value="true" />
+      <created>1709489721595</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1709489721595</updated>
+    </task>
+    <task id="LOCAL-00004" summary="updates">
+      <option name="closed" value="true" />
+      <created>1709642528432</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1709642528432</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add attribute" />
+    <MESSAGE value="update display offers" />
+    <MESSAGE value="updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="updates" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java</url>
+          <line>182</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
