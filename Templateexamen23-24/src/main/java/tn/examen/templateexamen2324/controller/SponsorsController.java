@@ -8,12 +8,17 @@ import tn.examen.templateexamen2324.services.SponsorsService;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/sponsors")
+@CrossOrigin(origins="http://localhost:4200") // Ajout de @CrossOrigin au niveau de classe
+
 public class SponsorsController {
 
     @Autowired
     private SponsorsService sponsorsService;
+
+
 
     @PostMapping
     public Sponsors createSponsor(@RequestBody Sponsors sponsor) {
