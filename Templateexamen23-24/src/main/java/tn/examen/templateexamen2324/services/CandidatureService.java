@@ -1,7 +1,10 @@
 package tn.examen.templateexamen2324.services;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tn.examen.templateexamen2324.dao.CandidatureRepo;
@@ -9,6 +12,7 @@ import tn.examen.templateexamen2324.dao.InterviewRepo;
 import tn.examen.templateexamen2324.dao.OfferRepo;
 import tn.examen.templateexamen2324.dao.UserRepo;
 import tn.examen.templateexamen2324.entity.*;
+import tn.examen.templateexamen2324.repository.UserRepository;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,23 +29,23 @@ public class CandidatureService implements ICandidatureService{
     @Autowired
     InterviewRepo interviewRepo;
     @Autowired
-    UserRepo urepo;
+    UserRepository urepo;
+   /* private final JavaMailSender mailSender;
 
+    public CandidatureService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }*/
 
     @Override
-    public Candidature addCandidat(Candidature c, Long id, Long idUser, MultipartFile cv, MultipartFile lettre) throws IOException {
-
-        // Existing code to retrieve offer and user
+    public Candidature addCandidat(Candidature c, Long id, String idUser, MultipartFile cv, MultipartFile lettre) throws IOException {
         Offer offer = offerRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Offer not found"));
         User user = urepo.findById(idUser).orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-        // File upload logic
-        if (cv != null) { // Ensure a file was actually uploaded
+        if (cv != null) {
             String fileName = UUID.randomUUID().toString() + "." + getFileExtension(cv);
             String uploadPath = "C:/Users/Salma/IdeaProjects/pi/pi-backend/Templateexamen23-24/src/main/resources/fils"; // Replace with your designated upload path
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
-                uploadDir.mkdir(); // Create the directory if it doesn't exist
+                uploadDir.mkdir();
             }
 
             File uploadFile = new File(uploadPath + "/" + fileName);
@@ -63,8 +67,6 @@ public class CandidatureService implements ICandidatureService{
 
             c.setLettre(filelettre); // Store the file path in the Candidature object
         }
-
-        // Remaining code to set candidature properties
         c.setStatus(Status.In_progress);
         c.setDate(new Date());
         c.setOffer(offer);
@@ -72,14 +74,10 @@ public class CandidatureService implements ICandidatureService{
 
         return crepo.save(c);
     }
-
-    // Helper method to get file extension
     private String getFileExtension(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
-
-
     @Override
     public List<Candidature> findAllCadidature() {
         return (List<Candidature>) crepo.findAll();
@@ -101,15 +99,32 @@ public class CandidatureService implements ICandidatureService{
         return crepo.save(candidature);
     }
     @Override
-    public Candidature AccepterCandidature(Long id, Candidature updatedCandidature) {
+    public Candidature AccepterCandidature(Long id, Candidature updatedCandidature) throws Exception {
         // Retrieve existing Candidature
         Candidature candidature = crepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid candidature id: " + id));
-        // Update other fields
+
+        // Update candidature status and send notification email (separate method)
         candidature.setStatus(Status.Accepted);
-        // Save and return the updated Candidature
+        //sendCandidatureAcceptedEmail(candidature);
+
         return crepo.save(candidature);
     }
+    /*private void sendCandidatureAcceptedEmail(Candidature candidature)  {
+        String to = candidature.getIndividu().getEmail();
+        String subject = "Candidature Accepted!";
+        String body = "Congratulations, your candidature for the offer " +
+                candidature.getOffer().getOfferName() + " has been accepted!";
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("beddakhliasalma@gmail.com"); // Replace with your sender email
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(body);
+
+        this.mailSender.send(message);
+    }
+*/
 
     @Override
     public Candidature FindCandidatById(Long id) {

@@ -3,6 +3,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.examen.templateexamen2324.entity.Candidature;
@@ -32,9 +34,11 @@ public class CandidatureController {
         return candiService.FindCandidatByIdOffer(id);
     }
 
-    @GetMapping("/candidatbyuser/{idUser}")
-    public List<Candidature> FindCandidatByIdUser(@PathVariable String idUser){
-        return candiService.FindCandidatByIdUser(idUser);
+    @GetMapping("/candidatbyuser")
+    public List<Candidature> FindCandidatByIdUser(Authentication authentication){
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        return candiService.FindCandidatByIdUser(userId);
     }
     @GetMapping("/download-cv/{id}")
     public ResponseEntity<byte[]> downloadCv(@PathVariable Long id, HttpServletRequest request) throws Exception {
@@ -52,7 +56,7 @@ public class CandidatureController {
             throw new ClassNotFoundException("Candidate not found");
         }
 
-        String cvFilePath = "C:/Users/Salma/IdeaProjects/pi/pi-backend/Templateexamen23-24/src/main/resources/" + candidate.getCv(); // Adjust path if needed
+        String cvFilePath = "C:/Users/Salma/IdeaProjects/pi/pi-backend/Templateexamen23-24/src/main/resources/fils/" + candidate.getCv(); // Adjust path if needed
 
         // Read CV data as byte array
         File cvFile = new File(cvFilePath);
@@ -72,16 +76,16 @@ public class CandidatureController {
     }
 
 
-    @PostMapping("/addcandidat/{id}/{idUser}")
+    @PostMapping("/addcandidat/{id}")
     public ResponseEntity<Candidature> ajouterCandidat(
             @RequestParam MultipartFile cv, // Change to @RequestParam
-            @PathVariable Long id,
-            @PathVariable Long idUser,@RequestParam MultipartFile lettre) throws IOException {
-
+            @PathVariable Long id, @RequestParam MultipartFile lettre, Authentication authentication) throws IOException {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
         // Create a new Candidature object
         Candidature candidature = new Candidature();
         // Call the service method to add the candidature
-        Candidature savedCandidature = candiService.addCandidat(candidature, id, idUser, cv,lettre);
+        Candidature savedCandidature = candiService.addCandidat(candidature, id, userId, cv,lettre);
 
         // Return the saved candidature with CREATED status
         return new ResponseEntity<>(savedCandidature, HttpStatus.CREATED);
@@ -108,7 +112,7 @@ public class CandidatureController {
     }
 
     @PutMapping("/accepterCandidat/{id}")
-    public ResponseEntity<Candidature> AccepterCandidat( Candidature candidature, @PathVariable  Long id) {
+    public ResponseEntity<Candidature> AccepterCandidat( Candidature candidature, @PathVariable  Long id) throws Exception {
         Candidature candidatureMaj = candiService.AccepterCandidature(id, candidature);
         if (candidatureMaj != null) {
             return new ResponseEntity<>(candidatureMaj, HttpStatus.OK);

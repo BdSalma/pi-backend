@@ -1,0 +1,11 @@
+tn\examen\templateexamen2324\entity\LoginResponse.class
+tn\examen\templateexamen2324\services\AuthService.class
+tn\examen\templateexamen2324\config\KeycloackSecurityUtil.class
+tn\examen\templateexamen2324\config\SecurityConfiguration.class
+tn\examen\templateexamen2324\config\JwtAuthConverter.class
+tn\examen\templateexamen2324\controller\AuthController.class
+tn\examen\templateexamen2324\entity\ResponseMessage.class
+tn\examen\templateexamen2324\repository\IndividuRepository.class
+tn\examen\templateexamen2324\repository\SocietyRepository.class
+tn\examen\templateexamen2324\repository\UserRepository.class
+tn\examen\templateexamen2324\services\IAuthService.class
