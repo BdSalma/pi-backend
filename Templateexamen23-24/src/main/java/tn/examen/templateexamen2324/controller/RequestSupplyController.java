@@ -3,8 +3,12 @@ package tn.examen.templateexamen2324.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import tn.examen.templateexamen2324.entity.RequestSupply;
+import tn.examen.templateexamen2324.entity.User;
+import tn.examen.templateexamen2324.services.AuthService;
 import tn.examen.templateexamen2324.services.RequestSupplyIService;
 
 import java.util.List;
@@ -14,16 +18,19 @@ import java.util.List;
 public class RequestSupplyController {
     @Autowired
     RequestSupplyIService requestSupplyIService;
-    @PostMapping("/addRequestSupply/{idInd}")
-    public ResponseEntity<RequestSupply> ajouterRequestSupply(@RequestBody RequestSupply r, @PathVariable("idInd") String id) {
-        RequestSupply requestSupply = requestSupplyIService.addRequestSupply(r,id);
+    @Autowired
+    AuthService authService;
+    @PostMapping("/addRequestSupply")
+    public ResponseEntity<RequestSupply> ajouterRequestSupply(@RequestBody RequestSupply r, Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        RequestSupply requestSupply = requestSupplyIService.addRequestSupply(r,userId);
         return new ResponseEntity<>(requestSupply, HttpStatus.CREATED);
     }
-    @GetMapping("/retrieveAllRequestSupplies")
+    @GetMapping("/retrieveAllRequests")
     @ResponseBody
     public List<RequestSupply> getRequestSupplies() {
-        List<RequestSupply> listRequests = requestSupplyIService.retrieveAllRequestSupplies();
-        return listRequests;
+       return requestSupplyIService.retrieveAllRequestSupplies();
     }
     @GetMapping("/getRequestSupply/{id}")
     @ResponseBody
@@ -47,11 +54,12 @@ public class RequestSupplyController {
             return  requestSupplyIService.updateRequestSupply(existingRequestSupply.getIdRequestSupply());
 
     }
-    @GetMapping("/retrieveAllRequestSupplies/{idI}")
+    @GetMapping("/retrieveAllRequestSuppliesByIndividus")
     @ResponseBody
-    public List<RequestSupply> getsuppliesByIndividus(@PathVariable("idI") String id) {
-
-        List<RequestSupply> list = requestSupplyIService.getRequestSupplyByIndividus(id);
+    public List<RequestSupply> getsuppliesByIndividus( Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        List<RequestSupply> list = requestSupplyIService.getRequestSupplyByIndividus(userId);
 
         return list;
     }

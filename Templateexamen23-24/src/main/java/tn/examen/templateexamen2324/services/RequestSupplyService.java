@@ -50,6 +50,7 @@ public class RequestSupplyService implements RequestSupplyIService{
 
     @Override
     public void deleteRequestSupply(int idRequestSupply) {
+
         this.requestSupplyRepository.deleteById(idRequestSupply);
     }
 

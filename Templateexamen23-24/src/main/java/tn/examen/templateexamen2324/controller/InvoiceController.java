@@ -3,6 +3,8 @@ package tn.examen.templateexamen2324.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import tn.examen.templateexamen2324.entity.Invoice;
 import tn.examen.templateexamen2324.services.InvoiceIService;
@@ -57,10 +59,12 @@ public class InvoiceController {
     ) {
         invoiceIService.addAndAssignInvoiceToRequest(invoice, requestSupplyId);
     }
-    @GetMapping("/getInvoicesBySociety/{societyId}")
+    @GetMapping("/getInvoicesBySociety")
     @ResponseBody
-    public List<Invoice> getInvoicesBySocietyId(@PathVariable("societyId") String societyId) {
-        List<Invoice> invoices = invoiceIService.getInvoicesBySocietyId(societyId);
+    public List<Invoice> getInvoicesBySocietyId(Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        List<Invoice> invoices = invoiceIService.getInvoicesBySocietyId(userId);
         return invoices;
     }
 }

@@ -20,12 +20,10 @@ public class Devis {
     private String file;
     private boolean status;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
-
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    //@JsonIgnore
     private RequestSupply requestSupply;
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
-
     private Society society;
 }

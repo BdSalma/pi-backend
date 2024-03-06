@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 import tn.examen.templateexamen2324.entity.Invoice;
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
+
 }

@@ -3,6 +3,8 @@ package tn.examen.templateexamen2324.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import tn.examen.templateexamen2324.entity.Devis;
 import tn.examen.templateexamen2324.entity.Invoice;
@@ -54,15 +56,18 @@ public class DevisController  {
     public List<Devis> getDevisByRequestSupply(@PathVariable("requestSupplyId") int requestSupplyId) {
         return devisIService.getDevisByRequestSupply(requestSupplyId);
     }
-    @PostMapping("/createDevisAndAssignToRequest/{requestId}/{idS}")
+    @PostMapping("/createDevisAndAssignToRequest/{requestId}")
     @ResponseBody
-    public Devis createDevisAndAssignToRequest(@PathVariable("requestId") int requestSupplyId, @RequestBody Devis devis,@PathVariable("idS") String id){
-        return devisIService.createDevisAndAssignToRequest(devis,requestSupplyId,id);
+    public Devis createDevisAndAssignToRequest(@PathVariable("requestId") int requestSupplyId, @RequestBody Devis devis, Authentication authentication){
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        return devisIService.createDevisAndAssignToRequest(devis,requestSupplyId,userId);
     }
-    @GetMapping("/getDevisBySociety/{idS}")
-    public List<Devis> getDevisBySociety(@PathVariable("idS") String societyId) {
-
-        return devisIService.getDevisBySociety(societyId);
+    @GetMapping("/getDevisBySociety")
+    public List<Devis> getDevisBySociety(Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        return devisIService.getDevisBySociety(userId);
     }
     @PutMapping("/updateDevisStatus/{id}/{newStatus}")
     @ResponseBody
