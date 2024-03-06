@@ -31,7 +31,5 @@ public class Candidature implements Serializable {
     private Interview Interview;
     @ManyToOne(cascade = CascadeType.ALL)
     private Offer offer;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Individu individu;
 
 }

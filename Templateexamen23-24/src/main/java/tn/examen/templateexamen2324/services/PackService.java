@@ -9,6 +9,11 @@ import tn.examen.templateexamen2324.repository.StandRepo;
 import tn.examen.templateexamen2324.repository.UserRepository;
 
 import java.time.LocalDate;
+import tn.examen.templateexamen2324.entity.Pack;
+import tn.examen.templateexamen2324.entity.Stand;
+import tn.examen.templateexamen2324.repository.PackRepo;
+import tn.examen.templateexamen2324.repository.StandRepo;
+
 import java.util.List;
 
 @Service
@@ -28,7 +33,7 @@ public class PackService implements IPackService{
 
     @Override
     public Pack addPack(Pack pack) {
-        Forum forum  = this.forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
+        Forum forum = this.forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
         forum.getPack().add(pack);
         forumRepo.save(forum);
         pack.setForum(forum);
@@ -137,6 +142,14 @@ public class PackService implements IPackService{
     @Override
     public List<Pack> findPackByTypePackAndReservationStatus(TypePack typePack, ReservationStatus reservationStatus) {
         return this.packRepo.findPackByTypePackAndReservationStatus(typePack,reservationStatus);
+    }
+
+
+    @Override
+    public Pack assignStandToPack(long idStand, Pack pack) {
+       Stand s = this.standRepo.findById(idStand).get();
+       pack.setStand(s);
+       return  this.packRepo.save(pack);
     }
 
 

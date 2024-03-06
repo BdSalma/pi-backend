@@ -1,6 +1,7 @@
 package tn.examen.templateexamen2324.services;
 
 import tn.examen.templateexamen2324.entity.*;
+import tn.examen.templateexamen2324.entity.Pack;
 
 import java.util.List;
 
@@ -23,5 +24,7 @@ public interface IPackService {
      void reservationNotice();
 
      List<Pack> findPackByTypePackAndReservationStatus(TypePack typePack, ReservationStatus reservationStatus);
+
+     Pack assignStandToPack(long idStand , Pack pack);
 
 }

@@ -22,15 +22,19 @@ public class Offer implements Serializable {
     private Long idOffre;
     @Temporal(TemporalType.DATE)
     private Date dateEmission;
+    private String offerName;
     @Enumerated(EnumType.STRING)
     private Category OffreCategory;
     private int Candidatnumber;
     private String candidatProfil;
     private String duree;
+    private EtatOffer etatOffer;
     private String description;
     @OneToMany(cascade = CascadeType.ALL,mappedBy="offer")
     private Set<Candidature> candidatures = new HashSet<>();
     @ManyToOne(cascade = CascadeType.ALL)
     private Society Society;
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="offers")
+    private Set<Individu> Individus = new HashSet<>();
 
 }

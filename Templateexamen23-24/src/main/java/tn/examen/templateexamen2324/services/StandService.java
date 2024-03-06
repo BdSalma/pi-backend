@@ -53,5 +53,8 @@ public class StandService implements IStandService{
     public Stand findStandById(Long idStand) {
         return standRepo.findById(idStand).get();
     }
+    }
 
-}
+
+
+

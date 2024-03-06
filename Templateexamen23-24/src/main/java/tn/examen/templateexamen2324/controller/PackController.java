@@ -3,6 +3,8 @@ package tn.examen.templateexamen2324.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.examen.templateexamen2324.entity.*;
+import tn.examen.templateexamen2324.entity.Pack;
+import tn.examen.templateexamen2324.entity.Stand;
 import tn.examen.templateexamen2324.services.IPackService;
 import tn.examen.templateexamen2324.services.IStandService;
 
@@ -50,6 +52,7 @@ public class PackController {
         return  packService.findPackByTypePackAndReservationStatus(type,reservationStatus);
 
     }
+
 
     @PostMapping("/add-pack")
     @ResponseBody
@@ -102,4 +105,16 @@ public class PackController {
 
 
 
-}
+
+    @DeleteMapping("/delete-pack/{id}")
+    @ResponseBody
+    public void deletePack(@PathVariable("id") int packId) {
+        packService.deletePack(packId);
+    }
+
+    @PutMapping("/update-pack/{id}")
+    @ResponseBody
+    public Pack updateBloc(@PathVariable("id") int packId, @RequestBody Pack pack) {
+        return packService.updatePack(packId, pack);
+
+    }}

@@ -16,6 +16,5 @@ public interface PackRepo extends JpaRepository<Pack, Long> {
     @Query("SELECT c FROM Pack c WHERE c.Forum.id=:forumId")
     List<Pack> findPackByForum(@Param("forumId") Long forumId);
 
-    List<Pack> findPackByTypePackAndReservationStatus(TypePack typePack , ReservationStatus reservationStatus);
-
+    List<Pack> findPackByTypePackAndReservationStatus(TypePack typePack, ReservationStatus reservationStatus);
 }

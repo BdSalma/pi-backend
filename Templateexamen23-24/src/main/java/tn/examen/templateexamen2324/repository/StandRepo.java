@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface StandRepo extends JpaRepository<Stand, Long> {
-    List<Stand> findStandByReserved(Boolean statut );
+    List<Stand> findStandByReserved(Boolean statut);
 }
