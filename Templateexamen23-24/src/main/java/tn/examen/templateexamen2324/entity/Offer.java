@@ -28,10 +28,13 @@ public class Offer implements Serializable {
     private int Candidatnumber;
     private String candidatProfil;
     private String duree;
+    private EtatOffer etatOffer;
     private String description;
     @OneToMany(cascade = CascadeType.ALL,mappedBy="offer")
     private Set<Candidature> candidatures = new HashSet<>();
     @ManyToOne(cascade = CascadeType.ALL)
     private Society Society;
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="offers")
+    private Set<Individu> Individus = new HashSet<>();
 
 }
