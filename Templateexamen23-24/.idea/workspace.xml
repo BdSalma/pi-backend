@@ -5,141 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c413468-276b-4792-849e-23f3e0b9fcc2" name="Changes" comment="Merge remote-tracking branch 'origin/gestion-sponsors' into gestion-sponsors">
-      <change afterPath="$PROJECT_DIR$/../.idea/new.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/config/CorsConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/config/FileUploadExceptionAdvice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/config/ResponseFile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/CandidatureController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/ReclamationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/RoomController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/OfferRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/RoomRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/UserRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/InterviewType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/roomStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/ReclamationRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/CandidatureService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/ICandidatureService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IOfferService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IReclamationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IRoomService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/ReclamationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/RoomService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/0250eea4-cea6-48d2-bc35-8d64533e8d71.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/0c9944c9-d050-4873-9596-45baef953186.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/13709281-9cb6-4df3-ac78-dcc55c36c829.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/1a3055a7-9149-47eb-a793-2af5e736b2ae.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/2bcd05eb-3150-410a-adac-3dccc0fd0f6e.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/50c42985-aebc-4709-a15f-5036d0554d4e.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/584de635-6c92-4500-8c1e-b1ebb42cd366.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/6c319126-0ca1-4bba-acfa-72a4ccd304bd.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/7365c2da-2c65-471c-8ac4-8a88af74ca24.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/8f515044-053d-4236-8e67-c8e35a84f29f" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/9155e599-57d7-4dc1-a939-2d040a665735.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/ab9b86eb-0825-41f3-8728-f70f95aa0f56.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/b66338d9-9ff8-4095-9c01-f65c83f6c795.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/bce03288-272a-4d89-b5f5-627ad2fa2f6d.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/bfddc3a8-4842-4117-9d85-e139ce8e8b1e.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/c9767e06-5319-4e9e-a22e-5c80cf9d929d.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/e77fe3ba-6f35-463b-8efc-bc81d5f01daf.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/edc09a62-cd8d-4fdc-a964-49848e245dff.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/Templateexamen23-24-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/Templateexamen23-24-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/0250eea4-cea6-48d2-bc35-8d64533e8d71.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/0c9944c9-d050-4873-9596-45baef953186.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/13709281-9cb6-4df3-ac78-dcc55c36c829.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/1a3055a7-9149-47eb-a793-2af5e736b2ae.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/2bcd05eb-3150-410a-adac-3dccc0fd0f6e.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/50c42985-aebc-4709-a15f-5036d0554d4e.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/584de635-6c92-4500-8c1e-b1ebb42cd366.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/6c319126-0ca1-4bba-acfa-72a4ccd304bd.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/7365c2da-2c65-471c-8ac4-8a88af74ca24.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/8f515044-053d-4236-8e67-c8e35a84f29f" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/9155e599-57d7-4dc1-a939-2d040a665735.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/ab9b86eb-0825-41f3-8728-f70f95aa0f56.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/b66338d9-9ff8-4095-9c01-f65c83f6c795.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/bce03288-272a-4d89-b5f5-627ad2fa2f6d.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/bfddc3a8-4842-4117-9d85-e139ce8e8b1e.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/c9767e06-5319-4e9e-a22e-5c80cf9d929d.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/e77fe3ba-6f35-463b-8efc-bc81d5f01daf.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/edc09a62-cd8d-4fdc-a964-49848e245dff.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/config/CorsConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/config/FileUploadExceptionAdvice.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/config/ResponseFile.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/CandidatureController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/OfferController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/ReclamationController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/RoomController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/OfferRepo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/RoomRepo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/UserRepo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/InterviewType.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/roomStatus.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/repository/ReclamationRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/CandidatureService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/ICandidatureService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IOfferService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IReclamationService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IRoomService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/OfferService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/ReclamationService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/RoomService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/Templateexamen2324Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/Templateexamen2324Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/config/SecurityConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/InterviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/InterviewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/CandidatureRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/CandidatureRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/InterviewRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/InterviewRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Candidature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Candidature.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Individu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Individu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Interview.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Interview.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Offer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Offer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Reclamation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Reclamation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Society.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Society.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/TestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/TestRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IinterviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IinterviewService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/InterviewServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/InterviewServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tn/examen/templateexamen2324/Templateexamen2324ApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Templateexamen23-24-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/Templateexamen23-24-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Templateexamen23-24-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/Templateexamen23-24-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/Templateexamen2324Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/Templateexamen2324Application.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/config/JwtAuthConverter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/config/JwtAuthConverter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/config/KeycloackSecurityUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/config/KeycloackSecurityUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/config/SecurityConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/config/SecurityConfiguration.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/AuthController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/InterviewController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/InterviewController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/CandidatureRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/CandidatureRepo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Candidature.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Candidature.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Individu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Individu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Interview.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Interview.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Offer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Offer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Reclamation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Reclamation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Room.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Room.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Society.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Society.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/AuthService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/AuthService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IinterviewService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IinterviewService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/InterviewServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/InterviewServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-tn.examen.templateexamen2324.Templateexamen2324ApplicationTests.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/tn.examen.templateexamen2324.Templateexamen2324ApplicationTests.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/tn/examen/templateexamen2324/Templateexamen2324ApplicationTests.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,8 +66,9 @@
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
-    "git-widget-placeholder": "Merging gestion-sponsors",
-    "node.js.selected.package.tslint": "(autodetect)"
+    "git-widget-placeholder": "gestion-sponsors",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm"
   }
 }]]></component>
   <component name="RecentsManager">

@@ -1,5 +1,3 @@
-
-
 package tn.examen.templateexamen2324.services;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -168,7 +166,6 @@ public class AuthService implements IAuthService{
                     System.out.println("this is role "+representation);
                     userResource.roles().realmLevel().add(Collections.singletonList(representation));*/
 
-
                     message.setMessage("Account created successfully");
 
                 }
@@ -224,8 +221,6 @@ public class AuthService implements IAuthService{
                     RoleRepresentation representation = rolesResource.get("test").toRepresentation();
                     System.out.println("this is role "+representation);
                     userResource.roles().realmLevel().add(Collections.singletonList(representation));*/
-
-
                     message.setMessage("Account created successfully");
                 }
             } else if (statusId == 409) {
@@ -430,5 +425,3 @@ public class AuthService implements IAuthService{
     @Override
     public List<Society> getAllSocietiesFilteredByFields(String field){return societyRepository.findAllByFields(field);}
 }
-
-

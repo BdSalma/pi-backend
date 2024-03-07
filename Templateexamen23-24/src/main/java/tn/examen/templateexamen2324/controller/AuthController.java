@@ -1,5 +1,3 @@
-
-
 package tn.examen.templateexamen2324.controller;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
@@ -9,7 +7,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Objects;
 
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.services.AuthService;
@@ -126,7 +124,7 @@ public class AuthController {
     @PutMapping("/activate-user/{userId}")
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<?> activateUser(@PathVariable String userId) {
-       return authService.activateUser(userId);
+        return authService.activateUser(userId);
     }
 
     @GetMapping("/get-All-individu")
@@ -166,5 +164,3 @@ public class AuthController {
     }
 
 }
-
-
