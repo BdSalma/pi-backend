@@ -1,3 +1,4 @@
+
 package tn.examen.templateexamen2324.entity;
 
 import jakarta.persistence.*;
@@ -21,11 +22,7 @@ public class Individu extends User implements Serializable {
     private String identity;
     public String firstName;
     public String lastName;
-<<<<<<< HEAD
-    public String competence;
-=======
-    @Column(name = "individu_role")
->>>>>>> 577e3093422bd062b5f4f45b84b66883a0fedd99
+
     @Enumerated(EnumType.STRING)
     private IndividuRole role;
     @ManyToMany(cascade=CascadeType.ALL)

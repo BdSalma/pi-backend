@@ -3,7 +3,9 @@ package tn.examen.templateexamen2324.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.examen.templateexamen2324.entity.Sponsors;
+import tn.examen.templateexamen2324.entity.User;
 import tn.examen.templateexamen2324.repository.SponsorsRepository;
+import tn.examen.templateexamen2324.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +15,14 @@ public class SponsorsServiceImpl implements SponsorsService {
 
     @Autowired
     private SponsorsRepository sponsorsRepository;
+@Autowired
+    UserRepository userRepository;
 
     @Override
-    public Sponsors saveSponsor(Sponsors sponsor) {
+    public Sponsors saveSponsor(Sponsors sponsor,String userid)
+    {
+        User user = userRepository.findById(userid).orElse(null);
+        sponsor.setUser(user);
         return sponsorsRepository.save(sponsor);
     }
 

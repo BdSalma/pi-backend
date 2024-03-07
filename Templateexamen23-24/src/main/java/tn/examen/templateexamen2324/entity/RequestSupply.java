@@ -1,3 +1,5 @@
+
+
 package tn.examen.templateexamen2324.entity;
 
 import jakarta.persistence.*;
@@ -30,3 +32,4 @@ public class RequestSupply {
     @ManyToOne(cascade = CascadeType.ALL)
     private Individu Individu;
 }
+

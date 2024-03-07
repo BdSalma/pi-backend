@@ -1,3 +1,6 @@
+
+
+
 package tn.examen.templateexamen2324.entity;
 
 import jakarta.persistence.*;
@@ -38,3 +41,4 @@ public class Offer implements Serializable {
     private Set<Individu> Individus = new HashSet<>();
 
 }
+

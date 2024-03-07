@@ -1,3 +1,5 @@
+
+
 package tn.examen.templateexamen2324.config;
 
 import org.keycloak.OAuth2Constants;
@@ -28,3 +30,6 @@ public class KeycloackSecurityUtil {
                 .build();
     }
 }
+
+
+

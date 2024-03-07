@@ -1,10 +1,11 @@
+
 package tn.examen.templateexamen2324.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import tn.examen.templateexamen2324.entity.Individu;
+//import tn.examen.templateexamen2324.entity.Individu;
 import tn.examen.templateexamen2324.entity.IndividuRole;
 import tn.examen.templateexamen2324.entity.Society;
 import tn.examen.templateexamen2324.entity.SocietyRole;

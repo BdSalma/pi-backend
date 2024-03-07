@@ -1,3 +1,6 @@
+
+
+
 package tn.examen.templateexamen2324.config;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +21,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 @Configuration
 @EnableMethodSecurity
@@ -37,11 +43,14 @@ public class SecurityConfiguration {
         auth.authenticationProvider(provider);
     }
 
-    /*@Bean
+  /*@Bean
     @Override
     protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
         return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
     }*/
+
+
+
 
     @Bean
     public SecurityFilterChain securityFilterChainMethod(HttpSecurity httpSecurity) throws Exception {
@@ -93,3 +102,5 @@ public class SecurityConfiguration {
     }
 
 }
+
+
