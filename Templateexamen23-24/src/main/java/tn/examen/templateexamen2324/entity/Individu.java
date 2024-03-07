@@ -1,10 +1,10 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -21,6 +21,7 @@ public class Individu extends User implements Serializable {
     private String identity;
     public String firstName;
     public String lastName;
+    public String competence;
     @Column(name = "individu_role")
     @Enumerated(EnumType.STRING)
     private IndividuRole role;

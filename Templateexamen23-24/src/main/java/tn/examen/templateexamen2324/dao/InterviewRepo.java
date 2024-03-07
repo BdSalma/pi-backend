@@ -6,4 +6,5 @@ import tn.examen.templateexamen2324.entity.Interview;
 
 @Repository
 public interface InterviewRepo extends CrudRepository<Interview, Long> {
+
 }

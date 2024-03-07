@@ -35,4 +35,8 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "User")
     @JsonIgnore
     Set<Sponsors> Sponsors = new HashSet<>();
+    @JsonIgnore
+    @ToString.Exclude
+    @OneToMany(cascade = CascadeType.ALL,mappedBy="individu")
+    private Set<Candidature> candidatures = new HashSet<>();
 }
