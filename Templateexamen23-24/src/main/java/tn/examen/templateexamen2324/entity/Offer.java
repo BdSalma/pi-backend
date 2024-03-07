@@ -24,10 +24,10 @@ public class Offer implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idOffre;
     @Temporal(TemporalType.DATE)
-    private Date dateEmission;
+    private Date dateEmission = new Date();
     private String offerName;
     @Enumerated(EnumType.STRING)
-    private Category OffreCategory;
+    private Category offreCategory;
     private int Candidatnumber;
     private String candidatProfil;
     private String duree;
@@ -35,8 +35,8 @@ public class Offer implements Serializable {
     private String description;
     @OneToMany(cascade = CascadeType.ALL,mappedBy="offer")
     private Set<Candidature> candidatures = new HashSet<>();
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Society Society;
+    @ManyToOne
+    private Society society;
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="offers")
     private Set<Individu> Individus = new HashSet<>();
 

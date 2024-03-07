@@ -56,8 +56,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChainMethod(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.cors(Customizer.withDefaults())
                 .csrf(CsrfConfigurer::disable)
-                //.authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().permitAll())
-                .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().authenticated())
+                .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().permitAll())
+                //.authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2ResourceServer ->
                         oauth2ResourceServer.jwt(jwt ->
@@ -78,7 +78,10 @@ public class SecurityConfiguration {
         return (web) -> {
             web.ignoring().requestMatchers(
                     HttpMethod.GET,
-                    "/auth/hello-2"
+                    "/auth/hello-2",
+                    "/Offer/allOffers",
+                    "/Offer/AcceptedOffer",
+                    "/Offer/Offer/filterByCriteria/{criteria}"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.POST,
