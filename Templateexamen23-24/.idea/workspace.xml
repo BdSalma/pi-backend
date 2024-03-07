@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="merge offer reclamation user candidature" />
+    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="merge offer reclamation user candidature">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/SponsorsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/SponsorsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Sponsors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Sponsors.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="gestion-offre" />
+        <entry key="$PROJECT_DIR$/.." value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -62,7 +67,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "salma",
-    "last_opened_file_path": "C:/Users/asus/IdeaProjects/lastForum/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/services",
+    "last_opened_file_path": "C:/Users/Salma/IdeaProjects/pi/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/controller",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -77,6 +82,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Salma\IdeaProjects\pi\pi-backend\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\controller" />
+      <recent name="C:\Users\Salma\IdeaProjects\pi\pi-backend\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\repository" />
+      <recent name="C:\Users\Salma\IdeaProjects\pi\pi-backend\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\services" />
       <recent name="C:\Users\asus\IdeaProjects\lastForum\pi-backend\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\services" />
       <recent name="C:\Users\Salma\Desktop\back-end\Salma_Beddakhlia\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\entity" />
     </key>
@@ -113,6 +121,7 @@
       <workItem from="1709640476457" duration="18650000" />
       <workItem from="1709715340521" duration="1042000" />
       <workItem from="1709718416082" duration="24133000" />
+      <workItem from="1709802983989" duration="2765000" />
     </task>
     <task id="LOCAL-00001" summary="update candidat and interview">
       <option name="closed" value="true" />
