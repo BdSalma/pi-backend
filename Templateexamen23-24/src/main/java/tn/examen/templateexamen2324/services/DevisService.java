@@ -62,7 +62,7 @@ public class DevisService implements DevisIService {
         devis.setRequestSupply(requestSupply);
     Society s = societyRepo.findById(idS).orElse(null);
     if (s instanceof Society) {
-        devis.setSociety(s);
+        devis.setSocietyDevis(s);
     }else {
         System.out.println("society n'est pas un user");
     }
@@ -73,7 +73,7 @@ public class DevisService implements DevisIService {
         return devisRepository.findByRequestSupplyIdRequestSupply(requestSupplyId);
     }
    public List<Devis> getDevisBySociety(String idS){
-        return devisRepository.findBySocietyId(idS);
+        return devisRepository.findBySocietyDevisId(idS);
    }
     @Override
     public Devis updateDevisStatus(int idDevis, boolean newStatus) {

@@ -21,6 +21,5 @@ public class Invoice {
 
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "invoice")
     @JsonIgnore
-
     private RequestSupply requestSupply;
 }

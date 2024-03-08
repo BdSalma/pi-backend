@@ -10,6 +10,6 @@ import java.util.List;
 public interface DevisRepository extends JpaRepository<Devis, Integer> {
 
     List<Devis> findByRequestSupplyIdRequestSupply(int idRequestSupply);
-    List<Devis> findBySocietyId(String idSociety);
+    List<Devis> findBySocietyDevisId(String idSociety);
 
 }

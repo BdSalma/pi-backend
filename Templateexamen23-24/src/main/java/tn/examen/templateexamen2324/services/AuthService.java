@@ -159,7 +159,7 @@ public class AuthService implements IAuthService{
                     userData.setApprove(false);
                     userRepository.save(userData);
 
-                    //emailVerification(userId);
+                    emailVerification(userId);
                     /*UserResource userResource = getUserResource(userId);
                     RolesResource rolesResource = keycloak.realm(realm).roles();
                     RoleRepresentation representation = rolesResource.get("test").toRepresentation();
@@ -215,7 +215,7 @@ public class AuthService implements IAuthService{
                     userData.setApprove(false);
                     userRepository.save(userData);
 
-                    //emailVerification(userId);
+                    emailVerification(userId);
                     /*UserResource userResource = getUserResource(userId);
                     RolesResource rolesResource = keycloak.realm(realm).roles();
                     RoleRepresentation representation = rolesResource.get("test").toRepresentation();

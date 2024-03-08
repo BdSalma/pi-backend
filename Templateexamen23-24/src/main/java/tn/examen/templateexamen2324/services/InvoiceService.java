@@ -74,7 +74,7 @@ public class InvoiceService implements InvoiceIService {
     @Override
     public List<Invoice> getInvoicesBySocietyId(String societyId) {
         // Retrieve Devis entities associated with the given societyId
-        List<Devis> devisList = devisRepository.findBySocietyId(societyId);
+        List<Devis> devisList = devisRepository.findBySocietyDevisId(societyId);
 
         // Initialize a list to store invoices
         List<Invoice> invoices = new ArrayList<>();

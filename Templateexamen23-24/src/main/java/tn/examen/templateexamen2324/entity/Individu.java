@@ -26,10 +26,10 @@ public class Individu extends User implements Serializable {
     @Enumerated(EnumType.STRING)
     private IndividuRole role;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy="individu", cascade = CascadeType.ALL)
     private Set<RequestSupply> requestSupplies=new HashSet<>();
-
+    @JsonIgnore
     @ManyToMany(cascade=CascadeType.ALL)
     private Set<Offer> offers = new HashSet<>();
 

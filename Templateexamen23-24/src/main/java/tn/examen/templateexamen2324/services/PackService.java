@@ -121,8 +121,8 @@ public class PackService implements IPackService{
         Pack pack = this.packRepo.findById(packId).get();
         pack.setReservationStatus(ReservationStatus.Reserved);
         LocalDate date = LocalDate.now();
-        pack.setReservationDate(date);
-        return  this.packRepo.save(pack);
+        pack.setValidationDate(date);
+        return this.packRepo.save(pack);
     }
 
     @Override
