@@ -12,5 +12,5 @@ public interface OfferRepo extends JpaRepository<Offer, Long> {
     List<Offer> findOffersByOffreCategory(Category OffreCategory);
 
 
-    
+
 }

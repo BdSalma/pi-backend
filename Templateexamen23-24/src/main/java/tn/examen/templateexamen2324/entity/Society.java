@@ -26,12 +26,13 @@ public class Society extends User implements Serializable {
     public String sitFin;
     @Column(name = "society_role")
     @Enumerated(EnumType.STRING)
-    private SocietyRole societyRole;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "Society")
-    private Set<Devis> Devis = new HashSet<>();
+    private SocietyRole role;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "societyDevis")
+    private Set<Devis> devis = new HashSet<>();
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "society")
-    private Set<Offer> Offers = new HashSet<>();
+    private Set<Offer> Offer = new HashSet<>();
 
     public Society(Map<String, String> userData) {
         this.username = userData.get("username");
@@ -43,6 +44,6 @@ public class Society extends User implements Serializable {
         this.representative = userData.get("representative");
         this.sector = userData.get("sector");
         this.sitFin = userData.get("sitFin");
-        this.societyRole = SocietyRole.valueOf(userData.get("role"));
+        this.role = SocietyRole.valueOf(userData.get("role"));
     }
 }

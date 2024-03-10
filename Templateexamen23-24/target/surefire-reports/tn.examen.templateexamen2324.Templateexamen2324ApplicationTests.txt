@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tn.examen.templateexamen2324.Templateexamen2324ApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.268 s - in tn.examen.templateexamen2324.Templateexamen2324ApplicationTests

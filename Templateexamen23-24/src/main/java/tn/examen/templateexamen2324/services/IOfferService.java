@@ -10,33 +10,33 @@ import java.util.List;
 import java.util.Map;
 
 public interface IOfferService {
-    Offer addOffer(Offer o);
+     Offer addOffer(Offer o);
 
-    Offer getOfferById(Long id);
+     Offer getOfferById(Long id);
 
-    List<Offer> getOffers();
+     List<Offer> getOffers();
 
-    Offer updateOffer(Long id);
+     Offer updateOffer(Long id);
 
-    void deleteOffer(Long id);
+     void deleteOffer(Long id);
 
-    void affecetOfferToSociety(Offer o, String idS);
+     void affecetOfferToSociety(Offer o, String idS);
 
-    List<Offer> getOfferBySociety(String idS);
+     List<Offer> getOfferBySociety(String idS);
 
-    List<Offer> getOfferByCategory(Category categoryOffer);
+     List<Offer> getOfferByCategory(Category categoryOffer,String idS);
 
-    User getSociety(String id);
+     User getSociety(String id);
 
-    public List<Offer> filterOffersByInput(String input);
+     public List<Offer> filterOffersByInput(String input);
 
-    void changeEtatToApprouvé(Long idOffer);
+     void changeEtatToApprouvé(Long idOffer);
 
-    void changeEtatToRefuse(Long idOffer);
+     void changeEtatToRefuse(Long idOffer);
 
-    List<Offer> getAcceptedOffer();
+     List<Offer> getAcceptedOffer();
 
-    double calculateAverageOffersPerDay() ;
-    int numberOffersEnAttente();
-    List<Offer> getOfferEnAttente();
+     double calculateAverageOffersPerDay() ;
+     int numberOffersEnAttente();
+     List<Offer> getOfferEnAttente();
 }

@@ -2,10 +2,10 @@ package tn.examen.templateexamen2324.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.examen.templateexamen2324.dao.SocietyRepo;
 import tn.examen.templateexamen2324.dao.UserRepo;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.dao.OfferRepo;
+import tn.examen.templateexamen2324.repository.SocietyRepository;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -21,7 +21,7 @@ public class OfferService implements IOfferService {
     @Autowired
     OfferRepo offerRepo;
     @Autowired
-    SocietyRepo societyRepo;
+    SocietyRepository societyRepo;
     @Autowired
     UserRepo userRepo;
 
@@ -68,42 +68,52 @@ public class OfferService implements IOfferService {
     public List<Offer> getOfferBySociety(String idS) {
         Society s = societyRepo.findById(idS).orElse(null);
         List<Offer> offers = new ArrayList<>();
-        for (Offer o : s.getOffers()) {
+        for (Offer o : s.getOffer()) {
             offers.add(o);
         }
         return offers;
     }
 
     @Override
-    public List<Offer> getOfferByCategory(Category categoryOffer) {
-        return offerRepo.findOffersByOffreCategory(categoryOffer);
-    }
+    public List<Offer> getOfferByCategory(Category categoryOffer,String idS) {
+        List<Offer> listOffers = offerRepo.findOffersByOffreCategory(categoryOffer);
+        Society s = societyRepo.findById(idS).orElse(null);
+        List<Offer> offers = new ArrayList<>();
+        for (Offer o : listOffers) {
+            if (o.getSociety().getUsername().equals(s.getUsername())){
+                offers.add(o);
+            }
+        }
+        return offers;
+
+        }
 
     @Override
     public User getSociety(String id) {
-        return userRepo.findById(id).orElse(null);
+
+        return societyRepo.findById(id).orElse(null);
     }
 
-@Override
+    @Override
     public List<Offer> filterOffersByInput(String input) {
         // Perform filtering based on the provided input
         // You can define your filter logic here
         // For example, filtering based on offer name, category, or other attributes
 
         // Filtering by offer name containing the specified input (case-insensitive)
-    List<Offer> filteredOffers = offerRepo.findAll().stream()
-            .filter(offer ->
-                    (offer.getOfferName().toLowerCase().contains(input.toLowerCase()) ||
-                            offer.getCandidatProfil().toLowerCase().contains(input.toLowerCase()) ||
-                            offer.getDuree().toLowerCase().contains(input.toLowerCase()) ||
-                            offer.getDescription().toLowerCase().contains(input.toLowerCase()) ||
-                            offer.getOffreCategory().toString().contains(input.toLowerCase()) ||
-                            offer.getSociety().getUsername().toLowerCase().contains(input.toLowerCase())) &&
-                            offer.getEtatOffer().equals(EtatOffer.Approuvé))
-            .collect(Collectors.toList());
+        List<Offer> filteredOffers = offerRepo.findAll().stream()
+                .filter(offer ->
+                        (offer.getOfferName().toLowerCase().contains(input.toLowerCase()) ||
+                                offer.getCandidatProfil().toLowerCase().contains(input.toLowerCase()) ||
+                                offer.getDuree().toLowerCase().contains(input.toLowerCase()) ||
+                                offer.getDescription().toLowerCase().contains(input.toLowerCase()) ||
+                                offer.getOffreCategory().toString().contains(input.toLowerCase()) ||
+                                offer.getSociety().getUsername().toLowerCase().contains(input.toLowerCase())) &&
+                                offer.getEtatOffer().equals(EtatOffer.Approuvé))
+                .collect(Collectors.toList());
 
 
-    // You can add more filtering logic here for other attributes
+        // You can add more filtering logic here for other attributes
 
         return filteredOffers; // Return the filtered list
     }
@@ -155,8 +165,8 @@ public class OfferService implements IOfferService {
         System.out.println(averagePercentage);
         return averagePercentage;
     }
-@Override
-public int numberOffersEnAttente(){
+    @Override
+    public int numberOffersEnAttente(){
         List<Offer> offers = offerRepo.findAll();
         List<Offer> offreEnattente = new ArrayList<>();
         for (Offer f : offers){
@@ -165,21 +175,20 @@ public int numberOffersEnAttente(){
             }
         }
         return offreEnattente.size();
-}
-@Override
-public List<Offer> getOfferEnAttente(){
+    }
+    @Override
+    public List<Offer> getOfferEnAttente(){
         List<Offer> offers = offerRepo.findAll();
         List<Offer> offreEnattente = new ArrayList<>();
-    for (Offer f : offers){
-        if (f.getEtatOffer().equals(EtatOffer.Enattente)){
-            offreEnattente.add(f);
+        for (Offer f : offers){
+            if (f.getEtatOffer().equals(EtatOffer.Enattente)){
+                offreEnattente.add(f);
+            }
         }
+        return offreEnattente;
     }
-    return offreEnattente;
-}
 
 }
-
 
 
 
