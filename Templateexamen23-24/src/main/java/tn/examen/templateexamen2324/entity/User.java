@@ -23,7 +23,8 @@ public class User implements Serializable {
     public String username;
     public String password;
     public String email;
-
+    public boolean approve;
+    public boolean activate;
     @ManyToMany(cascade = CascadeType.ALL,mappedBy = "User")
     Set<Forum> Forum = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "User")

@@ -3,9 +3,12 @@ tn\examen\templateexamen2324\entity\Reclamation.class
 tn\examen\templateexamen2324\entity\Sponsors.class
 tn\examen\templateexamen2324\repository\TestRepository.class
 tn\examen\templateexamen2324\entity\Society.class
+tn\examen\templateexamen2324\config\KeycloackSecurityUtil.class
 tn\examen\templateexamen2324\controller\InterviewController.class
 tn\examen\templateexamen2324\entity\IndividuRole.class
 tn\examen\templateexamen2324\entity\TypeStand.class
+tn\examen\templateexamen2324\config\JwtAuthConverter.class
+tn\examen\templateexamen2324\controller\AuthController.class
 tn\examen\templateexamen2324\entity\Forum.class
 tn\examen\templateexamen2324\services\OfferService.class
 tn\examen\templateexamen2324\entity\Category.class
@@ -13,6 +16,7 @@ tn\examen\templateexamen2324\entity\RequestSupply.class
 tn\examen\templateexamen2324\entity\Stand.class
 tn\examen\templateexamen2324\dao\OfferRepo.class
 tn\examen\templateexamen2324\entity\Interview.class
+tn\examen\templateexamen2324\entity\ResponseMessage.class
 tn\examen\templateexamen2324\entity\Offer.class
 tn\examen\templateexamen2324\dao\CandidatureRepo.class
 tn\examen\templateexamen2324\entity\Room.class
@@ -23,7 +27,9 @@ tn\examen\templateexamen2324\entity\Individu.class
 tn\examen\templateexamen2324\controller\OfferController.class
 tn\examen\templateexamen2324\dao\InterviewRepo.class
 tn\examen\templateexamen2324\entity\SocietyRole.class
+tn\examen\templateexamen2324\repository\IndividuRepository.class
 tn\examen\templateexamen2324\entity\Devis.class
+tn\examen\templateexamen2324\repository\SocietyRepository.class
 tn\examen\templateexamen2324\entity\User.class
 tn\examen\templateexamen2324\services\IinterviewService.class
 tn\examen\templateexamen2324\entity\TypeReclamation.class
