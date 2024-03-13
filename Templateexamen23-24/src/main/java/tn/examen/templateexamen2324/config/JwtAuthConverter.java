@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -55,6 +56,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         Collection<String> resourceRoles;
         if (jwt.getClaim("resource_access") == null) {
             return Set.of();
+
         }
         resourceAccess = jwt.getClaim("resource_access");
 

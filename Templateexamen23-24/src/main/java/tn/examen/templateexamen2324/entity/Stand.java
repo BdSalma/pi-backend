@@ -1,5 +1,6 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,10 +16,12 @@ import java.io.Serializable;
 @Entity
 public class Stand implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    TypeStand zone;
-    Boolean statut;
-
+    private TypeStand zone;
+    private int number;
+    private Boolean reserved = false;
     @OneToOne(mappedBy = "Stand")
-    Pack Pack;
+    @JsonIgnore
+    private Pack Pack;
 }
