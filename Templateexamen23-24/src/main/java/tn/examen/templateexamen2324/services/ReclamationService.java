@@ -57,9 +57,6 @@ public class ReclamationService implements IReclamationService {
     @Override
     public void Review(String id) {
         User user = userRepository.findById(id).get();
-        /*Reclamation reclamation = reclamationRepository.findById(Rid).get();
-        reclamation.setReview(true);
-        reclamationRepository.save(reclamation);*/
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("walahamdi0@gmail.com");
         message.setTo(user.email);
