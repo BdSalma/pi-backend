@@ -37,7 +37,6 @@ public class InterviewController {
     }
 
     @DeleteMapping("/deleteI/{id}")
-    @PreAuthorize("hasRole('Exposant')")
     public void deleteInterview(@PathVariable("id") Long id) {
         service.deleteById(id);
     }

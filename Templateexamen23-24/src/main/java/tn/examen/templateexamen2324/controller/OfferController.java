@@ -50,7 +50,6 @@ public class OfferController {
         return listOffers;
     }
     @GetMapping("/offer/{idOffer}")
-    @PreAuthorize("hasRole('Exposant')")
     @ResponseBody
     public Offer getOfferById(@PathVariable("idOffer") Long id) {
         return offerService.getOfferById(id);

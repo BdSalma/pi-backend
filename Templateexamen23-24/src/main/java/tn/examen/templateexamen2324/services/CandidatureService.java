@@ -107,8 +107,28 @@ public class CandidatureService implements ICandidatureService{
         // Update candidature status and send notification email (separate method)
         candidature.setStatus(Status.Accepted);
         //sendCandidatureAcceptedEmail(candidature);
-
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("walahamdi0@gmail.com");
+        message.setTo(candidature.getIndividu().email);
+        message.setText("Your candidature has been accepted ! ");
+        message.setSubject("Stage");
+        mailSender.send(message);
         return crepo.save(candidature);
+    }
+    @Autowired
+    private JavaMailSender mailSender;
+
+    public void sendSimpleEmail(String toEmail,
+                                String subject,
+                                String body
+    ) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("walahamdi0@gmail.com");
+        message.setTo(toEmail);
+        message.setText(body);
+        message.setSubject(subject);
+        mailSender.send(message);
+        System.out.println("Mail Send...");
     }
     /*private void sendCandidatureAcceptedEmail(Candidature candidature)  {
         String to = candidature.getIndividu().getEmail();
