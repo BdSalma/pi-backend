@@ -26,4 +26,6 @@ public interface IAuthService {
     public List<Individu> getAllIndividuFilteredByFields(String fields);
     public List<Society> getAllSocietiesFilteredByRole(SocietyRole role);
     public List<Society> getAllSocietiesFilteredByFields(String field);
+    public ResponseEntity<ResponseMessage> forgotPassword(String username);
+    public ResponseEntity<?> updatePassword(String oldPassword,String newPassword,String username);
 }

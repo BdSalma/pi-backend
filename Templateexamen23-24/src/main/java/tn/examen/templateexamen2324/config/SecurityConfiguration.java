@@ -43,12 +43,34 @@ public class SecurityConfiguration {
         return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
     }*/
 
+
+
+   /* public SecurityFilterChain securityFilterChainMethod(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .cors(Customizer.withDefaults())
+                .csrf(CsrfConfigurer::disable)
+                .authorizeHttpRequests(authorizeRequests ->
+                        authorizeRequests
+                                .requestMatchers(HttpMethod.POST, "/auth/addRoleToUser").hasRole("ROLE_NAME")
+                                .anyRequest().permitAll()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2ResourceServer(oauth2ResourceServer ->
+                        oauth2ResourceServer.jwt(jwt ->
+                                jwt.jwtAuthenticationConverter(jwtAuthConverter)
+                        )
+                );
+
+       return httpSecurity.build();
+    }*/
     @Bean
     public SecurityFilterChain securityFilterChainMethod(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.cors(Customizer.withDefaults())
+        return httpSecurity
+                .cors(Customizer.withDefaults())
                 .csrf(CsrfConfigurer::disable)
-                .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().permitAll())
-                //.authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().authenticated())
+
+              //  .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().permitAll())
+                .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2ResourceServer ->
                         oauth2ResourceServer.jwt(jwt ->
@@ -94,6 +116,7 @@ public class SecurityConfiguration {
                     )
                     .requestMatchers("/v3/api-docs/**", "/configuration/**", "/swagger-ui/**",
                             "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/api-docs/**");
+
 
         };
     }
