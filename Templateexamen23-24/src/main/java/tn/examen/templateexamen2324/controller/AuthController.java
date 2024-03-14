@@ -97,13 +97,17 @@ public class AuthController {
         return authService.checkUser(jwtToken);
     }
 
-    @PutMapping("/addRoleToUser/{userId}")
-    public void checkValidity(@PathVariable String userId, @RequestBody Map<String, String> requestBody) {
+    @PutMapping("/addRoleToUser")
+    public void checkValidity(Authentication authentication, @RequestBody Map<String, String> requestBody) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
         authService.addRoleToUser(userId,requestBody.get("role"));
     }
 
-    @PutMapping("/update-user/{userId}")
-    public ResponseEntity<Object> updateUser(@PathVariable String userId,@RequestBody Map<String, String> requestBody) {
+    @PutMapping("/update-user")
+    public ResponseEntity<Object> updateUser(Authentication authentication,@RequestBody Map<String, String> requestBody) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
         Object[] result = authService.updateUser(userId, requestBody);
         int statusCode = (Integer) result[0];
         if (statusCode == 200) {
@@ -161,6 +165,18 @@ public class AuthController {
     @PreAuthorize("hasRole('Admin')")
     public List<Society> getAllSocietiesFilteredByFields(@PathVariable String field) {
         return authService.getAllSocietiesFilteredByFields(field);
+    }
+
+    @PutMapping("forgot-password")
+    public ResponseEntity<ResponseMessage> forgotPassword(@RequestBody Map<String, String> requestBody) {
+        return authService.forgotPassword(requestBody.get("username"));
+    }
+
+    @PutMapping("update-password")
+    public ResponseEntity<?> updatePassword(Authentication authentication,@RequestBody Map<String, String> requestBody) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String username = jwtToken.getClaim("preferred_username");
+        return authService.updatePassword(requestBody.get("oldPassword"),requestBody.get("newPassword"),username);
     }
 
 }
