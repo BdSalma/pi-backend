@@ -1,6 +1,6 @@
 package tn.examen.templateexamen2324.entity;
 
-
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,9 +27,13 @@ public class Candidature implements Serializable {
     private Status status;
     private String cv;
     private String lettre;
-    @OneToOne(cascade = CascadeType.ALL)
+    //@JsonIgnore
+    @OneToOne(cascade = {CascadeType.ALL, CascadeType.MERGE})
     private Interview Interview;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private Offer offer;
 
+    @ManyToOne( fetch = FetchType.EAGER)
+    private User individu;
 }

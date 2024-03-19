@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="some modifications in the classes and controllers">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/ForumController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/ForumController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/PackController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/PackController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/PackController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/PackController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Candidature.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Candidature.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IPackService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IPackService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/PackService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/PackService.class" afterDir="false" />
-    </list>
+    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="merge offer reclamation user candidature" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,13 +13,33 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="gestion-offre" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;allouchyrihem&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="9951e7a9-7af2-47f1-af10-b0f0fc97511d" />
+        <option name="url" value="https://github.com/BdSalma/pi-backend.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -40,34 +52,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;fatma&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Fattouma PC/Desktop/Pi/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/services&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "salma",
+    "last_opened_file_path": "C:/Users/asus/IdeaProjects/lastForum/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/services",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.externalResources",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Fattouma PC\Desktop\Pi\pi-backend\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\services" />
+      <recent name="C:\Users\asus\IdeaProjects\lastForum\pi-backend\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\services" />
       <recent name="C:\Users\Salma\Desktop\back-end\Salma_Beddakhlia\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\entity" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="tn.examen.templateexamen2324.entity" />
-      <recent name="tn.examen.templateexamen2324.repository" />
       <recent name="tn.examen.templateexamen2324.controller" />
-      <recent name="tn.examen.templateexamen2324.services" />
+      <recent name="tn.examen.templateexamen2324.repository" />
     </key>
   </component>
   <component name="RunManager">
@@ -89,29 +104,49 @@
       <updated>1701685534513</updated>
       <workItem from="1701685536998" duration="1132000" />
       <workItem from="1708379055176" duration="1345000" />
-      <workItem from="1708381463794" duration="3371000" />
-      <workItem from="1708416884541" duration="1734000" />
-      <workItem from="1708458746172" duration="12412000" />
-      <workItem from="1708533029008" duration="9303000" />
-      <workItem from="1708552109326" duration="4519000" />
-      <workItem from="1708593858974" duration="7167000" />
-      <workItem from="1709151558502" duration="6141000" />
-      <workItem from="1709383820174" duration="3014000" />
-      <workItem from="1709461607174" duration="2065000" />
-      <workItem from="1709571324464" duration="2289000" />
-      <workItem from="1709573651294" duration="7051000" />
-      <workItem from="1709660066990" duration="1825000" />
-      <workItem from="1709673399307" duration="1118000" />
+      <workItem from="1709061435307" duration="2251000" />
+      <workItem from="1709109446934" duration="25049000" />
+      <workItem from="1709195113578" duration="11303000" />
+      <workItem from="1709317477197" duration="4514000" />
+      <workItem from="1709462774655" duration="5167000" />
+      <workItem from="1709577656100" duration="1694000" />
+      <workItem from="1709640476457" duration="18650000" />
+      <workItem from="1709715340521" duration="1042000" />
+      <workItem from="1709718416082" duration="24133000" />
     </task>
-    <task id="LOCAL-00001" summary="some modifications in the classes and controllers">
+    <task id="LOCAL-00001" summary="update candidat and interview">
       <option name="closed" value="true" />
-      <created>1708564286135</created>
+      <created>1709036225928</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1708564286135</updated>
+      <updated>1709036225928</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="update candidat and interview">
+      <option name="closed" value="true" />
+      <created>1709069679668</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1709069679668</updated>
+    </task>
+    <task id="LOCAL-00003" summary="update code">
+      <option name="closed" value="true" />
+      <created>1709319224699</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1709319224699</updated>
+    </task>
+    <task id="LOCAL-00004" summary="accepter candidature">
+      <option name="closed" value="true" />
+      <created>1709649601881</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1709649601881</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -129,8 +164,27 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="CRUD forum ET les fonctions d'affectations" />
-    <MESSAGE value="some modifications in the classes and controllers" />
-    <option name="LAST_COMMIT_MESSAGE" value="some modifications in the classes and controllers" />
+    <MESSAGE value="candidature and interview" />
+    <MESSAGE value="update candidat and interview" />
+    <MESSAGE value="update code" />
+    <MESSAGE value="accepter candidature" />
+    <MESSAGE value="telecharger cv" />
+    <MESSAGE value="merge offer reclamation user candidature" />
+    <option name="LAST_COMMIT_MESSAGE" value="merge offer reclamation user candidature" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
