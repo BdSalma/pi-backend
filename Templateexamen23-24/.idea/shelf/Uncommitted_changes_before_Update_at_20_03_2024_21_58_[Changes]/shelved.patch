@@ -1,0 +1,117 @@
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_10_03_2024_20_21_[Changes]1/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_03_2024_20_21_[Changes]1/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_03_2024_20_21_[Changes]1/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_03_2024_20_21_[Changes]1/shelved.patch	(revision 9ac1bc8a4b85b82daaffcf0c5d4878593cb046b6)
++++ /dev/null	(revision 9ac1bc8a4b85b82daaffcf0c5d4878593cb046b6)
+@@ -1,110 +0,0 @@
+-Index: .idea/workspace.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"32454ce9-d1ad-4643-8331-d22e3fb604f1\" name=\"Changes\" comment=\"merge offer reclamation user candidature\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n        <option value=\"Enum\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$/..\" value=\"gestion-offre\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$/..\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;allouchyrihem&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">\r\n    <option name=\"selectedUrlAndAccountId\">\r\n      <UrlAndAccount>\r\n        <option name=\"accountId\" value=\"9951e7a9-7af2-47f1-af10-b0f0fc97511d\" />\r\n        <option name=\"url\" value=\"https://github.com/BdSalma/pi-backend.git\" />\r\n      </UrlAndAccount>\r\n    </option>\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 6\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2Z4dxS46G30IGoykxAABdKZkPxE\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RequestMappingsPanelOrder0\": \"0\",\r\n    \"RequestMappingsPanelOrder1\": \"1\",\r\n    \"RequestMappingsPanelWidth0\": \"75\",\r\n    \"RequestMappingsPanelWidth1\": \"75\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"git-widget-placeholder\": \"salma\",\r\n    \"last_opened_file_path\": \"C:/Users/asus/IdeaProjects/lastForum/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/services\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"project.structure.last.edited\": \"Libraries\",\r\n    \"project.structure.proportion\": \"0.15\",\r\n    \"project.structure.side.proportion\": \"0.2\",\r\n    \"settings.editor.selected.configurable\": \"preferences.externalResources\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\asus\\IdeaProjects\\lastForum\\pi-backend\\Templateexamen23-24\\src\\main\\java\\tn\\examen\\templateexamen2324\\services\" />\r\n      <recent name=\"C:\\Users\\Salma\\Desktop\\back-end\\Salma_Beddakhlia\\Templateexamen23-24\\src\\main\\java\\tn\\examen\\templateexamen2324\\entity\" />\r\n    </key>\r\n    <key name=\"CopyClassDialog.RECENTS_KEY\">\r\n      <recent name=\"tn.examen.templateexamen2324.controller\" />\r\n      <recent name=\"tn.examen.templateexamen2324.repository\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"Templateexamen2324Application\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\">\r\n      <module name=\"Templateexamen23-24\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"tn.examen.templateexamen2324.Templateexamen2324Application\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"32454ce9-d1ad-4643-8331-d22e3fb604f1\" name=\"Changes\" comment=\"\" />\r\n      <created>1701685534513</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1701685534513</updated>\r\n      <workItem from=\"1701685536998\" duration=\"1132000\" />\r\n      <workItem from=\"1708379055176\" duration=\"1345000\" />\r\n      <workItem from=\"1709061435307\" duration=\"2251000\" />\r\n      <workItem from=\"1709109446934\" duration=\"25049000\" />\r\n      <workItem from=\"1709195113578\" duration=\"11303000\" />\r\n      <workItem from=\"1709317477197\" duration=\"4514000\" />\r\n      <workItem from=\"1709462774655\" duration=\"5167000\" />\r\n      <workItem from=\"1709577656100\" duration=\"1694000\" />\r\n      <workItem from=\"1709640476457\" duration=\"18650000\" />\r\n      <workItem from=\"1709715340521\" duration=\"1042000\" />\r\n      <workItem from=\"1709718416082\" duration=\"24133000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"update candidat and interview\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1709036225928</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1709036225928</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"update candidat and interview\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1709069679668</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1709069679668</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"update code\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1709319224699</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1709319224699</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"accepter candidature\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1709649601881</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1709649601881</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"5\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"candidature and interview\" />\r\n    <MESSAGE value=\"update candidat and interview\" />\r\n    <MESSAGE value=\"update code\" />\r\n    <MESSAGE value=\"accepter candidature\" />\r\n    <MESSAGE value=\"telecharger cv\" />\r\n    <MESSAGE value=\"merge offer reclamation user candidature\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"merge offer reclamation user candidature\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\r\n          <url>file://$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java</url>\r\n          <line>50</line>\r\n          <option name=\"timeStamp\" value=\"1\" />\r\n        </line-breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\r\n    <expand />\r\n    <select />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+---- a/.idea/workspace.xml	
+-+++ b/.idea/workspace.xml	
+-@@ -4,7 +4,12 @@
+-     <option name="autoReloadType" value="SELECTIVE" />
+-   </component>
+-   <component name="ChangeListManager">
+--    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="merge offer reclamation user candidature" />
+-+    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="merge offer reclamation user candidature">
+-+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+-+    </list>
+-     <option name="SHOW_DIALOG" value="false" />
+-     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+-     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+-@@ -52,29 +57,29 @@
+-     <option name="hideEmptyMiddlePackages" value="true" />
+-     <option name="showLibraryContents" value="true" />
+-   </component>
+--  <component name="PropertiesComponent"><![CDATA[{
+--  "keyToString": {
+--    "RequestMappingsPanelOrder0": "0",
+--    "RequestMappingsPanelOrder1": "1",
+--    "RequestMappingsPanelWidth0": "75",
+--    "RequestMappingsPanelWidth1": "75",
+--    "RunOnceActivity.OpenProjectViewOnStart": "true",
+--    "RunOnceActivity.ShowReadmeOnStart": "true",
+--    "WebServerToolWindowFactoryState": "false",
+--    "git-widget-placeholder": "salma",
+--    "last_opened_file_path": "C:/Users/asus/IdeaProjects/lastForum/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/services",
+--    "node.js.detected.package.eslint": "true",
+--    "node.js.detected.package.tslint": "true",
+--    "node.js.selected.package.eslint": "(autodetect)",
+--    "node.js.selected.package.tslint": "(autodetect)",
+--    "nodejs_package_manager_path": "npm",
+--    "project.structure.last.edited": "Libraries",
+--    "project.structure.proportion": "0.15",
+--    "project.structure.side.proportion": "0.2",
+--    "settings.editor.selected.configurable": "preferences.externalResources",
+--    "vue.rearranger.settings.migration": "true"
+-+  <component name="PropertiesComponent">{
+-+  &quot;keyToString&quot;: {
+-+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+-+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+-+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+-+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+-+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+-+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+-+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+-+    &quot;last_opened_file_path&quot;: &quot;C:/Users/asus/IdeaProjects/lastForum/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/services&quot;,
+-+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+-+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+-+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+-+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+-+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+-+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+-+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+-+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+-+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.externalResources&quot;,
+-+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+-   }
+--}]]></component>
+-+}</component>
+-   <component name="RecentsManager">
+-     <key name="CopyFile.RECENT_KEYS">
+-       <recent name="C:\Users\asus\IdeaProjects\lastForum\pi-backend\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\services" />
+-@@ -113,6 +118,9 @@
+-       <workItem from="1709640476457" duration="18650000" />
+-       <workItem from="1709715340521" duration="1042000" />
+-       <workItem from="1709718416082" duration="24133000" />
+-+      <workItem from="1710014437494" duration="308000" />
+-+      <workItem from="1710018081970" duration="166000" />
+-+      <workItem from="1710096650353" duration="945000" />
+-     </task>
+-     <task id="LOCAL-00001" summary="update candidat and interview">
+-       <option name="closed" value="true" />
+-Index: src/main/resources/application.properties
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>### DATABASE ###\r\nspring.datasource.url=jdbc:mysql://localhost:3306/bdEspritPiazzaa?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC\r\nspring.datasource.username=root\r\nspring.datasource.password=\r\n### JPA / HIBERNATE ###\r\nspring.jpa.show-sql=true\r\nspring.jpa.hibernate.ddl-auto=update\r\nserver.port=8087 \r\nspring.servlet.multipart.max-file-size=10MB\r\nspring.servlet.multipart.max-request-size=10MB\r\n\r\nspring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:8082/realms/esprit-piazza\r\nspring.security.oauth2.client.provider.keycloak.issuer-uri=http://localhost:8082/realms/esprit-piazza\r\nspring.security.oauth2.resourceserver.jwt.jwk-set-uri=${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs\r\njwt.auth.converter.resource-id=esprit-piazza-rest-api\r\njwt.auth.converter.principle-attribute=preferred_username\r\n\r\n#spring.security.oauth2.client.registration.keycloak.client-id=esprit-piazza-rest-api\r\n#spring.security.oauth2.client.registration.keycloak.authorization-grant-type=password\r\n#spring.security.oauth2.client.registration.keycloak.scope=openid\r\n\r\nspring.security.oauth2.client.registration.oauth2-client-credentials.client-id=esprit-piazza-rest-api\r\nspring.security.oauth2.client.registration.oauth2-client-credentials.authorization-grant-type=password\r\nspring.security.oauth2.client.registration.oauth2-client-credentials.provider=keycloak\r\n#spring.security.oauth2.client.registration.oauth2-client-credentials.scope=openid, profile, roles\r\nspring.security.oauth2.client.registration.oauth2-client-credentials.client-secret=Q5o4UhrhCglRf7xCKVSjXhiRnVS4J4A8\r\nkeycloak.realm=esprit-piazza\r\nkeycloak.resource=esprit-piazza-rest-api\r\nkeycloak.auth-server-url=http://localhost:8082\r\nkeycloak.credentials.secret=Q5o4UhrhCglRf7xCKVSjXhiRnVS4J4A8\r\n\r\nkeycloak.ssl-required=external\r\nkeycloak.public-client=true\r\nname=admin\r\npassword=admin\r\n\r\n#email\r\n#spring.mail.host=smtp.gmail.com\r\n#spring.mail.port=587\r\n#spring.mail.username=${EMAIL}\r\n#spring.mail.password=${PASSWORD}\r\n#spring.mail.properties.mail.smtp.auth=true\r\n#spring.mail.properties.mail.smtp.starttls.enable=true\r\n\r\nspring.mail.host=smtp.gmail.com\r\nspring.mail.port=587\r\nspring.mail.username=walahamdi0@gmail.com\r\nspring.mail.password=ezqcncluccewfspa\r\nspring.mail.properties.mail.smtp.auth=true\r\nspring.mail.properties.mail.smtp.starttls.enable=true\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>ISO-8859-1
+-===================================================================
+-diff --git a/src/main/resources/application.properties b/src/main/resources/application.properties
+---- a/src/main/resources/application.properties	
+-+++ b/src/main/resources/application.properties	
+-@@ -23,11 +23,11 @@
+- spring.security.oauth2.client.registration.oauth2-client-credentials.authorization-grant-type=password
+- spring.security.oauth2.client.registration.oauth2-client-credentials.provider=keycloak
+- #spring.security.oauth2.client.registration.oauth2-client-credentials.scope=openid, profile, roles
+--spring.security.oauth2.client.registration.oauth2-client-credentials.client-secret=Q5o4UhrhCglRf7xCKVSjXhiRnVS4J4A8
+-+spring.security.oauth2.client.registration.oauth2-client-credentials.client-secret=wfwOUc8oWLiQQ5lgPp0RR7McpegeGufp
+- keycloak.realm=esprit-piazza
+- keycloak.resource=esprit-piazza-rest-api
+- keycloak.auth-server-url=http://localhost:8082
+--keycloak.credentials.secret=Q5o4UhrhCglRf7xCKVSjXhiRnVS4J4A8
+-+keycloak.credentials.secret=wfwOUc8oWLiQQ5lgPp0RR7McpegeGufp
+- 
+- keycloak.ssl-required=external
+- keycloak.public-client=true
