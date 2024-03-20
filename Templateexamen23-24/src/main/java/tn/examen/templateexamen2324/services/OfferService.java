@@ -1,6 +1,9 @@
 package tn.examen.templateexamen2324.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tn.examen.templateexamen2324.dao.UserRepo;
 import tn.examen.templateexamen2324.entity.*;
@@ -24,7 +27,8 @@ public class OfferService implements IOfferService {
     SocietyRepository societyRepo;
     @Autowired
     UserRepo userRepo;
-
+    @Autowired
+    private JavaMailSender mailSender;
     @Override
     public Offer addOffer(Offer o) {
         o.setEtatOffer(EtatOffer.Enattente);
@@ -40,7 +44,6 @@ public class OfferService implements IOfferService {
     public List<Offer> getOffers() {
         return offerRepo.findAll();
     }
-
     @Override
     public Offer updateOffer(Long id) {
         Offer off = offerRepo.findById(id).orElse(null);
@@ -121,26 +124,32 @@ public class OfferService implements IOfferService {
     @Override
     public void changeEtatToApprouvé(Long idOffer) {
         Offer offer= offerRepo.findById(idOffer).orElse(null);
+        Society s = offer.getSociety();
         offer.setEtatOffer(EtatOffer.Approuvé);
         offerRepo.save(offer);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("allouchy.ryhem@gmail.com");
+        message.setTo(s.email);
+        message.setText("Your offer"+offer.getOfferName()+" has been accepted !");
+        message.setSubject("Offer Accepted");
+        mailSender.send(message);
     }
-
     @Override
     public void changeEtatToRefuse(Long idOffer) {
         Offer offer= offerRepo.findById(idOffer).orElse(null);
+        Society s = offer.getSociety();
         offer.setEtatOffer(EtatOffer.réfusée);
         offerRepo.save(offer);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("walahamdi0@gmail.com");
+        message.setTo(s.email);
+        message.setText("Your offer"+offer.getOfferName()+" has been refused !");
+        message.setSubject("Offer Refused");
+        mailSender.send(message);
     }
     @Override
     public  List<Offer> getAcceptedOffer(){
-        List<Offer> offers = offerRepo.findAll();
-        List<Offer> off = new ArrayList<>();
-        for (Offer f: offers){
-            if (f.getEtatOffer().equals(EtatOffer.Approuvé)){
-                off.add(f);
-            }
-        }
-        return off;
+        return offerRepo.findAcceptedOffersOrderByFavorisDesc(EtatOffer.Approuvé);
     }
 
     @Override
@@ -156,7 +165,6 @@ public class OfferService implements IOfferService {
             // Add the date to the uniqueDates set
             uniqueDates.add(localDate);
         }
-
         int totalDays = uniqueDates.size();
         int totalOffers = offers.size();
 
@@ -186,6 +194,44 @@ public class OfferService implements IOfferService {
             }
         }
         return offreEnattente;
+    }
+
+    @Scheduled(cron = "0 30 15 * * ?") // Execute everyday at 21:33 PM
+    public void sentOffers() {
+        List<Offer> offers = offerRepo.findAll();
+        List<Offer> off = new ArrayList<>();
+        for (Offer o : offers) {
+            if (o.getEtatOffer().equals(EtatOffer.Enattente)) {
+                off.add(o);
+            }
+        }
+
+        if (!off.isEmpty()) { // Vérifie s'il y a des offres en attente
+            StringBuilder messageText = new StringBuilder();
+            messageText.append("Les offres en attente sont :").append("\n");
+            for (Offer offer : off) {
+                messageText.append("nom de l'offre: ").append(offer.getOfferName()).append(", ")
+                        .append("Société: ").append(offer.getSociety().getUsername()).append(", ")
+                        .append("Description: ").append(offer.getDescription()).append("\n");
+            }
+
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("walahamdi0@gmail.com");
+            message.setTo("allouchy.ryhem@gmail.com");
+            message.setText(messageText.toString());
+            message.setSubject("Offres en attente");
+            mailSender.send(message);
+        }
+    }
+    @Override
+    public Offer addFavorite(Long id) {
+        Offer offer = offerRepo.findById(id).orElse(null);
+            Integer favoris = offer.getFavoris();
+            if (favoris == null) {
+                favoris = 0; // Initialisation à zéro si favoris est null
+            }
+            offer.setFavoris(favoris + 1);
+            return offerRepo.save(offer);
     }
 
 }

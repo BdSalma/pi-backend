@@ -49,6 +49,7 @@ public class OfferController {
 
         return listOffers;
     }
+
     @GetMapping("/offer/{idOffer}")
     @PreAuthorize("hasRole('Exposant')")
     @ResponseBody
@@ -65,7 +66,15 @@ public class OfferController {
         return offerService.getSociety(userId);
 
     }
-
+    @PostMapping("/favoris/{id}")
+    public Offer addFavorite(@PathVariable("id") Long id) {
+        return offerService.addFavorite(id);
+    }
+    @GetMapping("/test-send-offers")
+    public String testSendOffers() {
+        offerService.sentOffers();
+        return "Sent offers task executed.";
+    }
     @GetMapping("/AcceptedOffer")
     @ResponseBody
     public List<Offer> getAcceptedOffer() {

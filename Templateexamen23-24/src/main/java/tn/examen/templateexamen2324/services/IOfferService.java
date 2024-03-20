@@ -39,4 +39,7 @@ public interface IOfferService {
      double calculateAverageOffersPerDay() ;
      int numberOffersEnAttente();
      List<Offer> getOfferEnAttente();
-}
+     void sentOffers();
+     public Offer addFavorite(Long id);
+
+     }
