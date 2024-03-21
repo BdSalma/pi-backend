@@ -5,6 +5,7 @@ import jakarta.ws.rs.core.Response;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.RolesResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -164,22 +165,16 @@ public class AuthService implements IAuthService{
                     userRepository.save(userData);
 
                     //emailVerification(userId);
-                    /*UserResource userResource = getUserResource(userId);
-                    RolesResource rolesResource = keycloak.realm(realm).roles();
-                    RoleRepresentation representation = rolesResource.get("test").toRepresentation();
-                    System.out.println("this is role "+representation);
-                    userResource.roles().realmLevel().add(Collections.singletonList(representation));*/
-
+                    assignRole(userId,userRegistration.getRole().toString());
                     message.setMessage("Account created successfully");
-
                 }
             } else if (statusId == 409) {
-                message.setMessage("this account already exists");
+                message.setMessage("the username or email already exists");
             } else {
                 message.setMessage("there was an error while creating this account");
             }
 
-            return new Object[]{statusId, message};
+            return new Object[]{HttpStatus.INTERNAL_SERVER_ERROR.value(), message};
         } catch (Exception e) {
             message.setMessage("Error occurred while creating the account: " + e.getMessage());
             return new Object[]{HttpStatus.INTERNAL_SERVER_ERROR.value(), message};
@@ -220,11 +215,7 @@ public class AuthService implements IAuthService{
                     userRepository.save(userData);
 
                     //emailVerification(userId);
-                    /*UserResource userResource = getUserResource(userId);
-                    RolesResource rolesResource = keycloak.realm(realm).roles();
-                    RoleRepresentation representation = rolesResource.get("test").toRepresentation();
-                    System.out.println("this is role "+representation);
-                    userResource.roles().realmLevel().add(Collections.singletonList(representation));*/
+                    assignRole(userId,userRegistration.getRole().toString());
                     message.setMessage("Account created successfully");
                 }
             } else if (statusId == 409) {
@@ -286,33 +277,17 @@ public class AuthService implements IAuthService{
         }
     }
 
-    @Override
-  /*  public void addRoleToUser(String userId, String roleName) {
-        RealmResource realmResource = keycloak.realm(realm);
-        UsersResource usersResource = getUsersResource();
-        List<RoleRepresentation> roles = realmResource.roles().list();
-        RoleRepresentation role = roles.stream()
-                .filter(r -> r.getName().equals(roleName))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
-        usersResource.get(userId).roles().realmLevel().add((role));*/
+    public void assignRole(String userId, String roleName) {
+        UserResource userResource = getUserResource(userId);
+        RolesResource rolesResource = getRolesResource();
+        RoleRepresentation representation = rolesResource.get(roleName).toRepresentation();
+        System.out.println(representation);
+        userResource.roles().realmLevel().add(Collections.singletonList(representation));
+    }
 
-
-        public void addRoleToUser(String userId, String roleName) {
-            RealmResource realmResource = keycloak.realm(realm);
-            UsersResource usersResource = getUsersResource();
-            List<RoleRepresentation> roles = realmResource.roles().list();
-            RoleRepresentation role = roles.stream()
-                    .filter(r -> r.getName().equals(roleName))
-                    .findFirst()
-                    .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
-            usersResource.get(userId).roles().realmLevel().add(Arrays.asList(role));
-        }
-
-
-
-
-
+    private RolesResource getRolesResource(){
+        return  keycloak.realm(realm).roles();
+    }
 
     @Override
     public Object[] updateUser(String id,Map<String, String> userRegistration) {
@@ -515,6 +490,31 @@ public class AuthService implements IAuthService{
         } catch (Exception e) {
             message.setMessage(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> refreshToken(String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+        requestBody.add("grant_type", "refresh_token");
+        requestBody.add("client_id", clientId);
+        requestBody.add("client_secret", secret);
+        requestBody.add("refresh_token", token);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestBody, headers);
+        try {
+            ResponseEntity<LoginResponse> response = restTemplate.postForEntity("http://localhost:8082/realms/esprit-piazza/protocol/openid-connect/token", httpEntity, LoginResponse.class);
+            return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+        } catch (HttpClientErrorException ex) {
+            ResponseMessage message = new ResponseMessage();
+            if (ex.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+                message.setMessage("There is no account with the provided credentials");
+                return new ResponseEntity<>(message, ex.getStatusCode());
+            } else {
+                message.setMessage(ex.getResponseBodyAsString());
+                return new ResponseEntity<>( message, ex.getStatusCode());
+            }
         }
     }
 }

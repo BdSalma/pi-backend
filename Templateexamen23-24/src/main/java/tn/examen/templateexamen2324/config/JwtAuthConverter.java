@@ -12,10 +12,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -50,7 +47,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         return jwt.getClaim(claimName);
     }
 
-    private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
+    /*private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
         Map<String, Object> resourceAccess;
         Map<String, Object> resource;
         Collection<String> resourceRoles;
@@ -68,6 +65,36 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         resourceRoles = (Collection<String>) resource.get("roles");
         return resourceRoles
                 .stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toSet());
+    }*/
+
+    private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
+
+        Map<String, Object> realmAccess = jwt.getClaim("realm_access");
+        Map<String, Object> resourceAccess = jwt.getClaim("resource_access");
+
+        Collection<String> allRoles = new ArrayList<>();
+        Collection<String> resourceRoles;
+        Collection<String> realmRoles ;
+
+        if(resourceAccess != null && resourceAccess.get("account") != null){
+            Map<String,Object> account =  (Map<String,Object>) resourceAccess.get("account");
+            if(account.containsKey("roles") ){
+                resourceRoles = (Collection<String>) account.get("roles");
+                allRoles.addAll(resourceRoles);
+            }
+        }
+
+        if(realmAccess != null && realmAccess.containsKey("roles")){
+            realmRoles = (Collection<String>) realmAccess.get("roles");
+            allRoles.addAll(realmRoles);
+        }
+        if (allRoles.isEmpty() || !Objects.equals(resourceId,jwt.getClaim("azp")) ) {
+            return Set.of();
+        }
+
+        return allRoles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toSet());
     }

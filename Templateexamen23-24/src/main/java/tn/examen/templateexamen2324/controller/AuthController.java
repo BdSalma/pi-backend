@@ -98,13 +98,6 @@ public class AuthController {
     }
 
 
-    @PutMapping("/addRoleToUser")
-    public void checkValidity(Authentication authentication, @RequestBody Map<String, String> requestBody) {
-        Jwt jwtToken = (Jwt) authentication.getPrincipal();
-        String userId = jwtToken.getClaim("sub");
-        authService.addRoleToUser(userId,requestBody.get("role"));
-    }
-
     @PutMapping("/update-user")
     public ResponseEntity<Object> updateUser(Authentication authentication,@RequestBody Map<String, String> requestBody) {
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
@@ -119,6 +112,13 @@ public class AuthController {
             return ResponseEntity.status(statusCode).body(errorMessage);
         }
     }
+
+    @PostMapping("/refreshToken")
+    public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> requestBody) {
+        return authService.refreshToken(requestBody.get("token"));
+    }
+
+
 
     @PutMapping("/approve-user/{userId}")
     @PreAuthorize("hasRole('Admin')")
