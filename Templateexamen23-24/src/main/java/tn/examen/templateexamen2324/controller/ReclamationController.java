@@ -1,7 +1,9 @@
 package tn.examen.templateexamen2324.controller;
 
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -69,4 +71,36 @@ public class ReclamationController {
     public void Review(@PathVariable("id") String id){
         iReclamationService.Review(id);
     }
+
+    @PostMapping("/add-to-favorites/{reclamationId}")
+    public ResponseEntity<?> addToFavorites(@PathVariable int reclamationId,  Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        iReclamationService.addToFavorites(reclamationId, userId);
+        return ResponseEntity.ok("Reclamation added to favorites successfully");
+    }
+
+    @GetMapping("/favorites")
+    public ResponseEntity<List<Reclamation>> getFavoriteUser( Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        List<Reclamation> reclamationList = iReclamationService.getFavoriteReclamationsForConnectedUser(userId);
+        return ResponseEntity.ok(reclamationList);
+    }
+
+    /*
+    @DeleteMapping("/remove-favorite/{reclamationId}")
+    public ResponseEntity<?> removeFavorite(@PathVariable int reclamationId, Authentication authentication) {
+        try {
+            Jwt jwtToken = (Jwt) authentication.getPrincipal();
+            String userId = jwtToken.getClaim("sub");
+
+            iReclamationService.removeFavorite(reclamationId, userId);
+
+            return ResponseEntity.ok("Favorite removed successfully");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reclamation not found");
+        }
+    }*/
+
 }

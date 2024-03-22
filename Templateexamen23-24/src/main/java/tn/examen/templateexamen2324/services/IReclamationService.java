@@ -15,6 +15,11 @@ public interface IReclamationService {
 
     public void Review(String id);
     List<Reclamation> getFeed(TypeReclamation typeReclamation);
+    public void addToFavorites(int reclamationId, String userId);
+
+    public List<Reclamation> getFavoriteReclamationsForConnectedUser(String userId);
+
+    //public void removeFavorite(int reclamationId, String userId);
 
 
 }
