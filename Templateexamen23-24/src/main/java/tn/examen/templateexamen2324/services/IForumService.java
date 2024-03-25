@@ -18,4 +18,6 @@ public interface IForumService {
      Forum getForumByStatus(ForumStatus forumStatus);
 
      Forum getForumById(long forumId);
+     Forum cancelForum(long forumId);
+
 }

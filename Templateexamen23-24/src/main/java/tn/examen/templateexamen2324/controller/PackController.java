@@ -87,7 +87,7 @@ public class PackController {
 
     @PutMapping("/book_Pack/{idPack}/{idUser}")
     @ResponseBody
-    public Pack bookPack(@PathVariable("idPack") Long idPack,@PathVariable("idUser") Long idUser){
+    public Pack bookPack(@PathVariable("idPack") Long idPack,@PathVariable("idUser") String idUser){
         return packService.bookPack(idUser,idPack);
     }
 

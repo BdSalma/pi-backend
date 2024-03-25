@@ -1,6 +1,8 @@
 package tn.examen.templateexamen2324.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.repository.ForumRepo;
@@ -14,9 +16,11 @@ import tn.examen.templateexamen2324.entity.Stand;
 import tn.examen.templateexamen2324.repository.PackRepo;
 import tn.examen.templateexamen2324.repository.StandRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class PackService implements IPackService{
 
     @Autowired
@@ -78,6 +82,9 @@ public class PackService implements IPackService{
        Stand stand = this.standRepo.findById(idStand).get();
        if(stand.getReserved() == false){
            stand.setReserved(true);
+           Forum f = forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
+           f.getPack().add(pack);
+           pack.setForum(f);
            standRepo.save(stand);
            pack.setStand(stand);
        }
@@ -101,7 +108,7 @@ public class PackService implements IPackService{
 
 
     @Override
-    public Pack bookPack(Long userId, Long packId) {
+    public Pack bookPack(String userId, Long packId) {
 
         Pack pack = this.packRepo.findById(packId).get();
         if(pack.getReservationStatus() == ReservationStatus.Not_Reserved){
@@ -152,5 +159,19 @@ public class PackService implements IPackService{
        return  this.packRepo.save(pack);
     }
 
+    @Scheduled(cron = "0 0 8 * * *") // Run at 8:00 AM every day
+    public void NotifyReservationDDL() {
+        Forum f = this.forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
+        LocalDate d = LocalDate.now();
+        LocalDate reservationDDL = f.getDate().minusDays(4); // Set reservation deadline to four days before the forum date
+        List<Pack> packs = this.packRepo.findPackByForum(f.getId());
+        for (Pack p : packs) {
+            if (p.getStatut() == false && p.getReservationStatus() == ReservationStatus.On_Hold) {
+                if (p.getReservationDate().isEqual(reservationDDL) && p.getReservationDate().isBefore(f.getDate().minusDays(3))) {
+                    log.info(p.getReserver().getEmail());
+                }
+            }
+        }
+    }
 
 }

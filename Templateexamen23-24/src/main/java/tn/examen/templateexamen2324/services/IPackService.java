@@ -16,7 +16,7 @@ public interface IPackService {
      Pack unassignStandfromPack(Long idPack);
 
      List<Pack> findPackByStatut(Boolean statut);
-     Pack bookPack(Long userId, Long packId);
+     Pack bookPack(String userId, Long packId);
 
      List<Pack> retrieveAllPacksByForum(Forum forum);
      Pack validateReservation(Long packId);

@@ -2,10 +2,7 @@ package tn.examen.templateexamen2324.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.examen.templateexamen2324.entity.Forum;
-import tn.examen.templateexamen2324.entity.ForumStatus;
-import tn.examen.templateexamen2324.entity.Pack;
-import tn.examen.templateexamen2324.entity.Stand;
+import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.repository.ForumRepo;
 import tn.examen.templateexamen2324.repository.PackRepo;
 import tn.examen.templateexamen2324.repository.StandRepo;
@@ -17,6 +14,11 @@ public class ForumService implements IForumService{
 
     @Autowired
     ForumRepo forumRepo;
+
+    @Autowired
+    PackRepo packRepo;
+
+
 
     @Autowired
     StandRepo standRepo;
@@ -78,5 +80,21 @@ public class ForumService implements IForumService{
         return this.forumRepo.findById(forumId).get();
     }
 
+    @Override
+    public Forum cancelForum(long forumId) {
+       Forum f = forumRepo.findById(forumId).get();
+       f.setForumStatus(ForumStatus.Canceled);
+        for (Pack p : f.getPack()) {
+            p.setReservationStatus(ReservationStatus.Archived);
+            p.getStand().setReserved(false);
+            this.notifyUser(p.getReserver().getId());
+            this.standRepo.save(p.getStand());
+            this.packRepo.save(p);
+        }
+       return this.forumRepo.save(f);
+    }
 
+   public void notifyUser(String idUser){
+
+   }
 }

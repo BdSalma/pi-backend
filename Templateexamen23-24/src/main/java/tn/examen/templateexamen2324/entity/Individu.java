@@ -34,8 +34,8 @@ public class Individu extends User implements Serializable {
 
     public Individu(Map<String, String> userData) {
         this.username = userData.get("username");
-        this.password = userData.get("password");
-        this.email = userData.get("email");
+        this.setPassword(userData.get("password"));
+        this.setEmail(userData.get("email"));
         this.identity = userData.get("identity");
         this.firstName = userData.get("firstName");
         this.lastName = userData.get("lastName");
