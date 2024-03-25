@@ -1,0 +1,14 @@
+<changelist name="Uncommitted_changes_before_Merge_at_19_03_2024_10_36_[Changes]" date="1710840977404" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_19_03_2024_10_36_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Merge at 19/03/2024 10:36 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/tn/examen/templateexamen2324/entity/Individu.class" />
+    <option name="AFTER_PATH" value="target/classes/tn/examen/templateexamen2324/entity/Individu.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_19_03_2024_10_36_[Changes]/Individu.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/tn/examen/templateexamen2324/controller/ForumController.class" />
+    <option name="AFTER_PATH" value="target/classes/tn/examen/templateexamen2324/controller/ForumController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_19_03_2024_10_36_[Changes]/ForumController.class" />
+  </binary>
+</changelist>
