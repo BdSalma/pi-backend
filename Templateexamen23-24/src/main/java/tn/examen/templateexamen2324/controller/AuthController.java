@@ -1,15 +1,24 @@
 package tn.examen.templateexamen2324.controller;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.springframework.web.multipart.MultipartFile;
 import tn.examen.templateexamen2324.entity.*;
+import tn.examen.templateexamen2324.repository.UserRepository;
 import tn.examen.templateexamen2324.services.AuthService;
 
 @RestController
@@ -19,6 +28,8 @@ public class AuthController {
 
     @Autowired
     AuthService authService;
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("/hello")
     @PreAuthorize("hasRole('Admin')")
@@ -178,6 +189,38 @@ public class AuthController {
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
         String username = jwtToken.getClaim("preferred_username");
         return authService.updatePassword(requestBody.get("oldPassword"),requestBody.get("newPassword"),username);
+    }
+
+    @PutMapping("update-image")
+    public ResponseEntity<?> addImageToUser(Authentication authentication,@RequestParam MultipartFile image)  throws IOException {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        return authService.addImageToUser(userId,image);
+    }
+
+    @GetMapping("user-image")
+    public ResponseEntity<Resource> getUserImage(Authentication authentication)  throws IOException {
+        String USER_IMAGE_DIRECTORY = "C:/Users/MSI/piForumProject/backend/pi-backend/Templateexamen23-24/src/main/resources/fils";
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        User user = userRepository.findById(userId).orElse(null);
+        Path imagePath = Paths.get(USER_IMAGE_DIRECTORY,"/"+ user.getImage());
+        if (Files.exists(imagePath) && Files.isReadable(imagePath)) {
+            byte[] imageBytes = Files.readAllBytes(imagePath);
+            ByteArrayResource resource = new ByteArrayResource(imageBytes);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            String fileExtension = Files.probeContentType(imagePath);
+            if (fileExtension != null) {
+                headers.setContentType(MediaType.parseMediaType(fileExtension));
+            }
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + userId + fileExtension);
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(resource);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
 }

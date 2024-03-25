@@ -3,6 +3,7 @@ package tn.examen.templateexamen2324.services;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.core.Response;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.james.mime4j.dom.Multipart;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.RolesResource;
@@ -18,14 +19,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.repository.IndividuRepository;
 import tn.examen.templateexamen2324.repository.SocietyRepository;
 import tn.examen.templateexamen2324.repository.UserRepository;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import org.springframework.security.oauth2.jwt.Jwt;
 
@@ -58,6 +68,7 @@ public class AuthService implements IAuthService{
     @Value("${spring.security.oauth2.client.registration.oauth2-client-credentials.client-secret}")
     private String clientSecret;
     private Keycloak keycloak;
+    private static final String uploadPath = "C:/Users/MSI/piForumProject/backend/pi-backend/Templateexamen23-24/src/main/resources/fils";
 
     public AuthService(Keycloak keycloak) {
         this.keycloak = keycloak;
@@ -162,6 +173,7 @@ public class AuthService implements IAuthService{
                     userData.setPassword(hashedPassword);
                     userData.setActivate(true);
                     userData.setApprove(false);
+                    userData.setImage("user.png");
                     userRepository.save(userData);
 
                     //emailVerification(userId);
@@ -174,7 +186,7 @@ public class AuthService implements IAuthService{
                 message.setMessage("there was an error while creating this account");
             }
 
-            return new Object[]{HttpStatus.INTERNAL_SERVER_ERROR.value(), message};
+            return new Object[]{statusId, message};
         } catch (Exception e) {
             message.setMessage("Error occurred while creating the account: " + e.getMessage());
             return new Object[]{HttpStatus.INTERNAL_SERVER_ERROR.value(), message};
@@ -212,6 +224,7 @@ public class AuthService implements IAuthService{
                     userData.setPassword(hashedPassword);
                     userData.setActivate(true);
                     userData.setApprove(false);
+                    userData.setImage("user.png");
                     userRepository.save(userData);
 
                     //emailVerification(userId);
@@ -336,7 +349,6 @@ public class AuthService implements IAuthService{
             Society society1 = this.societyRepository.findById(id).orElse(null);
             society1.setSector(society.getSector());
             society1.setMatricule(society.getMatricule());
-            society1.setLogo(society.getLogo());
             society1.setAdresse(society.getAdresse());
             society1.setRepresentative(society.getRepresentative());
             userRepository.save(society1);
@@ -516,5 +528,63 @@ public class AuthService implements IAuthService{
                 return new ResponseEntity<>( message, ex.getStatusCode());
             }
         }
+    }
+
+    @Override
+    public ResponseEntity<?> addImageToUser(String userId, MultipartFile image) {
+        ResponseMessage message = new ResponseMessage();
+        try {
+            User user = userRepository.findById(userId).orElse(null);
+            if (image != null) {
+                String newPhotoName = nameFile(image);
+                String oldPhotoName = user.getImage();
+                user.setImage(newPhotoName);
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdir();
+                }
+                if(oldPhotoName!="user.png"){
+                    deleteFile(oldPhotoName);
+                }
+                saveFile(image,newPhotoName);
+                return ResponseEntity.status(HttpStatus.OK).body(userRepository.save(user));
+            }else {
+                message.setMessage("There is no image");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+            }
+        } catch (IOException e) {
+            message.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+    }
+
+    public void saveFile(MultipartFile multipartFile,String fileName) throws IOException{
+        Path upload = Paths.get(uploadPath);
+        if(!Files.exists(upload)){
+            Files.createDirectories(upload);
+        }
+        try (InputStream inputStream = multipartFile.getInputStream()){
+            Path filePath = upload.resolve(fileName);
+            Files.copy(inputStream,filePath, StandardCopyOption.REPLACE_EXISTING);
+        }catch (IOException e){
+            throw new IOException("Could not save file");
+        }
+    }
+
+    public String nameFile(MultipartFile multipartFile){
+        String originalFileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        Integer fileDotIndex = originalFileName.lastIndexOf('.');
+        String fileExtension = originalFileName.substring(fileDotIndex);
+        return UUID.randomUUID().toString() + fileExtension;
+    }
+
+    public void deleteFile(String fileName) throws IOException{
+        Path upload = Paths.get(uploadPath);
+        Integer fileIndex = fileName.lastIndexOf('/')+1;
+        String result = fileName.substring(fileIndex);
+        Path filePath = upload.resolve(result);
+        Files.deleteIfExists(filePath);
+        System.out.println(result);
+        System.out.println("deleted");
     }
 }

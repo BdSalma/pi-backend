@@ -69,7 +69,8 @@ public class SecurityConfiguration {
                     "/auth/hello-2",
                     "/Offer/allOffers",
                     "/Offer/AcceptedOffer",
-                    "/Offer/Offer/filterByCriteria/{criteria}"
+                    "/Offer/Offer/filterByCriteria/{criteria}",
+                    "/user-images/**"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.POST,
