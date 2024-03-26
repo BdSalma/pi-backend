@@ -1,5 +1,6 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,10 +26,11 @@ public class Society extends User implements Serializable {
     @Column(name = "society_role")
     @Enumerated(EnumType.STRING)
     private SocietyRole role;
-
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "Society")
-    private Set<Devis> Devis = new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "Society")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "societyDevis")
+    private Set<Devis> devis = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "society")
     private Set<Offer> Offer = new HashSet<>();
 
     public Society(Map<String, String> userData) {

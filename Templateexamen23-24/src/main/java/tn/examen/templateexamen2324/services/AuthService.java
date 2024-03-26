@@ -2,8 +2,10 @@ package tn.examen.templateexamen2324.services;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.core.Response;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.RolesResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -53,6 +55,8 @@ public class AuthService implements IAuthService{
     private String realm;
     @Value("${keycloak.credentials.secret}")
     private String secret;
+    @Value("${spring.security.oauth2.client.registration.oauth2-client-credentials.client-secret}")
+    private String clientSecret;
     private Keycloak keycloak;
 
     public AuthService(Keycloak keycloak) {
@@ -67,6 +71,7 @@ public class AuthService implements IAuthService{
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("client_id", clientId);
         requestBody.add("grant_type", grantType);
+        //requestBody.add("client_secret", secret);
         requestBody.add("username", username);
         requestBody.add("password", password);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestBody, headers);
@@ -160,22 +165,16 @@ public class AuthService implements IAuthService{
                     userRepository.save(userData);
 
                     //emailVerification(userId);
-                    /*UserResource userResource = getUserResource(userId);
-                    RolesResource rolesResource = keycloak.realm(realm).roles();
-                    RoleRepresentation representation = rolesResource.get("test").toRepresentation();
-                    System.out.println("this is role "+representation);
-                    userResource.roles().realmLevel().add(Collections.singletonList(representation));*/
-
+                    assignRole(userId,userRegistration.getRole().toString());
                     message.setMessage("Account created successfully");
-
                 }
             } else if (statusId == 409) {
-                message.setMessage("this account already exists");
+                message.setMessage("the username or email already exists");
             } else {
                 message.setMessage("there was an error while creating this account");
             }
 
-            return new Object[]{statusId, message};
+            return new Object[]{HttpStatus.INTERNAL_SERVER_ERROR.value(), message};
         } catch (Exception e) {
             message.setMessage("Error occurred while creating the account: " + e.getMessage());
             return new Object[]{HttpStatus.INTERNAL_SERVER_ERROR.value(), message};
@@ -216,11 +215,7 @@ public class AuthService implements IAuthService{
                     userRepository.save(userData);
 
                     //emailVerification(userId);
-                    /*UserResource userResource = getUserResource(userId);
-                    RolesResource rolesResource = keycloak.realm(realm).roles();
-                    RoleRepresentation representation = rolesResource.get("test").toRepresentation();
-                    System.out.println("this is role "+representation);
-                    userResource.roles().realmLevel().add(Collections.singletonList(representation));*/
+                    assignRole(userId,userRegistration.getRole().toString());
                     message.setMessage("Account created successfully");
                 }
             } else if (statusId == 409) {
@@ -282,18 +277,17 @@ public class AuthService implements IAuthService{
         }
     }
 
-    @Override
-    public void addRoleToUser(String userId, String roleName) {
-        RealmResource realmResource = keycloak.realm(realm);
-        UsersResource usersResource = getUsersResource();
-        List<RoleRepresentation> roles = realmResource.roles().list();
-        RoleRepresentation role = roles.stream()
-                .filter(r -> r.getName().equals(roleName))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
-        usersResource.get(userId).roles().realmLevel().add(Arrays.asList(role));
+    public void assignRole(String userId, String roleName) {
+        UserResource userResource = getUserResource(userId);
+        RolesResource rolesResource = getRolesResource();
+        RoleRepresentation representation = rolesResource.get(roleName).toRepresentation();
+        System.out.println(representation);
+        userResource.roles().realmLevel().add(Collections.singletonList(representation));
     }
 
+    private RolesResource getRolesResource(){
+        return  keycloak.realm(realm).roles();
+    }
 
     @Override
     public Object[] updateUser(String id,Map<String, String> userRegistration) {
@@ -324,6 +318,7 @@ public class AuthService implements IAuthService{
             updatedUser.setLastName(individu.getLastName());
             userResource.update(updatedUser);
             Individu individu1 = this.individuRepository.findById(id).orElse(null);
+            assert individu1 != null;
             individu1.setFirstName(individu.getFirstName());
             individu1.setLastName(individu.getLastName());
             userRepository.save(individu1);
@@ -424,4 +419,102 @@ public class AuthService implements IAuthService{
 
     @Override
     public List<Society> getAllSocietiesFilteredByFields(String field){return societyRepository.findAllByFields(field);}
+
+    @Override
+    public ResponseEntity<ResponseMessage> forgotPassword(String username){
+        ResponseMessage message = new ResponseMessage();
+        try {
+            UsersResource usersResource = getUsersResource();
+            System.out.println("username:"+username);
+            boolean isValid = EmailValidator.getInstance().isValid(username);
+            if (isValid) {
+                List<UserRepresentation> users = usersResource.searchByEmail(username,true);
+                UserRepresentation userRepresentation = users.stream().findFirst().orElse(null);
+                System.out.println("user:"+userRepresentation);
+                if (userRepresentation!=null) {
+                    return sendPasswordResetEmail(userRepresentation,usersResource);
+                }
+            } else {
+                List<UserRepresentation> usersByEmail = usersResource.searchByUsername(username,true);
+                UserRepresentation usersByEmailRepresentation = usersByEmail.stream().findFirst().orElse(null);
+                System.out.println("user:"+usersByEmailRepresentation);
+                if (usersByEmailRepresentation!=null) {
+                    return sendPasswordResetEmail(usersByEmailRepresentation,usersResource);
+                }
+            }
+            message.setMessage("No account was found with the provided credentials");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        } catch (Exception e) {
+            message.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+    }
+
+    private ResponseEntity<ResponseMessage> sendPasswordResetEmail(UserRepresentation userRepresentation,UsersResource usersResource) {
+        ResponseMessage message = new ResponseMessage();
+        UserResource userResource = usersResource.get(userRepresentation.getId());
+        List<String> actions = new ArrayList<>();
+        actions.add(UPDATE_PASSWORD);
+        userResource.executeActionsEmail(actions);
+        message.setMessage("An email has been sent. Check your inbox.");
+        return ResponseEntity.ok(message);
+    }
+
+    @Override
+    public ResponseEntity<?> updatePassword(String oldPassword,String newPassword,String username){
+        ResponseMessage message = new ResponseMessage();
+        try {
+            UsersResource usersResource = getUsersResource();
+            List<UserRepresentation> users = usersResource.searchByUsername(username,true);
+            UserRepresentation userRepresentation = users.stream().findFirst().orElse(null);
+            User user = userRepository.findById(userRepresentation.getId()).orElse(null);
+            System.out.println(user);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if (userRepresentation != null && user != null) {
+                if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("The older password is incorrect");
+                }
+                CredentialRepresentation newCredential = new CredentialRepresentation();
+                newCredential.setType(CredentialRepresentation.PASSWORD);
+                newCredential.setValue(newPassword);
+                newCredential.setTemporary(false);
+                usersResource.get(userRepresentation.getId()).resetPassword(newCredential);
+                String hashedPassword = passwordEncoder.encode(newPassword);
+                user.setPassword(hashedPassword);
+                userRepository.save(user);
+                return ResponseEntity.ok(user);
+            }else{
+                message.setMessage("User not found");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+        } catch (Exception e) {
+            message.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> refreshToken(String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+        requestBody.add("grant_type", "refresh_token");
+        requestBody.add("client_id", clientId);
+        requestBody.add("client_secret", secret);
+        requestBody.add("refresh_token", token);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestBody, headers);
+        try {
+            ResponseEntity<LoginResponse> response = restTemplate.postForEntity("http://localhost:8082/realms/esprit-piazza/protocol/openid-connect/token", httpEntity, LoginResponse.class);
+            return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+        } catch (HttpClientErrorException ex) {
+            ResponseMessage message = new ResponseMessage();
+            if (ex.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+                message.setMessage("There is no account with the provided credentials");
+                return new ResponseEntity<>(message, ex.getStatusCode());
+            } else {
+                message.setMessage(ex.getResponseBodyAsString());
+                return new ResponseEntity<>( message, ex.getStatusCode());
+            }
+        }
+    }
 }

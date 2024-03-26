@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import tn.examen.templateexamen2324.entity.Reclamation;
 import tn.examen.templateexamen2324.entity.TypeReclamation;
+import tn.examen.templateexamen2324.repository.ReclamationRepository;
 import tn.examen.templateexamen2324.services.IReclamationService;
 
 import java.util.List;
@@ -20,6 +21,8 @@ import java.util.List;
 public class ReclamationController {
     @Autowired
     IReclamationService iReclamationService;
+    @Autowired
+    ReclamationRepository reclamationRepository;
 
     @GetMapping("/retrieve")
     @ResponseBody
@@ -88,19 +91,11 @@ public class ReclamationController {
         return ResponseEntity.ok(reclamationList);
     }
 
-    /*
-    @DeleteMapping("/remove-favorite/{reclamationId}")
-    public ResponseEntity<?> removeFavorite(@PathVariable int reclamationId, Authentication authentication) {
-        try {
-            Jwt jwtToken = (Jwt) authentication.getPrincipal();
-            String userId = jwtToken.getClaim("sub");
-
-            iReclamationService.removeFavorite(reclamationId, userId);
-
-            return ResponseEntity.ok("Favorite removed successfully");
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reclamation not found");
-        }
-    }*/
+    @PutMapping("/{id}/rate")
+    public Reclamation rateReclamation(@PathVariable int id, @RequestParam int rating) {
+        Reclamation reclamation = reclamationRepository.findById(id).get();
+        reclamation.setRating(rating);
+        return reclamationRepository.save(reclamation);
+    }
 
 }

@@ -113,7 +113,7 @@ public class ReclamationService implements IReclamationService {
 
         if (favorite != null) {
             // If the favorite exists, remove it
-            reclamation.getFavorites().remove(favorite);
+
 
             // Save the updated reclamation back to the database
             reclamationRepository.save(reclamation);

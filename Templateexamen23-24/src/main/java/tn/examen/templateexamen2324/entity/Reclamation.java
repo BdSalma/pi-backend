@@ -26,6 +26,7 @@ public class Reclamation implements Serializable {
     TypeReclamation typeReclamation;
     boolean review;
     String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+    private int rating;
 
 
 
