@@ -437,19 +437,16 @@ public class AuthService implements IAuthService{
         ResponseMessage message = new ResponseMessage();
         try {
             UsersResource usersResource = getUsersResource();
-            System.out.println("username:"+username);
             boolean isValid = EmailValidator.getInstance().isValid(username);
             if (isValid) {
                 List<UserRepresentation> users = usersResource.searchByEmail(username,true);
                 UserRepresentation userRepresentation = users.stream().findFirst().orElse(null);
-                System.out.println("user:"+userRepresentation);
                 if (userRepresentation!=null) {
                     return sendPasswordResetEmail(userRepresentation,usersResource);
                 }
             } else {
                 List<UserRepresentation> usersByEmail = usersResource.searchByUsername(username,true);
                 UserRepresentation usersByEmailRepresentation = usersByEmail.stream().findFirst().orElse(null);
-                System.out.println("user:"+usersByEmailRepresentation);
                 if (usersByEmailRepresentation!=null) {
                     return sendPasswordResetEmail(usersByEmailRepresentation,usersResource);
                 }
@@ -480,7 +477,6 @@ public class AuthService implements IAuthService{
             List<UserRepresentation> users = usersResource.searchByUsername(username,true);
             UserRepresentation userRepresentation = users.stream().findFirst().orElse(null);
             User user = userRepository.findById(userRepresentation.getId()).orElse(null);
-            System.out.println(user);
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             if (userRepresentation != null && user != null) {
                 if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
@@ -538,12 +534,13 @@ public class AuthService implements IAuthService{
             if (image != null) {
                 String newPhotoName = nameFile(image);
                 String oldPhotoName = user.getImage();
+                System.out.println(oldPhotoName);
                 user.setImage(newPhotoName);
                 File uploadDir = new File(uploadPath);
                 if (!uploadDir.exists()) {
                     uploadDir.mkdir();
                 }
-                if(oldPhotoName!="user.png"){
+                if(!oldPhotoName.equals("user.png")){
                     deleteFile(oldPhotoName);
                 }
                 saveFile(image,newPhotoName);
@@ -580,11 +577,9 @@ public class AuthService implements IAuthService{
 
     public void deleteFile(String fileName) throws IOException{
         Path upload = Paths.get(uploadPath);
-        Integer fileIndex = fileName.lastIndexOf('/')+1;
-        String result = fileName.substring(fileIndex);
-        Path filePath = upload.resolve(result);
+        Path filePath = upload.resolve(fileName);
         Files.deleteIfExists(filePath);
-        System.out.println(result);
+        System.out.println(fileName);
         System.out.println("deleted");
     }
 }
