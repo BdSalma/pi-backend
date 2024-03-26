@@ -26,7 +26,6 @@ public class Reclamation implements Serializable {
     TypeReclamation typeReclamation;
     boolean review;
     String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-    private int rating;
 
 
 
@@ -40,4 +39,11 @@ public class Reclamation implements Serializable {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "reclamation", orphanRemoval = true)
    // @JsonIgnore
     private Set<Favorite> favorites = new HashSet<>();
+
+    // Getter and setter methods for ratings
+    @Getter
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "reclamation", orphanRemoval = true)
+    // @JsonIgnore
+    private Set<Rating> ratings = new HashSet<>();
+
 }

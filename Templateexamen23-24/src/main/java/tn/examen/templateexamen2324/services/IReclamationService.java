@@ -1,5 +1,6 @@
 package tn.examen.templateexamen2324.services;
 
+import tn.examen.templateexamen2324.entity.Rating;
 import tn.examen.templateexamen2324.entity.Reclamation;
 import tn.examen.templateexamen2324.entity.TypeReclamation;
 
@@ -18,6 +19,8 @@ public interface IReclamationService {
     public void addToFavorites(int reclamationId, String userId);
 
     public List<Reclamation> getFavoriteReclamationsForConnectedUser(String userId);
+    public Reclamation rateReclamation(int reclamationId, Rating rating,String userId);
+    public Integer getRatingForReclamation(int reclamationId);
 
     //public void removeFavorite(int reclamationId, String userId);
 

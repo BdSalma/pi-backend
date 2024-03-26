@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+import tn.examen.templateexamen2324.entity.Rating;
 import tn.examen.templateexamen2324.entity.Reclamation;
+import tn.examen.templateexamen2324.entity.ResponseMessage;
 import tn.examen.templateexamen2324.entity.TypeReclamation;
 import tn.examen.templateexamen2324.repository.ReclamationRepository;
 import tn.examen.templateexamen2324.services.IReclamationService;
@@ -80,7 +82,9 @@ public class ReclamationController {
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
         String userId = jwtToken.getClaim("sub");
         iReclamationService.addToFavorites(reclamationId, userId);
-        return ResponseEntity.ok("Reclamation added to favorites successfully");
+        ResponseMessage responseMessage = new ResponseMessage();
+        responseMessage.setMessage("Reclamation added to favorites successfully");
+        return ResponseEntity.ok(responseMessage);
     }
 
     @GetMapping("/favorites")
@@ -91,11 +95,23 @@ public class ReclamationController {
         return ResponseEntity.ok(reclamationList);
     }
 
-    @PutMapping("/{id}/rate")
-    public Reclamation rateReclamation(@PathVariable int id, @RequestParam int rating) {
-        Reclamation reclamation = reclamationRepository.findById(id).get();
-        reclamation.setRating(rating);
-        return reclamationRepository.save(reclamation);
+    @PutMapping("/{reclamationId}/rate")
+    public ResponseEntity<Reclamation> rateReclamation(@PathVariable int reclamationId, @RequestBody Rating rating,Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        Reclamation reclamation = iReclamationService.rateReclamation(reclamationId, rating,userId);
+        if (reclamation != null) {
+            return ResponseEntity.ok(reclamation);
+        } else {
+            // Handle reclamation not found or other errors
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{reclamationId}/rating")
+    public ResponseEntity<Integer> getRating(@PathVariable int reclamationId) {
+        Integer rating = iReclamationService.getRatingForReclamation(reclamationId);
+        return ResponseEntity.ok(rating);
     }
 
 }

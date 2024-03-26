@@ -70,7 +70,7 @@ public class SecurityConfiguration {
                     "/Offer/allOffers",
                     "/Offer/AcceptedOffer",
                     "/reclamation/feed",
-                    "/reclamation/favorites",
+                    "/reclamation/{reclamationId}/rating",
                     "/Offer/Offer/filterByCriteria/{criteria}"
             );
             web.ignoring().requestMatchers(

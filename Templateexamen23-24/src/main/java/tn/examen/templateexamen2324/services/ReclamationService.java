@@ -6,15 +6,14 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tn.examen.templateexamen2324.entity.Favorite;
-import tn.examen.templateexamen2324.entity.Reclamation;
-import tn.examen.templateexamen2324.entity.TypeReclamation;
-import tn.examen.templateexamen2324.entity.User;
+import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.repository.FavoriteRepository;
+import tn.examen.templateexamen2324.repository.RatingRepository;
 import tn.examen.templateexamen2324.repository.ReclamationRepository;
 import tn.examen.templateexamen2324.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ReclamationService implements IReclamationService {
@@ -26,6 +25,8 @@ public class ReclamationService implements IReclamationService {
 
     @Autowired
     FavoriteRepository favoriteRepository;
+    @Autowired
+    RatingRepository ratingRepository;
 
 
     @Override
@@ -101,7 +102,6 @@ public class ReclamationService implements IReclamationService {
         // Save the updated reclamation back to the database
         reclamationRepository.save(reclamation);
     }*/
-    @Transactional
     @Override
     public void addToFavorites(int reclamationId, String userId) {
         // Retrieve the reclamation from the database
@@ -113,8 +113,6 @@ public class ReclamationService implements IReclamationService {
 
         if (favorite != null) {
             // If the favorite exists, remove it
-
-
             // Save the updated reclamation back to the database
             reclamationRepository.save(reclamation);
         } else {
@@ -136,6 +134,46 @@ public class ReclamationService implements IReclamationService {
         // Retrieve favorite reclamations for the connected user directly using a custom query
         List<Reclamation> favoriteReclamations = reclamationRepository.findFavoritesByUserId(userId);
         return favoriteReclamations;
+    }
+
+    @Override
+    public Reclamation rateReclamation(int reclamationId, Rating rating, String userId) {
+        Reclamation reclamation = reclamationRepository.findById(reclamationId).orElse(null);
+        if (reclamation != null) {
+            // Check if the reclamation already has ratings
+            Set<Rating> ratings = reclamation.getRatings();
+            if (ratings.isEmpty()) {
+                // If there are no existing ratings, add the new rating
+                rating.setReclamation(reclamation);
+                rating.setUserId(userId);
+                ratings.add(rating);
+            } else {
+                // Iterate through existing ratings and find the one by the same user (if exists)
+                for (Rating existingRating : ratings) {
+                    if (existingRating.getUserId().equals(userId)) {
+                        // Update the existing rating
+                        existingRating.setRating(rating.getRating());
+                        // Save changes to the rating entity
+                        ratingRepository.save(existingRating);
+                        return reclamationRepository.save(reclamation);
+                    }
+                }
+                // If no existing rating found for the user, add the new rating
+                rating.setReclamation(reclamation);
+                rating.setUserId(userId);
+                ratings.add(rating);
+            }
+            return reclamationRepository.save(reclamation);
+        } else {
+            // Handle reclamation not found
+            return null;
+        }
+    }
+
+    @Override
+    public Integer getRatingForReclamation(int reclamationId) {
+        Rating rating = ratingRepository.findByReclamationId(reclamationId);
+        return rating != null ? rating.getRating() : null;
     }
 
     /*@Override
