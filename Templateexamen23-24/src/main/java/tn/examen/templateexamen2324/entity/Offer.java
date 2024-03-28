@@ -31,6 +31,7 @@ public class Offer implements Serializable {
     private EtatOffer etatOffer;
     private String description;
     private Integer favoris;
+    private String file;
     @OneToMany(cascade = CascadeType.ALL,mappedBy="offer")
     private Set<Candidature> candidatures = new HashSet<>();
     @ManyToOne

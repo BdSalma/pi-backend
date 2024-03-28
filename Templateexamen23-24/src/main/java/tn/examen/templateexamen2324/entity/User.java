@@ -25,7 +25,7 @@ public class User implements Serializable {
     public String email;
     public boolean approve;
     public boolean activate;
-
+    private String competence;
     @ManyToMany(cascade = CascadeType.ALL,mappedBy = "User")
     @JsonIgnore
     Set<Forum> Forum = new HashSet<>();

@@ -13,6 +13,7 @@ import tn.examen.templateexamen2324.entity.Society;
 import tn.examen.templateexamen2324.entity.User;
 import tn.examen.templateexamen2324.services.OfferService;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -27,6 +28,8 @@ public class OfferController {
     public void affectOffer(@RequestBody Offer o, Authentication authentication) {
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
         String userId = jwtToken.getClaim("sub");
+
+        // Appeler le service pour affecter l'offre à la société
         offerService.affecetOfferToSociety(o, userId);
     }
 
@@ -79,7 +82,6 @@ public class OfferController {
     @ResponseBody
     public List<Offer> getAcceptedOffer() {
         return offerService.getAcceptedOffer();
-
     }
 
     @DeleteMapping("/deleteOffer/{idOffer}")

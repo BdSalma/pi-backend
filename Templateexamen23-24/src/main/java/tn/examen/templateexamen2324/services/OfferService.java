@@ -1,22 +1,34 @@
 package tn.examen.templateexamen2324.services;
-
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.store.ByteBuffersDirectory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import tn.examen.templateexamen2324.dao.UserRepo;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.dao.OfferRepo;
 import tn.examen.templateexamen2324.repository.SocietyRepository;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +46,7 @@ public class OfferService implements IOfferService {
         o.setEtatOffer(EtatOffer.Enattente);
         return offerRepo.save(o);
     }
+
 
     @Override
     public Offer getOfferById(Long id) {
@@ -59,13 +72,23 @@ public class OfferService implements IOfferService {
     public void affecetOfferToSociety(Offer o, String idU) {
         Society s = societyRepo.findById(idU).orElse(null);
         if (s instanceof Society) {
+            // Vérifier si le fichier est présent et non vide
+            // Définir la société et l'état de l'offre
             o.setSociety(s);
             o.setEtatOffer(EtatOffer.Enattente);
+
+            // Enregistrer l'offre dans la base de données
             offerRepo.save(o);
         } else {
-            System.out.println("societe n'est pas un user");
+            System.out.println("La société n'est pas un utilisateur");
         }
     }
+
+    private String convertFileToBase64(byte[] fileBytes) {
+        // Encoder les octets du fichier en base64
+        return Base64.getEncoder().encodeToString(fileBytes);
+    }
+
 
     @Override
     public List<Offer> getOfferBySociety(String idS) {
@@ -99,11 +122,7 @@ public class OfferService implements IOfferService {
 
     @Override
     public List<Offer> filterOffersByInput(String input) {
-        // Perform filtering based on the provided input
-        // You can define your filter logic here
-        // For example, filtering based on offer name, category, or other attributes
 
-        // Filtering by offer name containing the specified input (case-insensitive)
         List<Offer> filteredOffers = offerRepo.findAll().stream()
                 .filter(offer ->
                         (offer.getOfferName().toLowerCase().contains(input.toLowerCase()) ||
@@ -114,7 +133,14 @@ public class OfferService implements IOfferService {
                                 offer.getSociety().getUsername().toLowerCase().contains(input.toLowerCase())) &&
                                 offer.getEtatOffer().equals(EtatOffer.Approuvé))
                 .collect(Collectors.toList());
-
+        for (Offer offer : filteredOffers) {
+            // Récupérez les données binaires de l'image
+            byte[] imageBytes = offer.getFile().getBytes();
+            // Encodez les données binaires en base64
+            String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
+            // Mettez à jour l'offre avec les données encodées en base64
+            offer.setFile(imageDataBase64);
+        }
 
         // You can add more filtering logic here for other attributes
 
@@ -148,8 +174,17 @@ public class OfferService implements IOfferService {
         mailSender.send(message);
     }
     @Override
-    public  List<Offer> getAcceptedOffer(){
-        return offerRepo.findAcceptedOffersOrderByFavorisDesc(EtatOffer.Approuvé);
+    public List<Offer> getAcceptedOffer() {
+        List<Offer> offers = offerRepo.findAcceptedOffersOrderByFavorisDesc(EtatOffer.Approuvé);
+        for (Offer offer : offers) {
+            // Récupérez les données binaires de l'image
+            byte[] imageBytes = offer.getFile().getBytes();
+            // Encodez les données binaires en base64
+            String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
+            // Mettez à jour l'offre avec les données encodées en base64
+            offer.setFile(imageDataBase64);
+        }
+        return offers;
     }
 
     @Override
@@ -234,6 +269,49 @@ public class OfferService implements IOfferService {
             return offerRepo.save(offer);
     }
 
+    @Override
+    public List<Offer> getSuggestedOffers(User user, int numberOfSuggestions) {
+        List<Offer> allOffers = offerRepo.findAll();
+        List<Offer> suggestedOffers = new ArrayList<>();
+
+        try {
+            // Create an in-memory Lucene index
+            ByteBuffersDirectory directory = new ByteBuffersDirectory();
+            Analyzer analyzer = new StandardAnalyzer();
+
+            // Index the offers' descriptions
+            IndexWriterConfig config = new IndexWriterConfig(analyzer);
+            IndexWriter writer = new IndexWriter(directory, config);
+            for (Offer offer : allOffers) {
+                Document doc = new Document();
+                doc.add(new org.apache.lucene.document.TextField("description", offer.getDescription(), org.apache.lucene.document.Field.Store.YES));
+                writer.addDocument(doc);
+            }
+            writer.close();
+
+            // Search for offers similar to user's competence
+            IndexReader reader = DirectoryReader.open(directory);
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Query query = new TermQuery(new Term("description", user.getCompetence()));
+            ScoreDoc[] hits = searcher.search(query, numberOfSuggestions).scoreDocs;
+
+            // Retrieve and add the suggested offers
+            for (ScoreDoc hit : hits) {
+                int docId = hit.doc;
+                Document d = searcher.doc(docId);
+                String description = d.get("description");
+                Offer offer = allOffers.stream().filter(o -> o.getDescription().equals(description)).findFirst().orElse(null);
+                if (offer != null) {
+                    suggestedOffers.add(offer);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return suggestedOffers;
+    }
 }
 
 

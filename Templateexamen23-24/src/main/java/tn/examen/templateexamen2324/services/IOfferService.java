@@ -41,5 +41,6 @@ public interface IOfferService {
      List<Offer> getOfferEnAttente();
      void sentOffers();
      public Offer addFavorite(Long id);
+     public List<Offer> getSuggestedOffers(User user, int numberOfSuggestions) ;
 
      }
