@@ -2,6 +2,7 @@ package tn.examen.templateexamen2324.services;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.core.Response;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
@@ -53,6 +54,8 @@ public class AuthService implements IAuthService{
     private String realm;
     @Value("${keycloak.credentials.secret}")
     private String secret;
+    @Value("${spring.security.oauth2.client.registration.oauth2-client-credentials.client-secret}")
+    private String clientSecret;
     private Keycloak keycloak;
 
     public AuthService(Keycloak keycloak) {
@@ -67,6 +70,7 @@ public class AuthService implements IAuthService{
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("client_id", clientId);
         requestBody.add("grant_type", grantType);
+        //requestBody.add("client_secret", secret);
         requestBody.add("username", username);
         requestBody.add("password", password);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestBody, headers);
@@ -283,7 +287,7 @@ public class AuthService implements IAuthService{
     }
 
     @Override
-    public void addRoleToUser(String userId, String roleName) {
+  /*  public void addRoleToUser(String userId, String roleName) {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = getUsersResource();
         List<RoleRepresentation> roles = realmResource.roles().list();
@@ -291,8 +295,23 @@ public class AuthService implements IAuthService{
                 .filter(r -> r.getName().equals(roleName))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
-        usersResource.get(userId).roles().realmLevel().add(Arrays.asList(role));
-    }
+        usersResource.get(userId).roles().realmLevel().add((role));*/
+
+
+        public void addRoleToUser(String userId, String roleName) {
+            RealmResource realmResource = keycloak.realm(realm);
+            UsersResource usersResource = getUsersResource();
+            List<RoleRepresentation> roles = realmResource.roles().list();
+            RoleRepresentation role = roles.stream()
+                    .filter(r -> r.getName().equals(roleName))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+            usersResource.get(userId).roles().realmLevel().add(Arrays.asList(role));
+        }
+
+
+
+
 
 
     @Override
@@ -324,6 +343,7 @@ public class AuthService implements IAuthService{
             updatedUser.setLastName(individu.getLastName());
             userResource.update(updatedUser);
             Individu individu1 = this.individuRepository.findById(id).orElse(null);
+            assert individu1 != null;
             individu1.setFirstName(individu.getFirstName());
             individu1.setLastName(individu.getLastName());
             userRepository.save(individu1);
@@ -424,4 +444,77 @@ public class AuthService implements IAuthService{
 
     @Override
     public List<Society> getAllSocietiesFilteredByFields(String field){return societyRepository.findAllByFields(field);}
+
+    @Override
+    public ResponseEntity<ResponseMessage> forgotPassword(String username){
+        ResponseMessage message = new ResponseMessage();
+        try {
+            UsersResource usersResource = getUsersResource();
+            System.out.println("username:"+username);
+            boolean isValid = EmailValidator.getInstance().isValid(username);
+            if (isValid) {
+                List<UserRepresentation> users = usersResource.searchByEmail(username,true);
+                UserRepresentation userRepresentation = users.stream().findFirst().orElse(null);
+                System.out.println("user:"+userRepresentation);
+                if (userRepresentation!=null) {
+                    return sendPasswordResetEmail(userRepresentation,usersResource);
+                }
+            } else {
+                List<UserRepresentation> usersByEmail = usersResource.searchByUsername(username,true);
+                UserRepresentation usersByEmailRepresentation = usersByEmail.stream().findFirst().orElse(null);
+                System.out.println("user:"+usersByEmailRepresentation);
+                if (usersByEmailRepresentation!=null) {
+                    return sendPasswordResetEmail(usersByEmailRepresentation,usersResource);
+                }
+            }
+            message.setMessage("No account was found with the provided credentials");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        } catch (Exception e) {
+            message.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+    }
+
+    private ResponseEntity<ResponseMessage> sendPasswordResetEmail(UserRepresentation userRepresentation,UsersResource usersResource) {
+        ResponseMessage message = new ResponseMessage();
+        UserResource userResource = usersResource.get(userRepresentation.getId());
+        List<String> actions = new ArrayList<>();
+        actions.add(UPDATE_PASSWORD);
+        userResource.executeActionsEmail(actions);
+        message.setMessage("An email has been sent. Check your inbox.");
+        return ResponseEntity.ok(message);
+    }
+
+    @Override
+    public ResponseEntity<?> updatePassword(String oldPassword,String newPassword,String username){
+        ResponseMessage message = new ResponseMessage();
+        try {
+            UsersResource usersResource = getUsersResource();
+            List<UserRepresentation> users = usersResource.searchByUsername(username,true);
+            UserRepresentation userRepresentation = users.stream().findFirst().orElse(null);
+            User user = userRepository.findById(userRepresentation.getId()).orElse(null);
+            System.out.println(user);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if (userRepresentation != null && user != null) {
+                if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("The older password is incorrect");
+                }
+                CredentialRepresentation newCredential = new CredentialRepresentation();
+                newCredential.setType(CredentialRepresentation.PASSWORD);
+                newCredential.setValue(newPassword);
+                newCredential.setTemporary(false);
+                usersResource.get(userRepresentation.getId()).resetPassword(newCredential);
+                String hashedPassword = passwordEncoder.encode(newPassword);
+                user.setPassword(hashedPassword);
+                userRepository.save(user);
+                return ResponseEntity.ok(user);
+            }else{
+                message.setMessage("User not found");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+        } catch (Exception e) {
+            message.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+    }
 }

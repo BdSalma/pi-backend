@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 import tn.examen.templateexamen2324.dao.UserRepo;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.dao.OfferRepo;
+import tn.examen.templateexamen2324.repository.ForumRepo;
 import tn.examen.templateexamen2324.repository.SocietyRepository;
 
 import java.io.IOException;
@@ -39,6 +40,8 @@ public class OfferService implements IOfferService {
     SocietyRepository societyRepo;
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    ForumRepo forumRepo;
     @Autowired
     private JavaMailSender mailSender;
     @Override
@@ -71,12 +74,18 @@ public class OfferService implements IOfferService {
     @Override
     public void affecetOfferToSociety(Offer o, String idU) {
         Society s = societyRepo.findById(idU).orElse(null);
+        List<Forum> f = forumRepo.findAll();
         if (s instanceof Society) {
             // Vérifier si le fichier est présent et non vide
             // Définir la société et l'état de l'offre
-            o.setSociety(s);
-            o.setEtatOffer(EtatOffer.Enattente);
+            for (Forum fo:f) {
+                if (fo.getForumStatus().equals(ForumStatus.In_Progress)) {
 
+                    o.setForum(fo);
+                    o.setSociety(s);
+                    o.setEtatOffer(EtatOffer.Enattente);
+                }
+            }
             // Enregistrer l'offre dans la base de données
             offerRepo.save(o);
         } else {
@@ -175,17 +184,35 @@ public class OfferService implements IOfferService {
     }
     @Override
     public List<Offer> getAcceptedOffer() {
-        List<Offer> offers = offerRepo.findAcceptedOffersOrderByFavorisDesc(EtatOffer.Approuvé);
-        for (Offer offer : offers) {
-            // Récupérez les données binaires de l'image
-            byte[] imageBytes = offer.getFile().getBytes();
-            // Encodez les données binaires en base64
-            String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
-            // Mettez à jour l'offre avec les données encodées en base64
-            offer.setFile(imageDataBase64);
+        List<Forum> forumsInProgress = new ArrayList<>();
+
+        // Récupérer tous les forums en cours (In_Progress)
+        List<Forum> allForums = forumRepo.findAll();
+        for (Forum forum : allForums) {
+            if (forum.getForumStatus() == ForumStatus.In_Progress) {
+                forumsInProgress.add(forum);
+            }
         }
+
+        // Récupérer les offres liées aux forums en cours avec l'état Approuvé
+        List<Offer> offers = new ArrayList<>();
+        for (Forum forum : forumsInProgress) {
+            List<Offer> forumOffers = offerRepo.findAllByForumAndEtatOffer(forum, EtatOffer.Approuvé);
+            offers.addAll(forumOffers);
+        }
+
+        // Transformer les données binaires de l'image en base64
+        for (Offer offer : offers) {
+            if (offer.getFile() != null) {
+                byte[] imageBytes = offer.getFile().getBytes();
+                String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
+                offer.setFile(imageDataBase64);
+            }
+        }
+
         return offers;
     }
+
 
     @Override
     public double calculateAverageOffersPerDay() {

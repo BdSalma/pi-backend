@@ -38,5 +38,6 @@ public class Offer implements Serializable {
     private Society society;
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="offers")
     private Set<Individu> Individus = new HashSet<>();
-
+    @ManyToOne
+    private Forum forum;
 }
