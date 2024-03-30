@@ -12,5 +12,6 @@ public interface RequestSupplyIService {
     void deleteRequestSupply(int idRequestSupply);
     RequestSupply updateRequestSupply(int idRequestSupply);
     List<RequestSupply> getRequestSupplyByIndividus(String idU);
-
+    List<RequestSupply> recommendNewRequestsForSociety(String societyId);
+    List<RequestSupply> getOLdRequestSupplyByIndividus(String idU);
 }

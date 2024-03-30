@@ -63,6 +63,21 @@ public class RequestSupplyController {
 
         return list;
     }
+    @GetMapping("/retrieveOldRequestSuppliesByIndividus")
+    @ResponseBody
+    public List<RequestSupply> getOldsuppliesByIndividus( Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        List<RequestSupply> list = requestSupplyIService.getOLdRequestSupplyByIndividus(userId);
 
+        return list;
+    }
+    @GetMapping("/recommendRequestsForSociety")
+    @ResponseBody
+    public List<RequestSupply> recommendRequestsForSociety(Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        return requestSupplyIService.recommendNewRequestsForSociety(userId);
+    }
 
 }

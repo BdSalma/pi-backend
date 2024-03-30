@@ -16,7 +16,8 @@ public class Invoice {
     private int idInvoice;
     public  String description;
     public  String file;
-    public  Boolean status;
+    @Enumerated(EnumType.STRING)
+    private InvoiceStatus status = InvoiceStatus.In_progress;
     public  String comment;
 
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "invoice")

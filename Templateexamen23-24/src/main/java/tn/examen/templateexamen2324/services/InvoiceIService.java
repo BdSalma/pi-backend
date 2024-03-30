@@ -1,7 +1,9 @@
 package tn.examen.templateexamen2324.services;
 
+import org.springframework.web.multipart.MultipartFile;
 import tn.examen.templateexamen2324.entity.Invoice;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface InvoiceIService {
@@ -15,7 +17,9 @@ public interface InvoiceIService {
 
     Invoice updateInvoice(int idInvoice);
 
-    void addAndAssignInvoiceToRequest(Invoice invoice, int requestSupplyId);
+    void addAndAssignInvoiceToRequest(Invoice invoice, int requestSupplyId ,MultipartFile file)throws IOException;
     List<Invoice> getInvoicesBySocietyId(String societyId);
-
+    public byte[] getFileBytes(String fileName) throws IOException ;
+    List<Invoice> retrieveOldInvoices();
+    List<Invoice> getOldInvoicesBySocietyId(String societyId);
 }

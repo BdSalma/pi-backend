@@ -18,7 +18,8 @@ public class Devis {
     private int quantity;
     private String description;
     private String file;
-    private boolean status;
+    @Enumerated(EnumType.STRING)
+    private DevisStatus status = DevisStatus.In_progress;
 
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     //@JsonIgnore

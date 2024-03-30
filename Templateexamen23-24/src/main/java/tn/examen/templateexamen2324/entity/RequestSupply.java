@@ -24,6 +24,8 @@ public class RequestSupply {
     public  String description;
     public LocalDate date;
     public int validity;
+    @Enumerated(EnumType.STRING)
+    private RequestSupplyStatus status = RequestSupplyStatus.Running;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "requestSupply")
     @JsonIgnore
     private Set<Devis> devis = new HashSet<>();
@@ -33,4 +35,7 @@ public class RequestSupply {
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private Individu individu;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Forum forum;
 }
