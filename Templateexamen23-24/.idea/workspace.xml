@@ -60,10 +60,15 @@
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
+    "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "gestion-sponsors",
-    "last_opened_file_path": "C:/Users/user/OneDrive/Bureau/integration final spring back",
+    "last_opened_file_path": "C:/Users/user/OneDrive/Bureau/projrt git/pi-backend/pi-backend/Templateexamen23-24",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -88,7 +93,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="" />
+      <changelist id="3c413468-276b-4792-849e-23f3e0b9fcc2" name="Changes" comment="Merge remote-tracking branch 'origin/gestion-sponsors' into gestion-sponsors" />
       <created>1701685534513</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -96,6 +101,7 @@
       <workItem from="1701685536998" duration="1132000" />
       <workItem from="1708379055176" duration="1345000" />
       <workItem from="1709765186355" duration="8848000" />
+      <workItem from="1711808160256" duration="335000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -137,8 +143,19 @@
       <option name="project" value="LOCAL" />
       <updated>1709778405732</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Merge remote-tracking branch 'origin/gestion-sponsors' into gestion-sponsors">
+      <option name="closed" value="true" />
+      <created>1710094169209</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1710094169209</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
