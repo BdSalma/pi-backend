@@ -6,12 +6,13 @@ import tn.examen.templateexamen2324.entity.Society;
 import tn.examen.templateexamen2324.entity.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
 public interface IOfferService {
      Offer addOffer(Offer o);
-
+     List<LocalDateTime> getDates(Offer o);
      Offer getOfferById(Long id);
 
      List<Offer> getOffers();

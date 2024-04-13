@@ -13,6 +13,7 @@ import tn.examen.templateexamen2324.entity.Society;
 import tn.examen.templateexamen2324.entity.User;
 import tn.examen.templateexamen2324.services.OfferService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -64,7 +65,11 @@ public class OfferController {
         return offerService.getSociety(userId);
 
     }
-
+    @GetMapping("/dates")
+    @ResponseBody
+    public List<LocalDateTime> findDates(Offer offer){
+        return offerService.getDates(offer);
+    }
     @GetMapping("/AcceptedOffer")
     @ResponseBody
     public List<Offer> getAcceptedOffer() {

@@ -8,12 +8,10 @@ import tn.examen.templateexamen2324.dao.OfferRepo;
 import tn.examen.templateexamen2324.repository.SocietyRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +27,11 @@ public class OfferService implements IOfferService {
     public Offer addOffer(Offer o) {
         o.setEtatOffer(EtatOffer.Enattente);
         return offerRepo.save(o);
+    }
+
+    public List<LocalDateTime> getDates(Offer offer) {
+        // Assuming Offer has fields date1, date2, and date3 for the three dates
+        return Arrays.asList(offer.getDate1(), offer.getDate2(), offer.getDate3());
     }
 
     @Override

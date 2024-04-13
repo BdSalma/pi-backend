@@ -29,7 +29,7 @@ public class Candidature implements Serializable {
     private String lettre;
     //@JsonIgnore
 
-    @OneToOne(cascade = {CascadeType.ALL, CascadeType.MERGE})
+    @OneToOne(cascade = {CascadeType.ALL})
     private Interview Interview;
 
     //@JsonIgnore

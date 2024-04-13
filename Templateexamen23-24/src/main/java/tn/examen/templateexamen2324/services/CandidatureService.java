@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CandidatureService implements ICandidatureService{
@@ -145,7 +146,21 @@ public class CandidatureService implements ICandidatureService{
         this.mailSender.send(message);
     }
 */
+    public List<Candidature> getCandidaturesByOfferAndIndividu(Long idOffer, String idIndividu) {
+        // Récupérer toutes les candidatures de la base de données
+        List<Candidature> allCandidatures = (List<Candidature>) crepo.findAll();
 
+        // Filtrer les candidatures pour celles qui correspondent à l'offre et à l'individu spécifiés
+        List<Candidature> filteredCandidatures = allCandidatures.stream()
+                .filter(candidature -> candidature.getOffer().getIdOffre().equals(idOffer) && candidature.getIndividu().getId().equals(idIndividu))
+                .collect(Collectors.toList());
+
+        return filteredCandidatures;
+    }
+    @Override
+    public boolean getCandidaturesByOfferAndAndIndividu(Long IdOffer,String idIndividu){
+       return getCandidaturesByOfferAndIndividu(IdOffer,idIndividu).size() > 0;
+   }
     @Override
     public Candidature FindCandidatById(Long id) {
         return crepo.findById(id).get();

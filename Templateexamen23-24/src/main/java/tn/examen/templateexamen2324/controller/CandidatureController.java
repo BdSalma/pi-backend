@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.examen.templateexamen2324.entity.Candidature;
+import tn.examen.templateexamen2324.entity.Offer;
 import tn.examen.templateexamen2324.services.ICandidatureService;
 
 import java.io.File;
@@ -97,7 +98,19 @@ public class CandidatureController {
         Candidature c= candiService.FindCandidatById(id);
         return ResponseEntity.ok(c);
     }
-
+    @GetMapping("/check/{offerId}")
+    public ResponseEntity<Boolean> hasUserAppliedToOffer(
+            @PathVariable("offerId") Long offerId, Authentication authentication)throws IOException {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        if (offerId != null) {
+        boolean hasApplied = candiService.getCandidaturesByOfferAndAndIndividu(offerId,userId);
+        return new ResponseEntity<>(hasApplied, HttpStatus.OK);
+        } else {
+            // ID de l'offre non défini, renvoyer une réponse BadRequest
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
     @DeleteMapping("/delete/{id}")
     public void deleteCandidat(@PathVariable("id") Long id) {
         candiService.deleteById(id);

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +27,12 @@ public class Offer implements Serializable {
     private String offerName;
     @Enumerated(EnumType.STRING)
     private Category offreCategory;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime date1;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime date2;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime date3;
     private int Candidatnumber;
     private String candidatProfil;
     private String duree;
