@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="merge offer reclamation user candidature">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/26e29197-11c6-489d-9ce9-eb1127840fea.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/78f496df-fbc3-46bd-8e42-4af957cb2140.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/797258a5-9587-4439-a521-5751ffd12e5c.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fils/a101afde-72f7-4af5-b642-f021b24a9c3d.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/26e29197-11c6-489d-9ce9-eb1127840fea.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/78f496df-fbc3-46bd-8e42-4af957cb2140.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/797258a5-9587-4439-a521-5751ffd12e5c.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/fils/a101afde-72f7-4af5-b642-f021b24a9c3d.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/InterviewController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/InterviewController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/OfferController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/OfferController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/InterviewServiceImpl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/InterviewServiceImpl$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +66,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Merging salma",
+    "git-widget-placeholder": "salma",
     "last_opened_file_path": "C:/Users/Salma/IdeaProjects/pi/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/controller",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -149,7 +139,7 @@
       <workItem from="1713017491079" duration="7113000" />
       <workItem from="1713039030995" duration="1842000" />
       <workItem from="1713097661488" duration="1385000" />
-      <workItem from="1713169998749" duration="314000" />
+      <workItem from="1713169998749" duration="1806000" />
     </task>
     <task id="LOCAL-00001" summary="update candidat and interview">
       <option name="closed" value="true" />
