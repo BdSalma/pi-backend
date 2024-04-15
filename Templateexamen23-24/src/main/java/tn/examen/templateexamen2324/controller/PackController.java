@@ -1,6 +1,7 @@
 package tn.examen.templateexamen2324.controller;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.entity.Pack;
@@ -67,12 +68,7 @@ public class PackController {
         packService.deletePack(packId);
     }
 
-    @PutMapping("/update-pack/{packId}")
-    @ResponseBody
-    public Pack updateBloc(@PathVariable("packId") long packId, @RequestBody Pack pack) {
-        return packService.updatePack(packId, pack);
 
-    }
     @PostMapping("/create_Pack_And_Assign_To_Stand/{idStand}")
     @ResponseBody
     public Pack createPackAndAssignToStand(@PathVariable("idStand") Long idStand, @RequestBody Pack pack){
@@ -84,11 +80,21 @@ public class PackController {
     public Pack unassignStandfromPack(@PathVariable("idPack") Long idPack){
         return packService.unassignStandfromPack(idPack);
     }
+    @PostMapping("/createPersonalizedPackPrice/{standId}")
+    public Pack createPersonalizedPackPrice(@RequestBody Pack pack, Authentication authentication, @PathVariable("standId") Long standId) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        Pack personalizedPack = packService.createPersonlizedPackPrice(pack, userId, standId);
+        return pack;
+    }
 
-    @PutMapping("/book_Pack/{idPack}/{idUser}")
+    @PutMapping("/book_Pack/{idPack}")
     @ResponseBody
-    public Pack bookPack(@PathVariable("idPack") Long idPack,@PathVariable("idUser") String idUser){
-        return packService.bookPack(idUser,idPack);
+    public Pack bookPack(@PathVariable("idPack") Long idPack, Authentication authentication){
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        return packService.bookPack(userId,idPack);
+
     }
 
     @PutMapping("/validate_Reservation/{idPack}")

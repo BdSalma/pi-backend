@@ -21,7 +21,6 @@ public class Stand implements Serializable {
     private TypeStand zone;
     private int number;
     private Boolean reserved = false;
-
     @OneToOne(mappedBy = "Stand")
     @JsonIgnore
     private Pack Pack;

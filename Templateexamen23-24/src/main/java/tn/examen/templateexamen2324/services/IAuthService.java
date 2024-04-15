@@ -2,8 +2,10 @@ package tn.examen.templateexamen2324.services;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.multipart.MultipartFile;
 import tn.examen.templateexamen2324.entity.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +17,6 @@ public interface IAuthService {
     public User getUserById(String userId);
     public ResponseEntity<String> deleteUserById(String userId);
     public List<User> getAllUsers();
-    public void addRoleToUser(String userId, String roleName);
     public Object[] updateUser(String id,Map<String, String> userRegistration);
     public ResponseEntity<?> checkUser(Jwt jwtToken);
     public ResponseEntity<?> approveUser(String userId);
@@ -28,4 +29,6 @@ public interface IAuthService {
     public List<Society> getAllSocietiesFilteredByFields(String field);
     public ResponseEntity<ResponseMessage> forgotPassword(String username);
     public ResponseEntity<?> updatePassword(String oldPassword,String newPassword,String username);
+    public ResponseEntity<?> refreshToken(String token);
+    public ResponseEntity<?> addImageToUser(String userId, MultipartFile image);
 }

@@ -26,6 +26,8 @@ public class Forum  implements Serializable{
     private String localisation ;
     private String theme;
     private String description ;
+    @JsonIgnore
+    private String affiche;
     private ForumStatus forumStatus = ForumStatus.In_Progress;
 
     @ManyToMany(cascade = CascadeType.ALL)

@@ -27,4 +27,5 @@ public interface IPackService {
 
      Pack assignStandToPack(long idStand , Pack pack);
 
+     Pack createPersonlizedPackPrice(Pack pack,String UserId, Long standId);
 }

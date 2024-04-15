@@ -1,16 +1,10 @@
 package tn.examen.templateexamen2324.services;
-import jakarta.mail.MessagingException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tn.examen.templateexamen2324.dao.CandidatureRepo;
 import tn.examen.templateexamen2324.dao.InterviewRepo;
 import tn.examen.templateexamen2324.dao.OfferRepo;
-import tn.examen.templateexamen2324.dao.UserRepo;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.repository.UserRepository;
 
@@ -42,7 +36,7 @@ public class CandidatureService implements ICandidatureService{
         User user = urepo.findById(idUser).orElseThrow(() -> new IllegalArgumentException("User not found"));
         if (cv != null) {
             String fileName = UUID.randomUUID().toString() + "." + getFileExtension(cv);
-            String uploadPath = "C:/Users/Salma/IdeaProjects/pi/pi-backend/Templateexamen23-24/src/main/resources/fils"; // Replace with your designated upload path
+            String uploadPath = "C:/Users/ASUS/IdeaProjects/pi-backend/Templateexamen23-24/src/main/resources/fils"; // Replace with your designated upload path
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
@@ -56,7 +50,7 @@ public class CandidatureService implements ICandidatureService{
         // File upload logic
         if (lettre != null) { // Ensure a file was actually uploaded
             String filelettre = UUID.randomUUID().toString() + "." + getFileExtension(lettre);
-            String uploadPath = "C:/Users/Salma/IdeaProjects/pi/pi-backend/Templateexamen23-24/src/main/resources/fils"; // Replace with your designated upload path
+            String uploadPath = "C:/Users/ASUS/IdeaProjects/pi-backend/Templateexamen23-24/src/main/resources/fils"; // Replace with your designated upload path
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdir(); // Create the directory if it doesn't exist

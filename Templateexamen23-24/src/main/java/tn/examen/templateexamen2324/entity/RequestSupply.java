@@ -1,8 +1,10 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,17 +18,23 @@ import java.util.Set;
 public class RequestSupply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  long idRequestSupply;
+    private  int idRequestSupply;
     public int quantity;
     public String category;
     public  String description;
-    public Date date;
+    public LocalDate date;
     public int validity;
-
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "RequestSupply")
-    private Set<Devis> Devis = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "requestSupply")
+    @JsonIgnore
+    private Set<Devis> devis = new HashSet<>();
     @OneToOne(cascade = CascadeType.ALL)
-    private Invoice Invoice;
+    @JsonIgnore
+    private Invoice invoice;
     @ManyToOne(cascade = CascadeType.ALL)
-    private Individu Individu;
+    @JsonIgnore
+    private Individu individu;
+
+    private RequestSuplyStatus requestSuplyStatus;
+    @ManyToOne
+    private Forum forum;
 }

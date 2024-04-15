@@ -37,40 +37,13 @@ public class SecurityConfiguration {
         auth.authenticationProvider(provider);
     }
 
-    /*@Bean
-    @Override
-    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
-    }*/
-
-
-
-   /* public SecurityFilterChain securityFilterChainMethod(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .cors(Customizer.withDefaults())
-                .csrf(CsrfConfigurer::disable)
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers(HttpMethod.POST, "/auth/addRoleToUser").hasRole("ROLE_NAME")
-                                .anyRequest().permitAll()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer(oauth2ResourceServer ->
-                        oauth2ResourceServer.jwt(jwt ->
-                                jwt.jwtAuthenticationConverter(jwtAuthConverter)
-                        )
-                );
-
-       return httpSecurity.build();
-    }*/
     @Bean
     public SecurityFilterChain securityFilterChainMethod(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .cors(Customizer.withDefaults())
                 .csrf(CsrfConfigurer::disable)
-
-              //  .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().permitAll())
-                .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().authenticated())
+                .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().permitAll())
+              //  .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2ResourceServer ->
                         oauth2ResourceServer.jwt(jwt ->
@@ -92,20 +65,27 @@ public class SecurityConfiguration {
             web.ignoring().requestMatchers(
                     HttpMethod.GET,
                     "/auth/hello-2",
+                    "/requestSupply/retrieveAllRequests",
+                    "/auth/hello-2",
                     "/Offer/allOffers",
                     "/Offer/AcceptedOffer",
-                    "/Offer/Offer/filterByCriteria/{criteria}"
+                    "/Offer/Offer/filterByCriteria/{criteria}",
+                    "/user-images/**",
+                    "/forum/**"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.POST,
                     "/auth/create-user",
                     "/auth/login",
-                    "/auth/logout"
+                    "/auth/logout",
+                    "/auth/refreshToken",
+                    "/forum/**"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.PUT,
-                    "/auth/forgot-password"
-                    //"/auth/addRealmRoleToUser/**"
+                    "/auth/forgot-password",
+                    "/forum/**"
+                    //"/auth/addRoleToUser/**"
             );
             web.ignoring().requestMatchers(
                             HttpMethod.OPTIONS,

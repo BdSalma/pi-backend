@@ -17,4 +17,5 @@ public interface PackRepo extends JpaRepository<Pack, Long> {
     List<Pack> findPackByForum(@Param("forumId") Long forumId);
 
     List<Pack> findPackByTypePackAndReservationStatus(TypePack typePack, ReservationStatus reservationStatus);
+    //int countPackByReserverAndForum(User reserver , Forum currentForum);
 }

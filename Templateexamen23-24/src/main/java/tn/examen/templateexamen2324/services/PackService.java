@@ -1,8 +1,11 @@
 package tn.examen.templateexamen2324.services;
 
+
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+
 import org.springframework.stereotype.Service;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.repository.ForumRepo;
@@ -109,7 +112,6 @@ public class PackService implements IPackService{
 
     @Override
     public Pack bookPack(String userId, Long packId) {
-
         Pack pack = this.packRepo.findById(packId).get();
         if(pack.getReservationStatus() == ReservationStatus.Not_Reserved){
             User user = this.userRepository.findById(userId).get();
@@ -120,7 +122,6 @@ public class PackService implements IPackService{
            return this.packRepo.save(pack);
       }
        return this.packRepo.save(pack);
-
     }
 
     @Override
@@ -128,8 +129,10 @@ public class PackService implements IPackService{
         Pack pack = this.packRepo.findById(packId).get();
         pack.setReservationStatus(ReservationStatus.Reserved);
         LocalDate date = LocalDate.now();
-        pack.setReservationDate(date);
-        return  this.packRepo.save(pack);
+
+        pack.setValidationDate(date);
+        return this.packRepo.save(pack);
+
     }
 
     @Override
@@ -159,6 +162,51 @@ public class PackService implements IPackService{
        return  this.packRepo.save(pack);
     }
 
+    @Override
+    public Pack createPersonlizedPackPrice(Pack pack, String UserId, Long standId) {
+        User u = this.userRepository.findById(UserId).get();
+        Forum f = forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
+        Stand s = this.standRepo.findById(standId).get();
+        //if(this.packRepo.countPackByReserverAndForum(u,f) ==0){
+            if(pack.getTypePack()== TypePack.Personalized){
+                pack.setStand(s);
+                pack.setReserver(u);
+                LocalDate date = LocalDate.now();
+                pack.setReservationDate(date);
+                pack.setReservationStatus(ReservationStatus.On_Hold);
+                s.setPack(pack);
+                s.setReserved(true);
+
+                float price =0;
+                if(pack.isDisplayLogo()){
+                    price = price + 200;
+                }
+                if (pack.getNumberOfFlyers()>0){
+                    if (pack.isInsertFlyer()) {
+                        price = price + 300;
+                    }
+                }
+                if (pack.getNumberOfBadges() > 0) {
+                    price += pack.getNumberOfBadges() * 25;
+                }
+                if (pack.getNumberOfFlyers() > 0) {
+                    price += pack.getNumberOfFlyers() * 30;
+                }
+                if (pack.getNumberOfOffers() > 0) {
+                    price += pack.getNumberOfOffers() * 90;
+                }
+                pack.setPrix(price);
+                this.packRepo.save(pack);
+                this.standRepo.save(s);
+                f.getPack().add(pack);
+                this.forumRepo.save(f);
+                return pack;
+            }
+      //  }
+       return null;
+    }
+
+
     @Scheduled(cron = "0 0 8 * * *") // Run at 8:00 AM every day
     public void NotifyReservationDDL() {
         Forum f = this.forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
@@ -173,5 +221,6 @@ public class PackService implements IPackService{
             }
         }
     }
+
 
 }

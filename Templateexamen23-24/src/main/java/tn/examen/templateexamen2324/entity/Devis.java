@@ -1,5 +1,6 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +20,10 @@ public class Devis {
     private String file;
     private boolean status;
 
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    //@JsonIgnore
+    private RequestSupply requestSupply;
     @ManyToOne(cascade = CascadeType.ALL)
-    private RequestSupply RequestSupply;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Society Society;
+    @JsonIgnore
+    private Society societyDevis;
 }
