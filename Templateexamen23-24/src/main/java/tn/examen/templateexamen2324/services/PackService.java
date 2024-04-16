@@ -4,6 +4,8 @@ package tn.examen.templateexamen2324.services;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import org.springframework.stereotype.Service;
@@ -19,7 +21,9 @@ import tn.examen.templateexamen2324.entity.Stand;
 import tn.examen.templateexamen2324.repository.PackRepo;
 import tn.examen.templateexamen2324.repository.StandRepo;
 
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -36,6 +40,9 @@ public class PackService implements IPackService{
     StandRepo standRepo;
 
     @Autowired
+    private JavaMailSender mailSender;
+
+    @Autowired
     UserRepository userRepository;
 
     @Override
@@ -44,11 +51,19 @@ public class PackService implements IPackService{
         forum.getPack().add(pack);
         forumRepo.save(forum);
         pack.setForum(forum);
+        if (pack.getTypePack() == TypePack.Diamond || pack.getTypePack() == TypePack.Platinum){
+            pack.setDisplayLogo(true);
+        }
+
         return packRepo.save(pack);
     }
 
     @Override
     public List<Pack> retrieveAllPacks() {
+        Forum f = forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
+        if(f != null){
+            return (List<Pack>) f.getPack();
+        }
         return packRepo.findAll();
     }
 
@@ -129,8 +144,8 @@ public class PackService implements IPackService{
         Pack pack = this.packRepo.findById(packId).get();
         pack.setReservationStatus(ReservationStatus.Reserved);
         LocalDate date = LocalDate.now();
-
         pack.setValidationDate(date);
+        this.sendSimpleEmail(pack.getReserver().getEmail(), "Validation de reservation", " La reservation que vous avez effectué est validée");
         return this.packRepo.save(pack);
 
     }
@@ -139,8 +154,10 @@ public class PackService implements IPackService{
     public Pack cancelReservation(Long packId) {
         Pack pack = this.packRepo.findById(packId).get();
         pack.setReservationStatus(ReservationStatus.Not_Reserved);
+        this.sendSimpleEmail(pack.getReserver().getEmail(), "Annulation de reservation", " La reservation que vous avez effectué est annulée");
         pack.setReservationDate(null);
         pack.setReserver(null);
+
         return  this.packRepo.save(pack);
     }
 
@@ -167,7 +184,6 @@ public class PackService implements IPackService{
         User u = this.userRepository.findById(UserId).get();
         Forum f = forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
         Stand s = this.standRepo.findById(standId).get();
-        //if(this.packRepo.countPackByReserverAndForum(u,f) ==0){
             if(pack.getTypePack()== TypePack.Personalized){
                 pack.setStand(s);
                 pack.setReserver(u);
@@ -178,6 +194,13 @@ public class PackService implements IPackService{
                 s.setReserved(true);
 
                 float price =0;
+                if(s.getZone()== TypeStand.Zone1){
+                    price = price +500;
+                } else if (s.getZone()== TypeStand.Zone2) {
+                    price = price +1000;
+                }else{
+                    price = price+1500;
+                }
                 if(pack.isDisplayLogo()){
                     price = price + 200;
                 }
@@ -200,27 +223,161 @@ public class PackService implements IPackService{
                 this.standRepo.save(s);
                 f.getPack().add(pack);
                 this.forumRepo.save(f);
+                this.sendSimpleEmail(u.getEmail(), "Prix de votre stand personalisé", " le prix de votre stand est de l'ordre de "+price);
                 return pack;
             }
-      //  }
        return null;
     }
 
-
-    @Scheduled(cron = "0 0 8 * * *") // Run at 8:00 AM every day
-    public void NotifyReservationDDL() {
-        Forum f = this.forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
-        LocalDate d = LocalDate.now();
-        LocalDate reservationDDL = f.getDate().minusDays(4); // Set reservation deadline to four days before the forum date
-        List<Pack> packs = this.packRepo.findPackByForum(f.getId());
-        for (Pack p : packs) {
-            if (p.getStatut() == false && p.getReservationStatus() == ReservationStatus.On_Hold) {
-                if (p.getReservationDate().isEqual(reservationDDL) && p.getReservationDate().isBefore(f.getDate().minusDays(3))) {
-                    log.info(p.getReserver().getEmail());
+    @Override
+    public List<User> getListOfParticipants() {
+        Forum currentForum = this.forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
+        ArrayList<User> listofParticipants = new ArrayList<>();
+        if(currentForum != null){
+            for (Pack p: currentForum.getPack()) {
+                if(p.getReservationStatus() == ReservationStatus.Reserved && p.isDisplayLogo()){
+                    listofParticipants.add(p.getReserver());
                 }
+            }
+        }else {
+            List<Forum> forums = this.forumRepo.findAll();
+            for (Forum f : forums) {
+                for (Pack p: f.getPack()) {
+                    if (p.getReserver() != null && p.isDisplayLogo()){
+                        if(!listofParticipants.contains(p.getReserver())){
+                            listofParticipants.add(p.getReserver());
+                        }
+                    }
+                }
+            }
+        }
+        return listofParticipants;
+    }
+
+    @Override
+    public HashMap<String, HashMap<String, Float>> getPackStatistics() {
+        HashMap<String, HashMap<String, Float>> statistics = new HashMap<>();
+        List<Pack> packs = this.packRepo.findAll();
+        List<Pack> packsDiamond = new ArrayList<>();
+        List<Pack> packsPersonalized = new ArrayList<>();
+        List<Pack> packsSilver = new ArrayList<>();
+        List<Pack> packsGold = new ArrayList<>();
+        List<Pack> packsPlatinum = new ArrayList<>();
+
+        for (Pack p : packs) {
+            switch (p.getTypePack()) {
+                case Diamond:
+                    packsDiamond.add(p);
+                    break;
+                case Platinum:
+                    packsPlatinum.add(p);
+                    break;
+                case Silver:
+                    packsSilver.add(p);
+                    break;
+                case Personalized:
+                    packsPersonalized.add(p);
+                    break;
+                case Gold:
+                    packsGold.add(p);
+                    break;
+            }
+        }
+
+        // Calculate revenue and percentages
+        int totalPacks = packs.size();
+
+        // Gold Pack Calculation
+        HashMap<String, Float> goldStats = new HashMap<>();
+        float goldRevenue = calculateRevenue(packsGold);
+        float goldPercentage = ((float) packsGold.size() / totalPacks) * 100;
+        goldStats.put("Revenue", goldRevenue);
+        goldStats.put("Percentage", goldPercentage);
+        statistics.put("Gold", goldStats);
+
+        // Silver Pack Calculation
+        HashMap<String, Float> silverStats = new HashMap<>();
+        float silverRevenue = calculateRevenue(packsSilver);
+        float silverPercentage = ((float) packsSilver.size() / totalPacks) * 100;
+        silverStats.put("Revenue", silverRevenue);
+        silverStats.put("Percentage", silverPercentage);
+        statistics.put("Silver", silverStats);
+
+        // Platinum Pack Calculation
+        HashMap<String, Float> platinumStats = new HashMap<>();
+        float platinumRevenue = calculateRevenue(packsPlatinum);
+        float platinumPercentage = ((float) packsPlatinum.size() / totalPacks) * 100;
+        platinumStats.put("Revenue", platinumRevenue);
+        platinumStats.put("Percentage", platinumPercentage);
+        statistics.put("Platinum", platinumStats);
+
+        // Diamond Pack Calculation
+        HashMap<String, Float> diamondStats = new HashMap<>();
+        float diamondRevenue = calculateRevenue(packsDiamond);
+        float diamondPercentage = ((float) packsDiamond.size() / totalPacks) * 100;
+        diamondStats.put("Revenue", diamondRevenue);
+        diamondStats.put("Percentage", diamondPercentage);
+        statistics.put("Diamond", diamondStats);
+
+        // Personalized Pack Calculation
+        HashMap<String, Float> personalizedStats = new HashMap<>();
+        float personalizedRevenue = calculateRevenue(packsPersonalized);
+        float personalizedPercentage = ((float) packsPersonalized.size() / totalPacks) * 100;
+        personalizedStats.put("Revenue", personalizedRevenue);
+        personalizedStats.put("Percentage", personalizedPercentage);
+        statistics.put("Personalized", personalizedStats);
+
+        return statistics;
+    }
+
+
+    private float calculateRevenue(List<Pack> packs) {
+        float revenue = 0;
+        for (Pack p : packs) {
+            revenue += p.getPrix();
+        }
+        return revenue;
+    }
+
+    @Scheduled(cron = "0 0 8 * * *")
+  //  @Scheduled(fixedRate = 30000)// Run at 8:00 AM every day
+    public void notificationManagment() {
+        Forum forumInProgress = forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
+        if (forumInProgress != null) { // Check if there is a forum in progress
+            LocalDate currentDate = LocalDate.now();
+            long daysLeftUntilForum = ChronoUnit.DAYS.between(currentDate, forumInProgress.getDate());
+            if (daysLeftUntilForum >= 3) {
+                List<Pack> packs = packRepo.findPackByForum(forumInProgress.getId());
+                for (Pack pack : packs) {
+                    if (!pack.getStatut()) {
+                        long daysDifference = ChronoUnit.DAYS.between(pack.getReservationDate(), currentDate);
+                        if (daysDifference == 3) {
+                            sendSimpleEmail(pack.getReserver().getEmail(), "Rappel de reservation", "Merci de valider votre reservation");
+                            log.info("Email Sent");
+                        } else if (daysDifference >= 7) {
+                            cancelReservation(pack.getId());
+                            log.info("reservation cacelled");
+                        }
+                    }
+                }
+            } else if (daysLeftUntilForum <= 0) {
+                List<Pack> packs = packRepo.findPackByForum(forumInProgress.getId());
+                for (Pack p: packs) {
+                    p.setReservationStatus(ReservationStatus.Archived);
+                }
+                forumInProgress.setForumStatus(ForumStatus.Done);
+
             }
         }
     }
 
-
+    public void sendSimpleEmail(String toEmail, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("walahamdi0@gmail.com");
+        message.setTo(toEmail);
+        message.setText(body);
+        message.setSubject(subject);
+        mailSender.send(message);
+        System.out.println("Mail Send...");
+    }
 }

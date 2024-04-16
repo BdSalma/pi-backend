@@ -22,11 +22,10 @@ public class Pack {
     private float prix;
     private Boolean statut;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
     private Forum Forum;
     @OneToOne(cascade = CascadeType.ALL)
     private Stand Stand;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private User reserver;
     private LocalDate reservationDate;
     private LocalDate validationDate;

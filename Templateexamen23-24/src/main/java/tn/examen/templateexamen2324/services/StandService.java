@@ -2,8 +2,11 @@ package tn.examen.templateexamen2324.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tn.examen.templateexamen2324.entity.Forum;
+import tn.examen.templateexamen2324.entity.ForumStatus;
 import tn.examen.templateexamen2324.entity.Pack;
 import tn.examen.templateexamen2324.entity.Stand;
+import tn.examen.templateexamen2324.repository.ForumRepo;
 import tn.examen.templateexamen2324.repository.StandRepo;
 
 import java.util.List;
@@ -14,21 +17,30 @@ public class StandService implements IStandService{
     @Autowired
     StandRepo standRepo;
 
+    @Autowired
+    ForumRepo forumRepo;
+
     @Override
     public Stand addStand(Stand stand) {
+        Forum forum = this.forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
+        forum.getStand().add(stand);
+        forumRepo.save(forum);
+        stand.setForum(forum);
         return standRepo.save(stand);
     }
 
     @Override
     public List<Stand> retrieveAllStand() {
+        Forum f = forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
+        if(f != null){
+            return f.getStand();
+        }
         return standRepo.findAll();
     }
-
     @Override
     public Stand retrieveStandById(long id) {
         return standRepo.findById(id).get();
     }
-
     @Override
     public void deleteStand(long id) {
          standRepo.deleteById(id);

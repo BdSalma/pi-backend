@@ -4,5 +4,7 @@ public enum TypePack {
     Silver,
     Platinum,
     Diamond,
-    Personalized
+    Personalized,
+
+    Gold,
 }

@@ -24,4 +24,6 @@ public class Stand implements Serializable {
     @OneToOne(mappedBy = "Stand")
     @JsonIgnore
     private Pack Pack;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Forum Forum;
 }

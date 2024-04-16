@@ -244,4 +244,6 @@ public class ForumService implements IForumService{
         Collections.sort(forums, (f1, f2) -> f2.getDate().compareTo(f1.getDate()));
         return forums.get(1);
     }
+
+
 }

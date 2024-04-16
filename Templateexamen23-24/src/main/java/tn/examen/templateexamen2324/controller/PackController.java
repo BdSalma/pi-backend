@@ -9,6 +9,7 @@ import tn.examen.templateexamen2324.entity.Stand;
 import tn.examen.templateexamen2324.services.IPackService;
 import tn.examen.templateexamen2324.services.IStandService;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -24,6 +25,19 @@ public class PackController {
     public List<Pack> getPacks() {
         List<Pack> listPack = packService.retrieveAllPacks();
         return listPack;
+    }
+
+    @GetMapping("/getPacksStatistics")
+    @ResponseBody
+    public HashMap<String,HashMap<String,Float>> getPacksStatistics() {
+        return packService.getPackStatistics();
+    }
+
+    @GetMapping("/getListOfParticipants")
+    @ResponseBody
+    public List<User> getListOfParticipants() {
+        List<User> listParticipants = packService.getListOfParticipants();
+        return listParticipants;
     }
 
     @GetMapping("/find-all-packs-by-forum/{forum}")
