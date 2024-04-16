@@ -27,14 +27,18 @@ public class InvoiceController {
      }
     @GetMapping("/retrieveAllInvoices")
     @ResponseBody
-    public List<Invoice> getInvoices() {
-        List<Invoice> listInvoices = invoiceIService.retrieveAllInvoices();
+    public List<Invoice> getInvoices(Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        List<Invoice> listInvoices = invoiceIService.retrieveAllInvoices(userId);
         return listInvoices;
     }
     @GetMapping("/retrieveOldInvoices")
     @ResponseBody
-    public List<Invoice> getOldInvoices() {
-        List<Invoice> listInvoices = invoiceIService.retrieveOldInvoices();
+    public List<Invoice> getOldInvoices(Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        List<Invoice> listInvoices = invoiceIService.retrieveOldInvoicesByUserId(userId);
         return listInvoices;
     }
 
@@ -46,7 +50,7 @@ public class InvoiceController {
     }
     @GetMapping("/getInvoice/{id}")
     @ResponseBody
-    public Invoice getOfferById(@PathVariable("id") int idInvoice) {
+    public Invoice getInvoiceById(@PathVariable("id") int idInvoice) {
         return invoiceIService.retrieveInvoiceById(idInvoice);
 
     }

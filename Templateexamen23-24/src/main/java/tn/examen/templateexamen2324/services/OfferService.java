@@ -2,14 +2,13 @@ package tn.examen.templateexamen2324.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.examen.templateexamen2324.dao.UserRepo;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.dao.OfferRepo;
 import tn.examen.templateexamen2324.repository.SocietyRepository;
+import tn.examen.templateexamen2324.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +22,7 @@ public class OfferService implements IOfferService {
     @Autowired
     SocietyRepository societyRepo;
     @Autowired
-    UserRepo userRepo;
+    UserRepository userRepo;
 
     @Override
     public Offer addOffer(Offer o) {

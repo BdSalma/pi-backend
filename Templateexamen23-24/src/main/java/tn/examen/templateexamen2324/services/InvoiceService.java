@@ -36,7 +36,7 @@ public class InvoiceService implements InvoiceIService {
     }
 
     @Override
-    public List<Invoice> retrieveAllInvoices() {
+    public List<Invoice> retrieveAllInvoices(String userId) {
         // Retrieve all invoices
         List<Invoice> allInvoices = invoiceRepository.findAll();
 
@@ -44,7 +44,8 @@ public class InvoiceService implements InvoiceIService {
         return allInvoices.stream()
                 .filter(invoice -> {
                     RequestSupply requestSupply = invoice.getRequestSupply();
-                    return requestSupply != null && requestSupply.getStatus() == RequestSupplyStatus.Running;
+                    return requestSupply != null && requestSupply.getStatus() == RequestSupplyStatus.Running&&
+                            requestSupply.getIndividu().getId().equals(userId);
                 })
                 .collect(Collectors.toList());
     }
@@ -152,16 +153,19 @@ public class InvoiceService implements InvoiceIService {
         return Files.readAllBytes(filePath);
     }
     @Override
-    public List<Invoice> retrieveOldInvoices() {
+    public List<Invoice> retrieveOldInvoicesByUserId(String userId) {
         // Retrieve all invoices
         List<Invoice> allInvoices = invoiceRepository.findAll();
 
-        // Filter invoices where the status of the associated request is "running"
+        // Filter invoices by the user's ID and where the status of the associated request is "Archived"
         return allInvoices.stream()
                 .filter(invoice -> {
                     RequestSupply requestSupply = invoice.getRequestSupply();
-                    return requestSupply != null && requestSupply.getStatus() == RequestSupplyStatus.Archived;
+                    return requestSupply != null &&
+                            requestSupply.getStatus() == RequestSupplyStatus.Archived &&
+                            requestSupply.getIndividu().getId().equals(userId);
                 })
                 .collect(Collectors.toList());
     }
+
 }

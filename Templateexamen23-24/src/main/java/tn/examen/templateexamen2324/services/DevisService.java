@@ -5,12 +5,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import tn.examen.templateexamen2324.dao.SocietyRepo;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.repository.DevisRepository;
-import tn.examen.templateexamen2324.repository.InvoiceRepository;
 import tn.examen.templateexamen2324.repository.RequestSupplyRepository;
-
+import tn.examen.templateexamen2324.repository.SocietyRepository;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,10 +25,9 @@ public class DevisService implements DevisIService {
     @Autowired
     RequestSupplyRepository requestSupplyRepository;
     @Autowired
-    SocietyRepo societyRepo;
-    @Autowired
     private JavaMailSender mailSender;
-
+    @Autowired
+    SocietyRepository societyRepo;
     @Override
     public Devis addDevis(Devis devis) {
 

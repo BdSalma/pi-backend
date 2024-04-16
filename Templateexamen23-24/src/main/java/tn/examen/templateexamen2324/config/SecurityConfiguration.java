@@ -37,18 +37,13 @@ public class SecurityConfiguration {
         auth.authenticationProvider(provider);
     }
 
-    /*@Bean
-    @Override
-    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
-    }*/
-
     @Bean
     public SecurityFilterChain securityFilterChainMethod(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.cors(Customizer.withDefaults())
+        return httpSecurity
+                .cors(Customizer.withDefaults())
                 .csrf(CsrfConfigurer::disable)
-                .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().permitAll())
-                //.authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().authenticated())
+              //  .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().permitAll())
+                .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2ResourceServer ->
                         oauth2ResourceServer.jwt(jwt ->
@@ -71,22 +66,23 @@ public class SecurityConfiguration {
                     HttpMethod.GET,
                     "/auth/hello-2",
                     "/requestSupply/retrieveAllRequests",
-
                     "/auth/hello-2",
                     "/Offer/allOffers",
                     "/Offer/AcceptedOffer",
-                    "/Offer/Offer/filterByCriteria/{criteria}"
+                    "/Offer/Offer/filterByCriteria/{criteria}",
+                    "/user-images/**"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.POST,
                     "/auth/create-user",
                     "/auth/login",
-                    "/auth/logout"
+                    "/auth/logout",
+                    "/auth/refreshToken"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.PUT,
                     "/auth/forgot-password"
-                    //"/auth/addRealmRoleToUser/**"
+                    //"/auth/addRoleToUser/**"
             );
             web.ignoring().requestMatchers(
                             HttpMethod.OPTIONS,
@@ -94,6 +90,7 @@ public class SecurityConfiguration {
                     )
                     .requestMatchers("/v3/api-docs/**", "/configuration/**", "/swagger-ui/**",
                             "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/api-docs/**");
+
 
         };
     }

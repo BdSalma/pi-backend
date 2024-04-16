@@ -1,5 +1,6 @@
 package tn.examen.templateexamen2324.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,8 @@ import tn.examen.templateexamen2324.services.AuthService;
 import tn.examen.templateexamen2324.services.RequestSupplyIService;
 
 import java.util.List;
+import java.util.Map;
+
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
 @RequestMapping("/requestSupply")
@@ -80,4 +83,24 @@ public class RequestSupplyController {
         return requestSupplyIService.recommendNewRequestsForSociety(userId);
     }
 
+    @GetMapping("/getRequestSupplyByForumTheme/{theme}")
+    @ResponseBody
+    public List<RequestSupply> getRequestSupplyByForumTheme(@PathVariable("theme") String theme) {
+        return requestSupplyIService.getRequestSupplyByForumTheme(theme);
+    }
+    @GetMapping("/getIndividuStatistics")
+    public ResponseEntity<Map<String, Integer>> getIndividuStatistics(Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        Map<String, Integer> statistics = requestSupplyIService.getIndividuStatistics(userId);
+        return ResponseEntity.ok(statistics);
+    }
+
+    @GetMapping("/getSocietyStatistics")
+    public ResponseEntity<Map<String, Integer>> getSocietyStatistics(Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        Map<String, Integer> statistics = requestSupplyIService.getSocietyStatistics(userId);
+        return ResponseEntity.ok(statistics);
+    }
 }

@@ -38,6 +38,7 @@ public class Individu extends User implements Serializable {
         this.username = userData.get("username");
         this.password = userData.get("password");
         this.email = userData.get("email");
+        this.image = userData.get("image");
         this.identity = userData.get("identity");
         this.firstName = userData.get("firstName");
         this.lastName = userData.get("lastName");

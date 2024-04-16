@@ -35,7 +35,7 @@ public class RequestSupply {
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private Individu individu;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    //@JsonIgnore
     private Forum forum;
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public interface InvoiceIService {
     Invoice addInvoice(Invoice invoice);
 
-    List<Invoice> retrieveAllInvoices();
+    List<Invoice> retrieveAllInvoices(String userId);
 
     Invoice retrieveInvoiceById(int idInvoice);
 
@@ -20,6 +20,6 @@ public interface InvoiceIService {
     void addAndAssignInvoiceToRequest(Invoice invoice, int requestSupplyId ,MultipartFile file)throws IOException;
     List<Invoice> getInvoicesBySocietyId(String societyId);
     public byte[] getFileBytes(String fileName) throws IOException ;
-    List<Invoice> retrieveOldInvoices();
+    List<Invoice> retrieveOldInvoicesByUserId(String userId);
     List<Invoice> getOldInvoicesBySocietyId(String societyId);
 }

@@ -14,9 +14,9 @@ import java.util.List;
 @Repository
 public interface SocietyRepository extends JpaRepository<Society,String> {
 
-    @Query("SELECT i FROM Individu i WHERE lower(i.firstName) LIKE lower(concat('%', :field, '%')) OR " +
-            "lower(i.lastName) LIKE lower(concat('%', :field, '%')) OR " +
-            "lower(i.identity) LIKE lower(concat('%', :field, '%'))")
+    @Query("SELECT s FROM Society s WHERE CAST(s.matricule AS string) LIKE lower(concat('%', :field, '%')) OR " +
+            "lower(s.representative) LIKE lower(concat('%', :field, '%')) OR " +
+            "lower(s.sector) LIKE lower(concat('%', :field, '%'))")
     public List<Society> findAllByFields(@Param("field") String field);
 
     public List<Society> findAllByRole(SocietyRole role);
