@@ -1,5 +1,6 @@
 package tn.examen.templateexamen2324.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,4 +41,7 @@ public class Offer implements Serializable {
     private Set<Individu> Individus = new HashSet<>();
     @ManyToOne
     private Forum forum;
+    @JsonIgnore
+    @OneToMany(cascade=CascadeType.ALL,mappedBy = "offer")
+    private Set<OfferFavoris> favoriteOffers = new HashSet<>();
 }

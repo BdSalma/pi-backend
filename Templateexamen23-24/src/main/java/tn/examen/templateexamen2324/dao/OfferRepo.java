@@ -7,6 +7,8 @@ import tn.examen.templateexamen2324.entity.EtatOffer;
 import tn.examen.templateexamen2324.entity.Forum;
 import tn.examen.templateexamen2324.entity.Offer;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.data.jpa.repository.Query;
 @Repository
 public interface OfferRepo extends JpaRepository<Offer, Long> {
@@ -14,5 +16,9 @@ public interface OfferRepo extends JpaRepository<Offer, Long> {
     @Query("SELECT o FROM Offer o WHERE o.etatOffer = :etatOffer ORDER BY o.favoris DESC")
     List<Offer> findAcceptedOffersOrderByFavorisDesc(@Param("etatOffer") EtatOffer etatOffer);
     List<Offer> findAllByForumAndEtatOffer(Forum f,EtatOffer etat);
+    @Query("SELECT o.offreCategory, COUNT(o) FROM Offer o GROUP BY o.offreCategory")
+    List<Object[]> countOffersByCategory();
+    @Query("SELECT c.offer, COUNT(c) FROM Candidature c GROUP BY c.offer")
+    List<Object[]> countCandidaturesByOffer();
 
 }

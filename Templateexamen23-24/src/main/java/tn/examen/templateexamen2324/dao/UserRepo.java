@@ -6,5 +6,5 @@ import tn.examen.templateexamen2324.entity.User;
 
 @Repository
 
-public interface UserRepo extends CrudRepository<User,Long> {
+public interface UserRepo extends CrudRepository<User,String> {
 }

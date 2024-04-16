@@ -7,14 +7,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-import tn.examen.templateexamen2324.entity.Category;
-import tn.examen.templateexamen2324.entity.Offer;
-import tn.examen.templateexamen2324.entity.Society;
-import tn.examen.templateexamen2324.entity.User;
+import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.services.OfferService;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/Offer")
@@ -68,10 +68,10 @@ public class OfferController {
         return offerService.getSociety(userId);
 
     }
-    @PostMapping("/favoris/{id}")
+    /*@PostMapping("/favoris/{id}")
     public Offer addFavorite(@PathVariable("id") Long id) {
         return offerService.addFavorite(id);
-    }
+    }*/
     @GetMapping("/test-send-offers")
     public String testSendOffers() {
         offerService.sentOffers();
@@ -97,12 +97,14 @@ public class OfferController {
         Offer existingOffer = offerService.getOfferById(id);
 
         if (existingOffer != null) {
-            existingOffer.setCandidatnumber(updatedOffer.getCandidatnumber());
-            existingOffer.setDescription(updatedOffer.getDescription());
-            existingOffer.setDuree(updatedOffer.getDuree());
-            existingOffer.setOffreCategory(updatedOffer.getOffreCategory());
-            existingOffer.setCandidatProfil(updatedOffer.getCandidatProfil());
             existingOffer.setOfferName(updatedOffer.getOfferName());
+            existingOffer.setOffreCategory(updatedOffer.getOffreCategory());
+            existingOffer.setCandidatnumber(updatedOffer.getCandidatnumber());
+            existingOffer.setCandidatProfil(updatedOffer.getCandidatProfil());
+            existingOffer.setDuree(updatedOffer.getDuree());
+            existingOffer.setDescription(updatedOffer.getDescription());
+
+
 
 
             offerService.updateOffer(existingOffer.getIdOffre());
@@ -141,11 +143,7 @@ public class OfferController {
         offerService.changeEtatToRefuse(idOffer);
     }
 
-    @GetMapping("/averageOffersPerDay")
-    public ResponseEntity<Double> getAverageOffersPerDay() {
-        double average = offerService.calculateAverageOffersPerDay();
-        return ResponseEntity.ok(average);
-    }
+
     @GetMapping("/ListAcceptedOffer")
     @PreAuthorize("hasRole('Exposant')")
     public List<Offer> getOfferEnAttente() {
@@ -156,4 +154,40 @@ public class OfferController {
     public int numberOffersEnAttente() {
         return offerService.numberOffersEnAttente();
     }
+    @PostMapping("/AddFavoris/{idOffer}")
+    public Offer AddFavoris(@PathVariable("idOffer") Long idOffer,Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        return offerService.favoris(userId,idOffer);
+    }
+    @GetMapping("/getOfferFavoris")
+    public List<OfferFavoris> getFavoriteOffersByUserIddd(Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        return offerService.getFavoriteOffersByUserId(userId);
+    }
+    @GetMapping("/categoryCounts")
+    public Map<Category, Long> getOfferCountsByCategory() {
+        return offerService.getOfferCountsByCategory();
+    }
+
+    @GetMapping("/candidatures-by-offer")
+    public Map<String, Long> getCandidaturesByOffer() {
+        Map<Offer, Long> candidaturesByOffer = offerService.countCandidaturesByOffer();
+        Map<String, Long> candidaturesByOfferNames = new HashMap<>();
+
+        // Convert Offer objects to offer names
+        for (Map.Entry<Offer, Long> entry : candidaturesByOffer.entrySet()) {
+            candidaturesByOfferNames.put(entry.getKey().getOfferName(), entry.getValue());
+        }
+
+        return candidaturesByOfferNames;
+    }
+    @GetMapping("/candidatByOffer/{idOffer}")
+    public boolean getCandidatureByOffer(@PathVariable("idOffer") Long idOffer,Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        return offerService.getCandidatureByOffer(idOffer,userId);
+    }
+
 }

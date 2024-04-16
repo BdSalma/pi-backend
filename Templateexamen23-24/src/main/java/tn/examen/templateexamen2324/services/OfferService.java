@@ -13,16 +13,21 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import tn.examen.templateexamen2324.dao.CandidatureRepo;
+import tn.examen.templateexamen2324.dao.OfferFavorisRepo;
 import tn.examen.templateexamen2324.dao.UserRepo;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.dao.OfferRepo;
 import tn.examen.templateexamen2324.repository.ForumRepo;
 import tn.examen.templateexamen2324.repository.SocietyRepository;
+import tn.examen.templateexamen2324.repository.UserRepository;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -39,11 +44,15 @@ public class OfferService implements IOfferService {
     @Autowired
     SocietyRepository societyRepo;
     @Autowired
-    UserRepo userRepo;
+    UserRepository userRepo;
     @Autowired
     ForumRepo forumRepo;
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    OfferFavorisRepo offerFavorisRepo;
+    @Autowired
+    CandidatureRepo candidatureRepo;
     @Override
     public Offer addOffer(Offer o) {
         o.setEtatOffer(EtatOffer.Enattente);
@@ -213,28 +222,6 @@ public class OfferService implements IOfferService {
         return offers;
     }
 
-
-    @Override
-    public double calculateAverageOffersPerDay() {
-        List<Offer> offers = offerRepo.findAll();
-        Set<LocalDate> uniqueDates = new HashSet<>();
-
-        for (Offer offer : offers) {
-            // Convert java.sql.Date to java.util.Date
-            java.util.Date utilDate = new java.util.Date(offer.getDateEmission().getTime());
-            // Convert java.util.Date to LocalDate
-            LocalDate localDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            // Add the date to the uniqueDates set
-            uniqueDates.add(localDate);
-        }
-        int totalDays = uniqueDates.size();
-        int totalOffers = offers.size();
-
-        // Calculate the average percentage by dividing the total days by the total offers and multiplying by 100
-        double averagePercentage = totalOffers / (double) totalDays;
-        System.out.println(averagePercentage);
-        return averagePercentage;
-    }
     @Override
     public int numberOffersEnAttente(){
         List<Offer> offers = offerRepo.findAll();
@@ -285,7 +272,7 @@ public class OfferService implements IOfferService {
             mailSender.send(message);
         }
     }
-    @Override
+    /*@Override
     public Offer addFavorite(Long id) {
         Offer offer = offerRepo.findById(id).orElse(null);
             Integer favoris = offer.getFavoris();
@@ -294,9 +281,9 @@ public class OfferService implements IOfferService {
             }
             offer.setFavoris(favoris + 1);
             return offerRepo.save(offer);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public List<Offer> getSuggestedOffers(User user, int numberOfSuggestions) {
         List<Offer> allOffers = offerRepo.findAll();
         List<Offer> suggestedOffers = new ArrayList<>();
@@ -338,6 +325,74 @@ public class OfferService implements IOfferService {
         }
 
         return suggestedOffers;
+    }*/
+    @Override
+    public Offer favoris(String userId, Long offerId) {
+        Offer offer = offerRepo.findById(offerId).orElse(null);
+        User user = userRepo.findById(userId).orElse(null);
+        if (offer != null) {
+            OfferFavoris favoriteOffer = offerFavorisRepo.findAllByUserIdAndOffer_IdOffre(userId, offerId);
+            if (favoriteOffer == null) {
+                favoriteOffer = new OfferFavoris();
+                favoriteOffer.setUser(user);
+                favoriteOffer.setOffer(offer);
+                offerFavorisRepo.save(favoriteOffer);
+            }
+            return offer;
+        }
+        return null;
+    }
+    @Override
+    public List<OfferFavoris> getFavoriteOffersByUserId(String userId){
+        List<OfferFavoris> favoris = offerFavorisRepo.findAllByUserId(userId);
+        return favoris;
+    }
+
+    @Override
+    public void deletefavorite(Long id) {
+
+    }
+    @Override
+    public Map<Category, Long> getOfferCountsByCategory() {
+        Map<Category, Long> categoryCounts = new HashMap<>();
+        List<Object[]> results = offerRepo.countOffersByCategory();
+
+        for (Object[] result : results) {
+            Category category = (Category) result[0];
+            Long count = (Long) result[1];
+            categoryCounts.put(category, count);
+        }
+
+        return categoryCounts;
+    }
+    @Override
+    public Map<Offer, Long> countCandidaturesByOffer() {
+        List<Object[]> results = offerRepo.countCandidaturesByOffer();
+        Map<Offer, Long> candidaturesByOffer = new HashMap<>();
+
+        for (Object[] result : results) {
+            Offer offer = (Offer) result[0];
+            Long count = (Long) result[1];
+            candidaturesByOffer.put(offer, count);
+        }
+
+        return candidaturesByOffer;
+    }
+
+    @Override
+    public boolean getCandidatureByOffer(Long idOffer, String idUser) {
+        List<Candidature> candidatures = candidatureRepo.findCandidaturesByOffer_IdOffre(idOffer);
+        System.out.println(candidatures);
+        User user = userRepo.findById(idUser).orElse(null);
+        System.out.println("User ID: " + idUser);
+        System.out.println("User found: " + user); // Check if user is retrieved correctly
+        for (Candidature c : candidatures) {
+            System.out.println("Candidature User ID: " + c.getIndividu().getId());
+            if (c.getIndividu().getId().equals(idUser)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

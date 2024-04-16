@@ -39,4 +39,7 @@ public class User implements Serializable {
     @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL,mappedBy="individu")
     private Set<Candidature> candidatures = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private Set<OfferFavoris> favoriteOffers = new HashSet<>();
 }
