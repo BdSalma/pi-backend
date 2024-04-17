@@ -1,0 +1,786 @@
+Index: src/main/java/tn/examen/templateexamen2324/dao/CandidatureRepo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package tn.examen.templateexamen2324.dao;\r\n\r\nimport org.springframework.data.jpa.repository.Query;\r\nimport org.springframework.data.repository.CrudRepository;\r\nimport org.springframework.data.repository.query.Param;\r\nimport org.springframework.stereotype.Repository;\r\nimport tn.examen.templateexamen2324.entity.Candidature;\r\n\r\nimport java.util.List;\r\n\r\n@Repository\r\npublic interface CandidatureRepo extends CrudRepository<Candidature, Long> {\r\n    List<Candidature> findCandidaturesByOffer_IdOffre(Long id);\r\n    List<Candidature> findCandidaturesByIndividu_Id(String individu_id);\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/dao/CandidatureRepo.java b/src/main/java/tn/examen/templateexamen2324/dao/CandidatureRepo.java
+--- a/src/main/java/tn/examen/templateexamen2324/dao/CandidatureRepo.java	(revision 73bfb18235d705ae4439443935232993c48d6b65)
++++ b/src/main/java/tn/examen/templateexamen2324/dao/CandidatureRepo.java	(date 1713368155688)
+@@ -12,6 +12,6 @@
+ public interface CandidatureRepo extends CrudRepository<Candidature, Long> {
+     List<Candidature> findCandidaturesByOffer_IdOffre(Long id);
+     List<Candidature> findCandidaturesByIndividu_Id(String individu_id);
+-
++   // List<Candidature> getCandidaturesByOfferAndIndividu(Long idOffer, String idIndividu);
+ 
+ }
+\ No newline at end of file
+Index: src/main/java/tn/examen/templateexamen2324/services/CandidatureService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package tn.examen.templateexamen2324.services;\r\nimport jakarta.mail.MessagingException;\r\nimport jakarta.transaction.Transactional;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.beans.factory.annotation.Value;\r\nimport org.springframework.mail.SimpleMailMessage;\r\nimport org.springframework.mail.javamail.JavaMailSender;\r\nimport org.springframework.stereotype.Service;\r\nimport org.springframework.web.multipart.MultipartFile;\r\nimport tn.examen.templateexamen2324.dao.CandidatureRepo;\r\nimport tn.examen.templateexamen2324.dao.InterviewRepo;\r\nimport tn.examen.templateexamen2324.dao.OfferRepo;\r\nimport tn.examen.templateexamen2324.dao.UserRepo;\r\nimport tn.examen.templateexamen2324.entity.*;\r\nimport tn.examen.templateexamen2324.repository.UserRepository;\r\n\r\nimport java.io.File;\r\nimport java.io.IOException;\r\nimport java.util.Date;\r\nimport java.util.List;\r\nimport java.util.UUID;\r\n\r\n@Service\r\npublic class CandidatureService implements ICandidatureService{\r\n    @Autowired\r\n    CandidatureRepo crepo;\r\n    @Autowired\r\n    OfferRepo offerRepo;\r\n    @Autowired\r\n    InterviewRepo interviewRepo;\r\n    @Autowired\r\n    UserRepository urepo;\r\n   /* private final JavaMailSender mailSender;\r\n\r\n    public CandidatureService(JavaMailSender mailSender) {\r\n        this.mailSender = mailSender;\r\n    }*/\r\n\r\n    @Override\r\n    public Candidature addCandidat(Candidature c, Long id, String idUser, MultipartFile cv, MultipartFile lettre) throws IOException {\r\n        Offer offer = offerRepo.findById(id).orElseThrow(() -> new IllegalArgumentException(\"Offer not found\"));\r\n        User user = urepo.findById(idUser).orElseThrow(() -> new IllegalArgumentException(\"User not found\"));\r\n        if (cv != null) {\r\n            String fileName = UUID.randomUUID().toString() + \".\" + getFileExtension(cv);\r\n            String uploadPath = \"C:/Users/ASUS/IdeaProjects/pi-backend/Templateexamen23-24/src/main/resources/fils\"; // Replace with your designated upload path\r\n            File uploadDir = new File(uploadPath);\r\n            if (!uploadDir.exists()) {\r\n                uploadDir.mkdir();\r\n            }\r\n\r\n            File uploadFile = new File(uploadPath + \"/\" + fileName);\r\n            cv.transferTo(uploadFile); // Save the file to the specified path\r\n\r\n            c.setCv(fileName); // Store the file path in the Candidature object\r\n        }\r\n        // File upload logic\r\n        if (lettre != null) { // Ensure a file was actually uploaded\r\n            String filelettre = UUID.randomUUID().toString() + \".\" + getFileExtension(lettre);\r\n            String uploadPath = \"C:/Users/ASUS/IdeaProjects/pi-backend/Templateexamen23-24/src/main/resources/fils\"; // Replace with your designated upload path\r\n            File uploadDir = new File(uploadPath);\r\n            if (!uploadDir.exists()) {\r\n                uploadDir.mkdir(); // Create the directory if it doesn't exist\r\n            }\r\n\r\n            File uploadFile = new File(uploadPath + \"/\" + filelettre);\r\n            lettre.transferTo(uploadFile); // Save the file to the specified path\r\n\r\n            c.setLettre(filelettre); // Store the file path in the Candidature object\r\n        }\r\n        c.setStatus(Status.In_progress);\r\n        c.setDate(new Date());\r\n        c.setOffer(offer);\r\n        c.setIndividu(user);\r\n\r\n        return crepo.save(c);\r\n    }\r\n    private String getFileExtension(MultipartFile file) {\r\n        String fileName = file.getOriginalFilename();\r\n        return fileName.substring(fileName.lastIndexOf(\".\") + 1);\r\n    }\r\n    @Override\r\n    public List<Candidature> findAllCadidature() {\r\n        return (List<Candidature>) crepo.findAll();\r\n    }\r\n\r\n    @Override\r\n    public void deleteById(Long id) {\r\n        crepo.deleteById(id);\r\n    }\r\n\r\n    @Override\r\n    public Candidature updateCandidature(Long id, Candidature updatedCandidature) {\r\n        // Retrieve existing Candidature\r\n        Candidature candidature = crepo.findById(id)\r\n                .orElseThrow(() -> new IllegalArgumentException(\"Invalid candidature id: \" + id));\r\n        // Update other fields\r\n        candidature.setStatus(updatedCandidature.getStatus());\r\n        // Save and return the updated Candidature\r\n        return crepo.save(candidature);\r\n    }\r\n    @Override\r\n    public Candidature AccepterCandidature(Long id, Candidature updatedCandidature) throws Exception {\r\n        // Retrieve existing Candidature\r\n        Candidature candidature = crepo.findById(id)\r\n                .orElseThrow(() -> new IllegalArgumentException(\"Invalid candidature id: \" + id));\r\n\r\n        // Update candidature status and send notification email (separate method)\r\n        candidature.setStatus(Status.Accepted);\r\n        //sendCandidatureAcceptedEmail(candidature);\r\n\r\n        return crepo.save(candidature);\r\n    }\r\n    /*private void sendCandidatureAcceptedEmail(Candidature candidature)  {\r\n        String to = candidature.getIndividu().getEmail();\r\n        String subject = \"Candidature Accepted!\";\r\n        String body = \"Congratulations, your candidature for the offer \" +\r\n                candidature.getOffer().getOfferName() + \" has been accepted!\";\r\n\r\n        SimpleMailMessage message = new SimpleMailMessage();\r\n        message.setFrom(\"beddakhliasalma@gmail.com\"); // Replace with your sender email\r\n        message.setTo(to);\r\n        message.setSubject(subject);\r\n        message.setText(body);\r\n\r\n        this.mailSender.send(message);\r\n    }\r\n*/\r\n\r\n    @Override\r\n    public Candidature FindCandidatById(Long id) {\r\n        return crepo.findById(id).get();\r\n    }\r\n\r\n    @Override\r\n    public List<Candidature> FindCandidatByIdOffer(Long id) {\r\n        return crepo.findCandidaturesByOffer_IdOffre(id);\r\n    }\r\n\r\n    @Override\r\n    public List<Candidature> FindCandidatByIdUser(String idUser) {\r\n        return crepo.findCandidaturesByIndividu_Id(idUser);\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/services/CandidatureService.java b/src/main/java/tn/examen/templateexamen2324/services/CandidatureService.java
+--- a/src/main/java/tn/examen/templateexamen2324/services/CandidatureService.java	(revision 73bfb18235d705ae4439443935232993c48d6b65)
++++ b/src/main/java/tn/examen/templateexamen2324/services/CandidatureService.java	(date 1713368155697)
+@@ -19,6 +19,7 @@
+ import java.util.Date;
+ import java.util.List;
+ import java.util.UUID;
++import java.util.stream.Collectors;
+ 
+ @Service
+ public class CandidatureService implements ICandidatureService{
+@@ -107,9 +108,29 @@
+         // Update candidature status and send notification email (separate method)
+         candidature.setStatus(Status.Accepted);
+         //sendCandidatureAcceptedEmail(candidature);
+-
++        SimpleMailMessage message = new SimpleMailMessage();
++        message.setFrom("walahamdi0@gmail.com");
++        message.setTo(candidature.getIndividu().email);
++        message.setText("Your candidature has been accepted ! ");
++        message.setSubject("Stage");
++        mailSender.send(message);
+         return crepo.save(candidature);
+     }
++    @Autowired
++    private JavaMailSender mailSender;
++
++    public void sendSimpleEmail(String toEmail,
++                                String subject,
++                                String body
++    ) {
++        SimpleMailMessage message = new SimpleMailMessage();
++        message.setFrom("walahamdi0@gmail.com");
++        message.setTo(toEmail);
++        message.setText(body);
++        message.setSubject(subject);
++        mailSender.send(message);
++        System.out.println("Mail Send...");
++    }
+     /*private void sendCandidatureAcceptedEmail(Candidature candidature)  {
+         String to = candidature.getIndividu().getEmail();
+         String subject = "Candidature Accepted!";
+@@ -125,7 +146,21 @@
+         this.mailSender.send(message);
+     }
+ */
++    public List<Candidature> getCandidaturesByOfferAndIndividu(Long idOffer, String idIndividu) {
++        // Récupérer toutes les candidatures de la base de données
++        List<Candidature> allCandidatures = (List<Candidature>) crepo.findAll();
+ 
++        // Filtrer les candidatures pour celles qui correspondent à l'offre et à l'individu spécifiés
++        List<Candidature> filteredCandidatures = allCandidatures.stream()
++                .filter(candidature -> candidature.getOffer().getIdOffre().equals(idOffer) && candidature.getIndividu().getId().equals(idIndividu))
++                .collect(Collectors.toList());
++
++        return filteredCandidatures;
++    }
++    @Override
++    public boolean getCandidaturesByOfferAndAndIndividu(Long IdOffer,String idIndividu){
++       return getCandidaturesByOfferAndIndividu(IdOffer,idIndividu).size() > 0;
++   }
+     @Override
+     public Candidature FindCandidatById(Long id) {
+         return crepo.findById(id).get();
+Index: src/main/java/tn/examen/templateexamen2324/entity/Candidature.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package tn.examen.templateexamen2324.entity;\r\n\r\nimport com.fasterxml.jackson.annotation.*;\r\nimport jakarta.persistence.*;\r\nimport lombok.AllArgsConstructor;\r\nimport lombok.Getter;\r\nimport lombok.NoArgsConstructor;\r\nimport lombok.Setter;\r\n\r\nimport java.io.Serializable;\r\nimport java.util.Date;\r\nimport java.util.HashSet;\r\nimport java.util.Set;\r\n\r\n@Entity\r\n@Getter\r\n@Setter\r\n@NoArgsConstructor\r\n@AllArgsConstructor\r\npublic class Candidature implements Serializable {\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private Long idCandidature;\r\n    @Temporal(TemporalType.DATE)\r\n    private Date date;\r\n    @Enumerated(EnumType.STRING)\r\n    private Status status;\r\n    private String cv;\r\n    private String lettre;\r\n    //@JsonIgnore\r\n    @OneToOne(cascade = {CascadeType.ALL, CascadeType.MERGE})\r\n    private Interview Interview;\r\n    @JsonIgnore\r\n    @ManyToOne(fetch = FetchType.EAGER)\r\n    private Offer offer;\r\n\r\n    @ManyToOne( fetch = FetchType.EAGER)\r\n    private User individu;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/entity/Candidature.java b/src/main/java/tn/examen/templateexamen2324/entity/Candidature.java
+--- a/src/main/java/tn/examen/templateexamen2324/entity/Candidature.java	(revision 73bfb18235d705ae4439443935232993c48d6b65)
++++ b/src/main/java/tn/examen/templateexamen2324/entity/Candidature.java	(date 1713368155691)
+@@ -28,9 +28,11 @@
+     private String cv;
+     private String lettre;
+     //@JsonIgnore
+-    @OneToOne(cascade = {CascadeType.ALL, CascadeType.MERGE})
++
++    @OneToOne(cascade = {CascadeType.ALL})
+     private Interview Interview;
+-    @JsonIgnore
++
++    //@JsonIgnore
+     @ManyToOne(fetch = FetchType.EAGER)
+     private Offer offer;
+ 
+Index: src/main/java/tn/examen/templateexamen2324/controller/CandidatureController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package tn.examen.templateexamen2324.controller;\r\nimport jakarta.servlet.http.HttpServletRequest;\r\nimport org.apache.coyote.BadRequestException;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.http.*;\r\nimport org.springframework.security.access.prepost.PreAuthorize;\r\nimport org.springframework.security.core.Authentication;\r\nimport org.springframework.security.oauth2.jwt.Jwt;\r\nimport org.springframework.web.bind.annotation.*;\r\nimport org.springframework.web.multipart.MultipartFile;\r\nimport tn.examen.templateexamen2324.entity.Candidature;\r\nimport tn.examen.templateexamen2324.services.ICandidatureService;\r\n\r\nimport java.io.File;\r\nimport java.io.FileNotFoundException;\r\nimport java.io.IOException;\r\nimport java.nio.file.Files;\r\nimport java.nio.file.Paths;\r\nimport java.util.List;\r\nimport java.util.Optional;\r\n\r\n@RestController\r\n@CrossOrigin(origins = \"http://localhost:4200\")\r\n@RequestMapping(\"/candidat\")\r\npublic class CandidatureController {\r\n    @Autowired\r\n    ICandidatureService candiService;\r\n\r\n    @GetMapping(\"/allCandidat\")\r\n    public List<Candidature> GetAllCandidats(){\r\n        return candiService.findAllCadidature();\r\n    }\r\n    @GetMapping(\"/candidatbyoffer/{id}\")\r\n    @PreAuthorize(\"hasRole('Exposant')\")\r\n\r\n    public List<Candidature> FindCandidatByIdOffer(@PathVariable Long id){\r\n        return candiService.FindCandidatByIdOffer(id);\r\n    }\r\n\r\n    @GetMapping(\"/candidatbyuser\")\r\n    @PreAuthorize(\"hasRole('Student')\")\r\n\r\n    public List<Candidature> FindCandidatByIdUser(Authentication authentication){\r\n        Jwt jwtToken = (Jwt) authentication.getPrincipal();\r\n        String userId = jwtToken.getClaim(\"sub\");\r\n        return candiService.FindCandidatByIdUser(userId);\r\n    }\r\n    @GetMapping(\"/download-cv/{id}\")\r\n    public ResponseEntity<byte[]> downloadCv(@PathVariable Long id, HttpServletRequest request) throws Exception {\r\n\r\n        if (id <= 0) {\r\n            throw new BadRequestException(\"Invalid candidate ID\");\r\n        }\r\n        Candidature candidate = candiService.FindCandidatById(id); // Replace with your logic\r\n        if (candidate == null) {\r\n            throw new ClassNotFoundException(\"Candidate not found\");\r\n        }\r\n\r\n        String cvFilePath= \"C:/Users/ASUS/IdeaProjects/pi-backend/Templateexamen23-24/src/main/resources/fils/\" + candidate.getCv(); // Adjust path if needed\r\n\r\n        // Read CV data as byte array\r\n        File cvFile = new File(cvFilePath);\r\n        if (!cvFile.exists()) {\r\n            throw new FileNotFoundException(\"CV file not found\");\r\n        }\r\n        byte[] cvData = Files.readAllBytes(Paths.get(cvFilePath));\r\n\r\n        // Set content type and disposition headers\r\n        HttpHeaders headers = new HttpHeaders();\r\n        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);\r\n        headers.setContentDisposition(ContentDisposition.attachment()\r\n                .filename(candidate.getCv() + \".pdf\") // Adjust file extension as needed\r\n                .build());\r\n\r\n        return new ResponseEntity<>(cvData, headers, HttpStatus.OK);\r\n    }\r\n\r\n\r\n    @PostMapping(\"/addcandidat/{id}\")\r\n    @PreAuthorize(\"hasRole('Student')\")\r\n    public ResponseEntity<Candidature> ajouterCandidat(\r\n            @RequestParam MultipartFile cv, // Change to @RequestParam\r\n            @PathVariable Long id, @RequestParam MultipartFile lettre, Authentication authentication) throws IOException {\r\n        Jwt jwtToken = (Jwt) authentication.getPrincipal();\r\n        String userId = jwtToken.getClaim(\"sub\");\r\n        // Create a new Candidature object\r\n        Candidature candidature = new Candidature();\r\n        // Call the service method to add the candidature\r\n        Candidature savedCandidature = candiService.addCandidat(candidature, id, userId, cv,lettre);\r\n\r\n        // Return the saved candidature with CREATED status\r\n        return new ResponseEntity<>(savedCandidature, HttpStatus.CREATED);\r\n    }\r\n\r\n    @GetMapping(\"/{id}\")\r\n    public ResponseEntity<Candidature> getById(@PathVariable Long id) {\r\n        Candidature c= candiService.FindCandidatById(id);\r\n        return ResponseEntity.ok(c);\r\n    }\r\n\r\n    @DeleteMapping(\"/delete/{id}\")\r\n    public void deleteCandidat(@PathVariable(\"id\") Long id) {\r\n        candiService.deleteById(id);\r\n    }\r\n    @PutMapping(\"/updateCandidat/{id}\")\r\n    public ResponseEntity<Candidature> UpdateCandidat(@RequestBody Candidature candidature, @PathVariable  Long id) {\r\n        Candidature candidatureMaj = candiService.updateCandidature(id, candidature);\r\n        if (candidatureMaj != null) {\r\n            return new ResponseEntity<>(candidatureMaj, HttpStatus.OK);\r\n        } else {\r\n            return new ResponseEntity<>(HttpStatus.NOT_FOUND);\r\n        }\r\n    }\r\n\r\n    @PutMapping(\"/accepterCandidat/{id}\")\r\n    @PreAuthorize(\"hasRole('Exposant')\")\r\n    public ResponseEntity<Candidature> AccepterCandidat( Candidature candidature, @PathVariable  Long id) throws Exception {\r\n        Candidature candidatureMaj = candiService.AccepterCandidature(id, candidature);\r\n        if (candidatureMaj != null) {\r\n            return new ResponseEntity<>(candidatureMaj, HttpStatus.OK);\r\n        } else {\r\n            return new ResponseEntity<>(HttpStatus.NOT_FOUND);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/controller/CandidatureController.java b/src/main/java/tn/examen/templateexamen2324/controller/CandidatureController.java
+--- a/src/main/java/tn/examen/templateexamen2324/controller/CandidatureController.java	(revision 73bfb18235d705ae4439443935232993c48d6b65)
++++ b/src/main/java/tn/examen/templateexamen2324/controller/CandidatureController.java	(date 1713368155684)
+@@ -9,6 +9,7 @@
+ import org.springframework.web.bind.annotation.*;
+ import org.springframework.web.multipart.MultipartFile;
+ import tn.examen.templateexamen2324.entity.Candidature;
++import tn.examen.templateexamen2324.entity.Offer;
+ import tn.examen.templateexamen2324.services.ICandidatureService;
+ 
+ import java.io.File;
+@@ -97,7 +98,19 @@
+         Candidature c= candiService.FindCandidatById(id);
+         return ResponseEntity.ok(c);
+     }
+-
++    @GetMapping("/check/{offerId}")
++    public ResponseEntity<Boolean> hasUserAppliedToOffer(
++            @PathVariable("offerId") Long offerId, Authentication authentication)throws IOException {
++        Jwt jwtToken = (Jwt) authentication.getPrincipal();
++        String userId = jwtToken.getClaim("sub");
++        if (offerId != null) {
++        boolean hasApplied = candiService.getCandidaturesByOfferAndAndIndividu(offerId,userId);
++        return new ResponseEntity<>(hasApplied, HttpStatus.OK);
++        } else {
++            // ID de l'offre non défini, renvoyer une réponse BadRequest
++            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
++        }
++    }
+     @DeleteMapping("/delete/{id}")
+     public void deleteCandidat(@PathVariable("id") Long id) {
+         candiService.deleteById(id);
+Index: src/main/java/tn/examen/templateexamen2324/controller/InterviewController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package tn.examen.templateexamen2324.controller;\r\n\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.http.MediaType;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.security.access.prepost.PreAuthorize;\r\nimport org.springframework.web.bind.annotation.*;\r\nimport tn.examen.templateexamen2324.entity.Interview;\r\nimport tn.examen.templateexamen2324.services.IinterviewService;\r\n\r\nimport java.util.List;\r\n\r\n@RestController\r\n@CrossOrigin(origins = \"http://localhost:4200\")\r\n@RequestMapping(\"/interview\")\r\npublic class InterviewController {\r\n    @Autowired\r\n    IinterviewService service;\r\n    @PostMapping(\"/addI/{id}\")\r\n    @PreAuthorize(\"hasRole('Exposant')\")\r\n    public ResponseEntity<Interview> ajouterInterview(\r\n            @RequestBody Interview i,\r\n            @PathVariable Long id, // Utilisez @RequestParam pour les paramètres de requête\r\n            @RequestParam(name = \"room\",required = false)int roomId) {\r\n        Interview nouveauI = service.addInter(i, id, roomId);\r\n        return new ResponseEntity<>(nouveauI, HttpStatus.CREATED);\r\n    }\r\n    @PostMapping(\"/addIEnligne/{id}\")\r\n    @PreAuthorize(\"hasRole('Exposant')\")\r\n    public ResponseEntity<Interview> ajouterInterviewEnligne(\r\n            @RequestBody Interview i,\r\n            @PathVariable Long id) {\r\n        Interview nouveauI = service.addInterEnligne(i, id);\r\n\r\n         return new ResponseEntity<>(nouveauI, HttpStatus.CREATED);\r\n    }\r\n\r\n    @DeleteMapping(\"/deleteI/{id}\")\r\n    @PreAuthorize(\"hasRole('Exposant')\")\r\n    public void deleteInterview(@PathVariable(\"id\") Long id) {\r\n        service.deleteById(id);\r\n    }\r\n    @GetMapping(\"/allInterview\")\r\n    @PreAuthorize(\"hasRole('Exposant') Or hasRole('Student') \")\r\n    public List<Interview>  GetAllInterviews(){\r\n        return service.getInterviews();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/controller/InterviewController.java b/src/main/java/tn/examen/templateexamen2324/controller/InterviewController.java
+--- a/src/main/java/tn/examen/templateexamen2324/controller/InterviewController.java	(revision 73bfb18235d705ae4439443935232993c48d6b65)
++++ b/src/main/java/tn/examen/templateexamen2324/controller/InterviewController.java	(date 1713368155685)
+@@ -6,9 +6,11 @@
+ import org.springframework.http.ResponseEntity;
+ import org.springframework.security.access.prepost.PreAuthorize;
+ import org.springframework.web.bind.annotation.*;
++import tn.examen.templateexamen2324.entity.Candidature;
+ import tn.examen.templateexamen2324.entity.Interview;
+ import tn.examen.templateexamen2324.services.IinterviewService;
+ 
++import java.time.LocalDateTime;
+ import java.util.List;
+ 
+ @RestController
+@@ -17,17 +19,35 @@
+ public class InterviewController {
+     @Autowired
+     IinterviewService service;
++    @GetMapping("/{id}")
++    public ResponseEntity<Interview> getById(@PathVariable Long id) {
++        Interview interview = service.FindInterviewById(id);
++        if (interview != null) {
++            return ResponseEntity.ok(interview);
++        } else {
++            return ResponseEntity.notFound().build();
++        }
++    }
++
+     @PostMapping("/addI/{id}")
+-    @PreAuthorize("hasRole('Exposant')")
++    @PreAuthorize("hasRole('Exposant') Or hasRole('Student') ")
+     public ResponseEntity<Interview> ajouterInterview(
+             @RequestBody Interview i,
+             @PathVariable Long id, // Utilisez @RequestParam pour les paramètres de requête
+             @RequestParam(name = "room",required = false)int roomId) {
+         Interview nouveauI = service.addInter(i, id, roomId);
+         return new ResponseEntity<>(nouveauI, HttpStatus.CREATED);
++    }
++    @PostMapping("/ajouterI/{id}")
++    @PreAuthorize("hasRole('Exposant') Or hasRole('Student') ")
++    public ResponseEntity<Interview> ajouterInter(
++            @RequestBody Interview i,
++            @PathVariable Long id ) {
++        Interview nouveauI = service.addInterview(i, id);
++        return new ResponseEntity<>(nouveauI, HttpStatus.CREATED);
+     }
+     @PostMapping("/addIEnligne/{id}")
+-    @PreAuthorize("hasRole('Exposant')")
++    @PreAuthorize("hasRole('Exposant') Or hasRole('Student') ")
+     public ResponseEntity<Interview> ajouterInterviewEnligne(
+             @RequestBody Interview i,
+             @PathVariable Long id) {
+@@ -37,7 +57,6 @@
+     }
+ 
+     @DeleteMapping("/deleteI/{id}")
+-    @PreAuthorize("hasRole('Exposant')")
+     public void deleteInterview(@PathVariable("id") Long id) {
+         service.deleteById(id);
+     }
+@@ -46,4 +65,27 @@
+     public List<Interview>  GetAllInterviews(){
+         return service.getInterviews();
+     }
++    @PutMapping("/updateI/{id}")
++    public ResponseEntity<Interview> UpdateInterv(@RequestBody Interview i, @PathVariable  Long id) {
++        Interview candidatureMaj = service.updateInterview(id, i);
++        if (candidatureMaj != null) {
++            return new ResponseEntity<>(candidatureMaj, HttpStatus.OK);
++        } else {
++            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
++        }
++    }
++    @PutMapping("/updateIR/{id}")
++    public ResponseEntity<Interview> updateInterview(@RequestBody Interview i, @PathVariable Long id, @RequestParam(name = "room", required = false) Integer roomId) {
++        try {
++            Interview updatedInterview = service.updateInterviewR(id, i, roomId);
++            if (updatedInterview != null) {
++                return ResponseEntity.ok(updatedInterview);
++            } else {
++                return ResponseEntity.notFound().build();
++            }
++        } catch (IllegalArgumentException e) {
++            return ResponseEntity.badRequest().body(null);
++        }
++    }
++
+ }
+\ No newline at end of file
+Index: src/main/java/tn/examen/templateexamen2324/dao/RoomRepo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package tn.examen.templateexamen2324.dao;\r\n\r\nimport org.springframework.data.repository.CrudRepository;\r\nimport org.springframework.stereotype.Repository;\r\nimport tn.examen.templateexamen2324.entity.Room;\r\n@Repository\r\npublic interface RoomRepo  extends CrudRepository<Room,Long> {\r\n    Room findRoomByNum(int roomNum);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/dao/RoomRepo.java b/src/main/java/tn/examen/templateexamen2324/dao/RoomRepo.java
+--- a/src/main/java/tn/examen/templateexamen2324/dao/RoomRepo.java	(revision 73bfb18235d705ae4439443935232993c48d6b65)
++++ b/src/main/java/tn/examen/templateexamen2324/dao/RoomRepo.java	(date 1713368155690)
+@@ -3,7 +3,12 @@
+ import org.springframework.data.repository.CrudRepository;
+ import org.springframework.stereotype.Repository;
+ import tn.examen.templateexamen2324.entity.Room;
++import tn.examen.templateexamen2324.entity.roomStatus;
++
++import java.util.List;
++
+ @Repository
+ public interface RoomRepo  extends CrudRepository<Room,Long> {
+     Room findRoomByNum(int roomNum);
++    List<Room> findByStatus(roomStatus status);
+ }
+Index: src/main/java/tn/examen/templateexamen2324/services/InterviewServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package tn.examen.templateexamen2324.services;\r\n\r\nimport jakarta.persistence.EntityManager;\r\nimport jakarta.persistence.PersistenceContext;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Service;\r\nimport tn.examen.templateexamen2324.dao.CandidatureRepo;\r\nimport tn.examen.templateexamen2324.dao.InterviewRepo;\r\nimport tn.examen.templateexamen2324.dao.RoomRepo;\r\nimport tn.examen.templateexamen2324.entity.Candidature;\r\nimport tn.examen.templateexamen2324.entity.Interview;\r\nimport tn.examen.templateexamen2324.entity.Room;\r\n\r\nimport java.util.List;\r\n\r\n@Slf4j\r\n@Service\r\npublic class InterviewServiceImpl implements IinterviewService {\r\n    @Autowired\r\n    InterviewRepo irepo;\r\n    @Autowired\r\n    CandidatureRepo crepo;\r\n    @Autowired\r\n    RoomRepo roomRepo;\r\n    @PersistenceContext\r\n    private EntityManager entityManager;\r\n    @Override\r\n    public Interview addInter(Interview i, Long candidatureId, int roomNum) {\r\n        Candidature candidature = crepo.findById(candidatureId)\r\n                .orElseThrow(() -> new IllegalArgumentException(\"Candidature not found\"));\r\n        i.setCandidature(candidature);\r\n        if (candidature.getInterview() == null) {\r\n            candidature.setInterview(i);\r\n        }\r\n\r\n            Room room = roomRepo.findRoomByNum(roomNum);\r\n            i.getRoom().add(room);\r\n            room.setInterview(i);\r\n\r\n        return irepo.save(i);\r\n    }\r\n\r\n    @Override\r\n    public Interview addInterEnligne(Interview i, Long candidatureId) {\r\n        Candidature candidature = crepo.findById(candidatureId)\r\n                .orElseThrow(() -> new IllegalArgumentException(\"Candidature not found\"));\r\n        i.setCandidature(candidature);\r\n        if (candidature.getInterview() == null) {\r\n            candidature.setInterview(i);\r\n        }\r\n\r\n        return irepo.save(i);\r\n    }\r\n\r\n\r\n    @Override\r\n    public List<Interview> getInterviews() {\r\n        return (List<Interview>)irepo.findAll();\r\n    }\r\n    @Override\r\n    public void deleteById(Long id) {\r\n        irepo.deleteById(id);\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/services/InterviewServiceImpl.java b/src/main/java/tn/examen/templateexamen2324/services/InterviewServiceImpl.java
+--- a/src/main/java/tn/examen/templateexamen2324/services/InterviewServiceImpl.java	(revision 73bfb18235d705ae4439443935232993c48d6b65)
++++ b/src/main/java/tn/examen/templateexamen2324/services/InterviewServiceImpl.java	(date 1713368155701)
+@@ -2,20 +2,30 @@
+ 
+ import jakarta.persistence.EntityManager;
+ import jakarta.persistence.PersistenceContext;
++import jakarta.transaction.Transactional;
+ import lombok.extern.slf4j.Slf4j;
++import org.aspectj.lang.JoinPoint;
++import org.aspectj.lang.annotation.After;
++import org.aspectj.lang.annotation.Aspect;
+ import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.scheduling.annotation.Scheduled;
++import org.springframework.stereotype.Component;
+ import org.springframework.stereotype.Service;
+ import tn.examen.templateexamen2324.dao.CandidatureRepo;
+ import tn.examen.templateexamen2324.dao.InterviewRepo;
+ import tn.examen.templateexamen2324.dao.RoomRepo;
+-import tn.examen.templateexamen2324.entity.Candidature;
+-import tn.examen.templateexamen2324.entity.Interview;
+-import tn.examen.templateexamen2324.entity.Room;
++import tn.examen.templateexamen2324.entity.*;
+ 
+-import java.util.List;
+-
++import java.time.LocalDateTime;
++import java.time.ZoneId;
++import java.time.temporal.ChronoUnit;
++import java.util.*;
++import java.util.concurrent.Executors;
++import java.util.concurrent.ScheduledExecutorService;
++import java.util.concurrent.TimeUnit;
+ @Slf4j
+ @Service
++@Transactional
+ public class InterviewServiceImpl implements IinterviewService {
+     @Autowired
+     InterviewRepo irepo;
+@@ -25,7 +35,26 @@
+     RoomRepo roomRepo;
+     @PersistenceContext
+     private EntityManager entityManager;
++    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
++
++    @Override
++    public Interview FindInterviewById(Long id) {
++        return irepo.findById(id).get();
++    }
++    @Override
++    @Transactional
++    public Interview addInterview(Interview i, Long candidatureId) {
++        Candidature candidature = crepo.findById(candidatureId)
++                .orElseThrow(() -> new IllegalArgumentException("Candidature not found"));
++        candidature.setStatus(Status.Finish);
++        i.setCandidature(candidature);
++        if (candidature.getInterview() == null) {
++            candidature.setInterview(i);
++        }
++        return irepo.save(i);
++    }
+     @Override
++    @Transactional
+     public Interview addInter(Interview i, Long candidatureId, int roomNum) {
+         Candidature candidature = crepo.findById(candidatureId)
+                 .orElseThrow(() -> new IllegalArgumentException("Candidature not found"));
+@@ -36,31 +65,121 @@
+ 
+             Room room = roomRepo.findRoomByNum(roomNum);
+             i.getRoom().add(room);
++            room.setStatus(roomStatus.RESERVED);
+             room.setInterview(i);
++        Interview savedInterview = irepo.save(i);
++            scheduleRoomAvailabilityChange(i);
++        return savedInterview;
++    }// 1 hour in milliseconds
++    private void scheduleRoomAvailabilityChange(Interview interview) {
++        LocalDateTime interviewDate = interview.getDate();
++        LocalDateTime changeTime = interviewDate.plusMinutes(15);
++
++        // Create a copy of the room collection
++        List<Room> rooms = new ArrayList<>(interview.getRoom());
+ 
+-        return irepo.save(i);
++        TimerTask task = new TimerTask() {
++            public void run() {
++                // Change the status of each room in the copied collection
++                for (Room room : rooms) {
++                    room.setStatus(roomStatus.AVAILABLE);
++                    roomRepo.save(room);
++                }
++            }
++        };
++
++        Timer timer = new Timer("RoomAvailabilityTimer");
++        timer.schedule(task, Date.from(changeTime.atZone(ZoneId.systemDefault()).toInstant()));
+     }
+ 
+     @Override
++    @Transactional
+     public Interview addInterEnligne(Interview i, Long candidatureId) {
+         Candidature candidature = crepo.findById(candidatureId)
+                 .orElseThrow(() -> new IllegalArgumentException("Candidature not found"));
++        candidature.setStatus(Status.Finish);
++       
+         i.setCandidature(candidature);
+         if (candidature.getInterview() == null) {
+             candidature.setInterview(i);
+         }
+ 
++        // Générer le lien Meet et l'ajouter à l'interview
++        String meetRoomName = "Interview_Room_" + i.getIdInterview(); // You can adjust the room name as needed
++        String meetLink = "https://meet.jit.si/" + meetRoomName;
++        i.setLien(meetLink);
++
+         return irepo.save(i);
+     }
++    private String generateMeetLink() {
++        // Logique de génération du lien Meet
++        // Vous pouvez utiliser des bibliothèques ou des algorithmes spécifiques pour générer un lien unique.
+ 
++        // Exemple simple : concaténer une partie fixe avec un identifiant unique (comme l'ID de l'interview)
++        return "https://meet.google.com/" + generateUniqueIdentifier();
++    }
+ 
++    private String generateUniqueIdentifier() {
++        // Logique pour générer un identifiant unique (peut-être l'ID de l'interview ou autre)
++        // Vous pouvez utiliser UUID.randomUUID() ou toute autre méthode d'identification unique.
++        return UUID.randomUUID().toString();
++    }
+     @Override
+     public List<Interview> getInterviews() {
+         return (List<Interview>)irepo.findAll();
+     }
++
++
+     @Override
+     public void deleteById(Long id) {
+         irepo.deleteById(id);
+     }
++    @Override
++    @Transactional
++    public Interview updateInterview(Long id, Interview updatedInterv) {
++        // Retrieve existing Candidature
++        Interview interview = irepo.findById(id)
++                .orElseThrow(() -> new IllegalArgumentException("Invalid candidature id: " + id));
++        // Update other fields
++        Candidature c =interview.getCandidature();
++        c.setStatus(Status.Finish);
++        interview.setRoom(updatedInterv.getRoom());
++        interview.setTitre(updatedInterv.getTitre());
++        // Save the interview
++        Interview updatedInterview = irepo.save(interview);
++        // Save and return the updated Candidature
++        return updatedInterview;
++    }
++    @Override
++    @Transactional
++    public Interview updateInterviewR(Long id, Interview updatedInterv, int roomNum) {
++        // Retrieve existing Interview
++        Interview interview = irepo.findById(id)
++                .orElseThrow(() -> new IllegalArgumentException("Invalid interview id: " + id));
++
++        // Update other fields of the interview
++        interview.setTitre(updatedInterv.getTitre());
++
++        // Retrieve the room by its number
++        Room room = roomRepo.findRoomByNum(roomNum);
++        if (room == null) {
++            throw new IllegalArgumentException("Room not found with number: " + roomNum);
++        }
++
++        // Update the room's status and associate it with the interview
++        room.setStatus(roomStatus.RESERVED);
++        room.setInterview(interview);
++
++        // Add the room to the interview's room list
++        interview.getRoom().add(room);
++        // Save and return the updated Interview
++        Interview updatedInterview = irepo.save(interview);
++
++        // Schedule room availability change
++        scheduleRoomAvailabilityChange(interview);
++
++         // Save and return the updated Candidature
++        return updatedInterview;
++    }
+ 
+ }
+\ No newline at end of file
+Index: src/main/java/tn/examen/templateexamen2324/services/IinterviewService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package tn.examen.templateexamen2324.services;\r\n\r\nimport tn.examen.templateexamen2324.entity.Interview;\r\n\r\nimport java.util.List;\r\n\r\npublic interface IinterviewService {\r\n    Interview addInter(Interview i, Long id,int roomNum);\r\n    Interview addInterEnligne(Interview i, Long id);\r\n\r\n    List<Interview>  getInterviews();\r\n    void deleteById(Long id);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/services/IinterviewService.java b/src/main/java/tn/examen/templateexamen2324/services/IinterviewService.java
+--- a/src/main/java/tn/examen/templateexamen2324/services/IinterviewService.java	(revision 73bfb18235d705ae4439443935232993c48d6b65)
++++ b/src/main/java/tn/examen/templateexamen2324/services/IinterviewService.java	(date 1713368155700)
+@@ -1,13 +1,17 @@
+ package tn.examen.templateexamen2324.services;
+ 
++import tn.examen.templateexamen2324.entity.Candidature;
+ import tn.examen.templateexamen2324.entity.Interview;
+ 
+ import java.util.List;
+ 
+ public interface IinterviewService {
++    Interview FindInterviewById(Long id);
+     Interview addInter(Interview i, Long id,int roomNum);
+     Interview addInterEnligne(Interview i, Long id);
+-
++    Interview updateInterview(Long id, Interview updatedInterv);
++     Interview updateInterviewR(Long id, Interview updatedInterv,int roomNum);
+     List<Interview>  getInterviews();
++    Interview addInterview(Interview i, Long candidatureId);
+     void deleteById(Long id);
+ }
+Index: src/main/java/tn/examen/templateexamen2324/entity/Sponsors.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package tn.examen.templateexamen2324.entity;\r\n\r\n\r\nimport jakarta.persistence.*;\r\nimport lombok.AllArgsConstructor;\r\nimport lombok.Getter;\r\nimport lombok.NoArgsConstructor;\r\nimport lombok.Setter;\r\n\r\nimport java.io.Serializable;\r\n@Entity\r\n@Getter\r\n@Setter\r\n@NoArgsConstructor\r\n@AllArgsConstructor\r\npublic class Sponsors implements Serializable {\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private Long idSponsor;\r\n    private String name;\r\n    private String contactName;\r\n    private String contactEmail;\r\n    private String contactPhone;\r\n    private String website;\r\n    private String logoUrl;\r\n    private String description;\r\n\r\n    @ManyToOne(cascade = CascadeType.ALL)\r\n    private User User;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/entity/Sponsors.java b/src/main/java/tn/examen/templateexamen2324/entity/Sponsors.java
+--- a/src/main/java/tn/examen/templateexamen2324/entity/Sponsors.java	(revision 73bfb18235d705ae4439443935232993c48d6b65)
++++ b/src/main/java/tn/examen/templateexamen2324/entity/Sponsors.java	(date 1713368155694)
+@@ -1,6 +1,7 @@
+ package tn.examen.templateexamen2324.entity;
+ 
+ 
++import com.fasterxml.jackson.annotation.JsonIgnore;
+ import jakarta.persistence.*;
+ import lombok.AllArgsConstructor;
+ import lombok.Getter;
+@@ -24,7 +25,7 @@
+     private String website;
+     private String logoUrl;
+     private String description;
+-
+-    @ManyToOne(cascade = CascadeType.ALL)
++    @JsonIgnore
++    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+     private User User;
+-}
++}
+\ No newline at end of file
+Index: src/main/java/tn/examen/templateexamen2324/services/SponsorsServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/services/SponsorsServiceImpl.java b/src/main/java/tn/examen/templateexamen2324/services/SponsorsServiceImpl.java
+new file mode 100644
+--- /dev/null	(date 1713368155705)
++++ b/src/main/java/tn/examen/templateexamen2324/services/SponsorsServiceImpl.java	(date 1713368155705)
+@@ -0,0 +1,56 @@
++package tn.examen.templateexamen2324.services;
++
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Service;
++import tn.examen.templateexamen2324.entity.Sponsors;
++import tn.examen.templateexamen2324.entity.User;
++import tn.examen.templateexamen2324.repository.SponsorsRepository;
++import tn.examen.templateexamen2324.repository.UserRepository;
++
++import java.util.List;
++import java.util.Optional;
++
++@Service
++public class SponsorsServiceImpl implements SponsorsService {
++
++    @Autowired
++    private SponsorsRepository sponsorsRepository;
++@Autowired
++    UserRepository userRepository;
++
++    @Override
++    public Sponsors saveSponsor(Sponsors sponsor,String userid)
++    {
++        User user = userRepository.findById(userid).orElse(null);
++        sponsor.setUser(user);
++        return sponsorsRepository.save(sponsor);
++    }
++
++    @Override
++    public List<Sponsors> getAllSponsors() {
++        return sponsorsRepository.findAll();
++    }
++
++    @Override
++    public Sponsors getSponsorById(Long id) {
++        Optional<Sponsors> sponsor = sponsorsRepository.findById(id);
++        return sponsor.orElse(null);
++    }
++
++    @Override
++    public Sponsors updateSponsor(Long id, Sponsors sponsorDetails) {
++        Sponsors sponsor = getSponsorById(id);
++        if(sponsor != null) {
++            sponsor.setName(sponsorDetails.getName());
++            sponsor.setContactName(sponsorDetails.getContactName());
++            // Set other fields similarly
++            return sponsorsRepository.save(sponsor);
++        }
++        return null;
++    }
++
++    @Override
++    public void deleteSponsor(Long id) {
++        sponsorsRepository.deleteById(id);
++    }
++}
+\ No newline at end of file
+Index: src/main/java/tn/examen/templateexamen2324/services/RoomService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package tn.examen.templateexamen2324.services;\r\n\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Service;\r\nimport tn.examen.templateexamen2324.dao.RoomRepo;\r\nimport tn.examen.templateexamen2324.entity.Room;\r\n\r\nimport java.util.List;\r\n\r\n@Service\r\npublic class RoomService implements IRoomService{\r\n    @Autowired\r\n    RoomRepo roomRepo;\r\n    @Override\r\n    public List<Room> getRooms() {\r\n        return (List<Room>) roomRepo.findAll();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/services/RoomService.java b/src/main/java/tn/examen/templateexamen2324/services/RoomService.java
+--- a/src/main/java/tn/examen/templateexamen2324/services/RoomService.java	(revision 73bfb18235d705ae4439443935232993c48d6b65)
++++ b/src/main/java/tn/examen/templateexamen2324/services/RoomService.java	(date 1713368155704)
+@@ -4,8 +4,10 @@
+ import org.springframework.stereotype.Service;
+ import tn.examen.templateexamen2324.dao.RoomRepo;
+ import tn.examen.templateexamen2324.entity.Room;
++import tn.examen.templateexamen2324.entity.roomStatus;
+ 
+ import java.util.List;
++import java.util.stream.Collectors;
+ 
+ @Service
+ public class RoomService implements IRoomService{
+@@ -13,6 +15,6 @@
+     RoomRepo roomRepo;
+     @Override
+     public List<Room> getRooms() {
+-        return (List<Room>) roomRepo.findAll();
++        return roomRepo.findByStatus(roomStatus.AVAILABLE);
+     }
+ }
+Index: src/main/java/tn/examen/templateexamen2324/services/SponsorsService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/services/SponsorsService.java b/src/main/java/tn/examen/templateexamen2324/services/SponsorsService.java
+new file mode 100644
+--- /dev/null	(date 1713368155704)
++++ b/src/main/java/tn/examen/templateexamen2324/services/SponsorsService.java	(date 1713368155704)
+@@ -0,0 +1,13 @@
++package tn.examen.templateexamen2324.services;
++
++import tn.examen.templateexamen2324.entity.Sponsors;
++
++import java.util.List;
++
++public interface SponsorsService {
++    Sponsors saveSponsor(Sponsors sponsor,String userid);
++    List<Sponsors> getAllSponsors();
++    Sponsors getSponsorById(Long id);
++    Sponsors updateSponsor(Long id, Sponsors sponsor);
++    void deleteSponsor(Long id);
++}
+Index: src/main/java/tn/examen/templateexamen2324/services/ICandidatureService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package tn.examen.templateexamen2324.services;\r\nimport org.springframework.web.multipart.MultipartFile;\r\nimport tn.examen.templateexamen2324.entity.Candidature;\r\n\r\nimport java.io.IOException;\r\nimport java.util.List;\r\nimport java.util.Optional;\r\npublic interface ICandidatureService {\r\n    Candidature addCandidat(Candidature c, Long id,String idUser, MultipartFile cvFile, MultipartFile lettre) throws IOException;\r\n    List<Candidature> findAllCadidature();\r\n    void deleteById(Long id);\r\n    Candidature updateCandidature(Long id, Candidature updatedCandidature);\r\n    Candidature AccepterCandidature(Long id, Candidature updatedCandidature) throws Exception;\r\n    Candidature FindCandidatById(Long id);\r\n    List<Candidature> FindCandidatByIdOffer(Long id);\r\n    List<Candidature> FindCandidatByIdUser(String idUser);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/services/ICandidatureService.java b/src/main/java/tn/examen/templateexamen2324/services/ICandidatureService.java
+--- a/src/main/java/tn/examen/templateexamen2324/services/ICandidatureService.java	(revision 73bfb18235d705ae4439443935232993c48d6b65)
++++ b/src/main/java/tn/examen/templateexamen2324/services/ICandidatureService.java	(date 1713368155698)
+@@ -8,6 +8,7 @@
+ public interface ICandidatureService {
+     Candidature addCandidat(Candidature c, Long id,String idUser, MultipartFile cvFile, MultipartFile lettre) throws IOException;
+     List<Candidature> findAllCadidature();
++    boolean getCandidaturesByOfferAndAndIndividu(Long IdOffer,String idIndividu);
+     void deleteById(Long id);
+     Candidature updateCandidature(Long id, Candidature updatedCandidature);
+     Candidature AccepterCandidature(Long id, Candidature updatedCandidature) throws Exception;
+Index: src/main/java/tn/examen/templateexamen2324/repository/SponsorsRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/repository/SponsorsRepository.java b/src/main/java/tn/examen/templateexamen2324/repository/SponsorsRepository.java
+new file mode 100644
+--- /dev/null	(date 1713368155695)
++++ b/src/main/java/tn/examen/templateexamen2324/repository/SponsorsRepository.java	(date 1713368155695)
+@@ -0,0 +1,11 @@
++package tn.examen.templateexamen2324.repository;
++
++
++import org.springframework.data.jpa.repository.JpaRepository;
++import org.springframework.stereotype.Repository;
++import tn.examen.templateexamen2324.entity.Sponsors;
++
++@Repository
++public interface SponsorsRepository extends JpaRepository<Sponsors, Long> {
++    // Vous pouvez ajouter des méthodes de requête personnalisées ici si nécessaire
++}
+\ No newline at end of file
+Index: src/main/java/tn/examen/templateexamen2324/services/IOfferService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package tn.examen.templateexamen2324.services;\r\n\r\nimport org.springframework.http.ResponseEntity;\r\nimport tn.examen.templateexamen2324.entity.*;\r\n\r\nimport java.time.LocalDate;\r\nimport java.util.List;\r\nimport java.util.Map;\r\n\r\npublic interface IOfferService {\r\n     Offer addOffer(Offer o);\r\n\r\n     Offer getOfferById(Long id);\r\n\r\n     List<Offer> getOffers();\r\n\r\n     Offer updateOffer(Long id);\r\n\r\n     void deleteOffer(Long id);\r\n\r\n     public ResponseEntity<String> affecetOfferToSociety(Offer o, String idU) ;\r\n     List<Offer> getOfferBySociety(String idS);\r\n\r\n     List<Offer> getOfferByCategory(Category categoryOffer,String idS);\r\n\r\n     User getSociety(String id);\r\n\r\n     public List<Offer> filterOffersByInput(String input);\r\n\r\n     void changeEtatToApprouvé(Long idOffer);\r\n\r\n     void changeEtatToRefuse(Long idOffer);\r\n\r\n     List<Offer> getAcceptedOffer();\r\n\r\n     int numberOffersEnAttente();\r\n     List<Offer> getOfferEnAttente();\r\n     void sentOffers();\r\n     //public Offer addFavorite(Long id);\r\n     //public List<Offer> getSuggestedOffers(User user, int numberOfSuggestions) ;\r\n     public Offer favoris(String userId, Long offerId) ;\r\n     public List<OfferFavoris> getFavoriteOffersByUserId(String userId) ;\r\n\r\n     public void deletefavorite(Long id);\r\n     public Map<Category, Long> getOfferCountsByCategory() ;\r\n     public Map<Offer, Long> countCandidaturesByOffer() ;\r\n\r\n     public boolean getCandidatureByOffer(Long idOffer,String idUser);\r\n     }
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/services/IOfferService.java b/src/main/java/tn/examen/templateexamen2324/services/IOfferService.java
+--- a/src/main/java/tn/examen/templateexamen2324/services/IOfferService.java	(revision 73bfb18235d705ae4439443935232993c48d6b65)
++++ b/src/main/java/tn/examen/templateexamen2324/services/IOfferService.java	(date 1713368155699)
+@@ -4,12 +4,13 @@
+ import tn.examen.templateexamen2324.entity.*;
+ 
+ import java.time.LocalDate;
++import java.time.LocalDateTime;
+ import java.util.List;
+ import java.util.Map;
+ 
+ public interface IOfferService {
+      Offer addOffer(Offer o);
+-
++     List<LocalDateTime> getDates(Offer o);
+      Offer getOfferById(Long id);
+ 
+      List<Offer> getOffers();
+Index: src/main/java/tn/examen/templateexamen2324/controller/SponsorsController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/controller/SponsorsController.java b/src/main/java/tn/examen/templateexamen2324/controller/SponsorsController.java
+new file mode 100644
+--- /dev/null	(date 1713368155687)
++++ b/src/main/java/tn/examen/templateexamen2324/controller/SponsorsController.java	(date 1713368155687)
+@@ -0,0 +1,62 @@
++package tn.examen.templateexamen2324.controller;
++
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.http.ResponseEntity;
++import org.springframework.security.access.prepost.PreAuthorize;
++import org.springframework.security.core.Authentication;
++import org.springframework.security.oauth2.jwt.Jwt;
++import org.springframework.web.bind.annotation.*;
++import tn.examen.templateexamen2324.entity.Sponsors;
++import tn.examen.templateexamen2324.services.SponsorsService;
++
++import java.util.List;
++
++
++@RestController
++@RequestMapping("/api/sponsors")
++@CrossOrigin(origins="http://localhost:4200") // Ajout de @CrossOrigin au niveau de classe
++
++public class SponsorsController {
++
++    @Autowired
++    private SponsorsService sponsorsService;
++
++
++
++    @PostMapping
++   // @PreAuthorize("hasRole('Exposant') OR hasRole('Fourniseur')")
++   // @PreAuthorize("hasRole('Student') ")
++
++    public Sponsors createSponsor(@RequestBody Sponsors sponsor, Authentication authentication) {
++        Jwt jwtToken = (Jwt) authentication.getPrincipal();
++        String userId = jwtToken.getClaim("sub");
++        return sponsorsService.saveSponsor(sponsor,userId);
++    }
++
++    @GetMapping
++   // @PreAuthorize("hasRole('Admin')")
++    public List<Sponsors> getAllSponsors() {
++        return sponsorsService.getAllSponsors();
++    }
++
++    @GetMapping("/{id}")
++   // @PreAuthorize("hasRole('Admin')")
++    public ResponseEntity<Sponsors> getSponsorById(@PathVariable Long id) {
++        Sponsors sponsor = sponsorsService.getSponsorById(id);
++        return sponsor != null ? ResponseEntity.ok(sponsor) : ResponseEntity.notFound().build();
++    }
++
++    @PutMapping("/{id}")
++
++    public ResponseEntity<Sponsors> updateSponsor(@PathVariable Long id, @RequestBody Sponsors sponsorDetails) {
++        Sponsors updatedSponsor = sponsorsService.updateSponsor(id, sponsorDetails);
++        return updatedSponsor != null ? ResponseEntity.ok(updatedSponsor) : ResponseEntity.notFound().build();
++    }
++
++    @DeleteMapping("/{id}")
++   // @PreAuthorize("hasRole('Admin')")
++    public ResponseEntity<Void> deleteSponsor(@PathVariable Long id) {
++        sponsorsService.deleteSponsor(id);
++        return ResponseEntity.ok().build();
++    }
++}
+\ No newline at end of file

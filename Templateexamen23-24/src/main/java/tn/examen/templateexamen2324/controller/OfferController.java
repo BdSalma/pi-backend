@@ -106,6 +106,11 @@ public class OfferController {
             existingOffer.setCandidatProfil(updatedOffer.getCandidatProfil());
             existingOffer.setDuree(updatedOffer.getDuree());
             existingOffer.setDescription(updatedOffer.getDescription());
+            existingOffer.setDate1(updatedOffer.getDate1());
+            existingOffer.setDate2(updatedOffer.getDate2());
+            existingOffer.setDate3(updatedOffer.getDate3());
+
+
 
 
 

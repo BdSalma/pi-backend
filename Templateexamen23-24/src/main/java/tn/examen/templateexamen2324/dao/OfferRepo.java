@@ -20,4 +20,5 @@ public interface OfferRepo extends JpaRepository<Offer, Long> {
     List<Object[]> countCandidaturesByOffer();
 
     public int countOfferBySociety(Society idS);
+    List<Offer> findOffersBySociety(Society s);
 }

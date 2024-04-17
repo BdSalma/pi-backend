@@ -28,9 +28,11 @@ public class Candidature implements Serializable {
     private String cv;
     private String lettre;
     //@JsonIgnore
-    @OneToOne(cascade = {CascadeType.ALL, CascadeType.MERGE})
+
+    @OneToOne(cascade = {CascadeType.ALL})
     private Interview Interview;
-    @JsonIgnore
+
+    //@JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     private Offer offer;
 

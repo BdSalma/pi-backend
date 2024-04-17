@@ -5,10 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="final correction">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/EtatInterview.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/CandidatureController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/CandidatureController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/InterviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/InterviewController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/OfferController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/OfferController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/CandidatureRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/CandidatureRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/OfferRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/OfferRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/RoomRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/RoomRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Candidature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Candidature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Interview.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Interview.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Offer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Offer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/CandidatureService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/CandidatureService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/ICandidatureService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/ICandidatureService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IinterviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IinterviewService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/InterviewServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/InterviewServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/RoomService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/CandidatureController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/CandidatureController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/InterviewController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/InterviewController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/CandidatureRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/CandidatureRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/OfferRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/OfferRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/RoomRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/RoomRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Candidature.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Candidature.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Interview.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Interview.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Offer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Offer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/CandidatureService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/CandidatureService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/ICandidatureService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/ICandidatureService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IinterviewService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IinterviewService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/InterviewServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/InterviewServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/RoomService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/RoomService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +101,7 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "gestion-offre",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/the cast/Desktop/pi/pi-backend/Templateexamen23-24",
+    "last_opened_file_path": "C:/Users/the cast/Desktop/pi/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/entity",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -89,6 +116,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\the cast\Desktop\pi\pi-backend\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\entity" />
       <recent name="C:\Users\asus\IdeaProjects\lastForum\pi-backend\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\services" />
       <recent name="C:\Users\Salma\Desktop\back-end\Salma_Beddakhlia\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\entity" />
     </key>

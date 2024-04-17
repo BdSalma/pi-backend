@@ -131,7 +131,6 @@ public class OfferService implements IOfferService {
         }
         return offers;
     }
-
     @Override
     public List<Offer> getOfferByCategory(Category categoryOffer,String idS) {
         List<Offer> listOffers = offerRepo.findOffersByOffreCategory(categoryOffer);

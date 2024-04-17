@@ -8,8 +8,11 @@ import java.util.Optional;
 public interface ICandidatureService {
     Candidature addCandidat(Candidature c, Long id,String idUser, MultipartFile cvFile, MultipartFile lettre) throws IOException;
     List<Candidature> findAllCadidature();
+    boolean getCandidaturesByOfferAndAndIndividu(Long IdOffer,String idIndividu);
     void deleteById(Long id);
+    int getInProgressCandidaturesCountBySocietyId(String societyId);
     Candidature updateCandidature(Long id, Candidature updatedCandidature);
+    Candidature RefuserCandidature(Long id, Candidature updatedCandidature) throws Exception;
     Candidature AccepterCandidature(Long id, Candidature updatedCandidature) throws Exception;
     Candidature FindCandidatById(Long id);
     List<Candidature> FindCandidatByIdOffer(Long id);
