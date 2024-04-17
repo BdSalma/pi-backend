@@ -23,7 +23,6 @@ public class OfferController {
     OfferService offerService;
 
     @PostMapping("/add-offer")
-    @PreAuthorize("hasRole('Exposant')")
     @ResponseBody
     public ResponseEntity<String> affectOffer(@RequestBody Offer o, Authentication authentication) {
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
@@ -33,7 +32,6 @@ public class OfferController {
     }
 
     @GetMapping("/allOffersBySociety")
-    @PreAuthorize("hasRole('Exposant')")
     @ResponseBody
     public List<Offer> getOfferBySociete(Authentication authentication) {
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
@@ -54,7 +52,9 @@ public class OfferController {
 
     @GetMapping("/offer/{idOffer}")
     @ResponseBody
-    public Offer getOfferById(@PathVariable("idOffer") Long id) {
+    public Offer getOfferById(@PathVariable("idOffer") Long id, Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
         return offerService.getOfferById(id);
 
     }
@@ -79,20 +79,24 @@ public class OfferController {
     }
 
     @DeleteMapping("/deleteOffer/{idOffer}")
-    @PreAuthorize("hasRole('Exposant')")
     @ResponseBody
-    public void deleteOffer(@PathVariable("idOffer") Long idOffer) {
+    public void deleteOffer(@PathVariable("idOffer") Long idOffer,Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
         offerService.deleteOffer(idOffer);
     }
     @DeleteMapping("/deleteFavoris/{idOffer}")
     @ResponseBody
-    public void deleteFavoris(@PathVariable("idOffer") Long idOffer) {
+    public void deleteFavoris(@PathVariable("idOffer") Long idOffer,Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
         offerService.deletefavorite(idOffer);
     }
     @PutMapping("/updateOffer/{id}")
-    @PreAuthorize("hasRole('Exposant')")
     @ResponseBody
-    public Offer updateOffer(@PathVariable("id") Long id, @RequestBody Offer updatedOffer) {
+    public Offer updateOffer(@PathVariable("id") Long id, @RequestBody Offer updatedOffer,Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
         Offer existingOffer = offerService.getOfferById(id);
 
         if (existingOffer != null) {
@@ -113,7 +117,6 @@ public class OfferController {
     }
 
     @GetMapping("/getofferByCategory/{category}")
-    @PreAuthorize("hasRole('Exposant') Or hasRole('Admin')  ")
     @ResponseBody
     public List<Offer> getOffer(@PathVariable("category") String categorie,Authentication authentication) {
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
@@ -131,26 +134,30 @@ public class OfferController {
     }
 
     @PostMapping("/Accept/{idOffer}")
-    @PreAuthorize("hasRole('Admin')")
-    public void Accept(@PathVariable("idOffer") Long idOffer) {
+    public void Accept(@PathVariable("idOffer") Long idOffer,Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
         offerService.changeEtatToApprouvé(idOffer);
     }
 
     @PostMapping("/Refuse/{idOffer}")
-    @PreAuthorize("hasRole('Admin')")
-    public void Refuse(@PathVariable("idOffer") Long idOffer) {
+    public void Refuse(@PathVariable("idOffer") Long idOffer,Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
         offerService.changeEtatToRefuse(idOffer);
     }
 
 
     @GetMapping("/ListAcceptedOffer")
-    @PreAuthorize("hasRole('Exposant')")
-    public List<Offer> getOfferEnAttente() {
+    public List<Offer> getOfferEnAttente(Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
         return offerService.getOfferEnAttente();
     }
     @GetMapping("/nbAcceptedOffer")
-    @PreAuthorize("hasRole('Admin')")
-    public int numberOffersEnAttente() {
+    public int numberOffersEnAttente(Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
         return offerService.numberOffersEnAttente();
     }
     @PostMapping("/AddFavoris/{idOffer}")
@@ -166,12 +173,16 @@ public class OfferController {
         return offerService.getFavoriteOffersByUserId(userId);
     }
     @GetMapping("/categoryCounts")
-    public Map<Category, Long> getOfferCountsByCategory() {
+    public Map<Category, Long> getOfferCountsByCategory(Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
         return offerService.getOfferCountsByCategory();
     }
 
     @GetMapping("/candidatures-by-offer")
-    public Map<String, Long> getCandidaturesByOffer() {
+    public Map<String, Long> getCandidaturesByOffer(Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
         Map<Offer, Long> candidaturesByOffer = offerService.countCandidaturesByOffer();
         Map<String, Long> candidaturesByOfferNames = new HashMap<>();
 
