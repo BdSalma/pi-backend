@@ -25,12 +25,11 @@ public class OfferController {
     @PostMapping("/add-offer")
     @PreAuthorize("hasRole('Exposant')")
     @ResponseBody
-    public void affectOffer(@RequestBody Offer o, Authentication authentication) {
+    public ResponseEntity<String> affectOffer(@RequestBody Offer o, Authentication authentication) {
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
         String userId = jwtToken.getClaim("sub");
-
         // Appeler le service pour affecter l'offre à la société
-        offerService.affecetOfferToSociety(o, userId);
+        return offerService.affecetOfferToSociety(o, userId);
     }
 
     @GetMapping("/allOffersBySociety")
@@ -68,10 +67,6 @@ public class OfferController {
         return offerService.getSociety(userId);
 
     }
-    /*@PostMapping("/favoris/{id}")
-    public Offer addFavorite(@PathVariable("id") Long id) {
-        return offerService.addFavorite(id);
-    }*/
     @GetMapping("/test-send-offers")
     public String testSendOffers() {
         offerService.sentOffers();
@@ -89,7 +84,11 @@ public class OfferController {
     public void deleteOffer(@PathVariable("idOffer") Long idOffer) {
         offerService.deleteOffer(idOffer);
     }
-
+    @DeleteMapping("/deleteFavoris/{idOffer}")
+    @ResponseBody
+    public void deleteFavoris(@PathVariable("idOffer") Long idOffer) {
+        offerService.deletefavorite(idOffer);
+    }
     @PutMapping("/updateOffer/{id}")
     @PreAuthorize("hasRole('Exposant')")
     @ResponseBody

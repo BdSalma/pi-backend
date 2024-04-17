@@ -1,39 +1,24 @@
 package tn.examen.templateexamen2324.services;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.store.ByteBuffersDirectory;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import tn.examen.templateexamen2324.dao.CandidatureRepo;
 import tn.examen.templateexamen2324.dao.OfferFavorisRepo;
-import tn.examen.templateexamen2324.dao.UserRepo;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.dao.OfferRepo;
 import tn.examen.templateexamen2324.repository.ForumRepo;
+import tn.examen.templateexamen2324.repository.PackRepo;
 import tn.examen.templateexamen2324.repository.SocietyRepository;
 import tn.examen.templateexamen2324.repository.UserRepository;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,6 +26,8 @@ import java.util.stream.Collectors;
 public class OfferService implements IOfferService {
     @Autowired
     OfferRepo offerRepo;
+    @Autowired
+    PackRepo packRepo;
     @Autowired
     SocietyRepository societyRepo;
     @Autowired
@@ -80,34 +67,61 @@ public class OfferService implements IOfferService {
         offerRepo.deleteById(id);
     }
 
-    @Override
-    public void affecetOfferToSociety(Offer o, String idU) {
-        Society s = societyRepo.findById(idU).orElse(null);
-        List<Forum> f = forumRepo.findAll();
-        if (s instanceof Society) {
-            // Vérifier si le fichier est présent et non vide
-            // Définir la société et l'état de l'offre
-            for (Forum fo:f) {
-                if (fo.getForumStatus().equals(ForumStatus.In_Progress)) {
 
+    @Override
+    public ResponseEntity<String> affecetOfferToSociety(Offer o, String idU) {
+        Society s = societyRepo.findById(idU).orElse(null);
+        Pack p = packRepo.findPackSociety(s);
+        int numberOffer = offerRepo.countOfferBySociety(s);
+        List<Forum> f = forumRepo.findAll();
+
+        // Check if the user is a Society
+        if (s instanceof Society) {
+            boolean forumInProgressFound = false;
+
+            // Check if there's a forum in progress
+            for (Forum fo : f) {
+                if (fo.getForumStatus().equals(ForumStatus.In_Progress)) {
+                    forumInProgressFound = true;
+                    break;
+                }
+            }
+
+            // If there's no forum in progress
+            if (!forumInProgressFound) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aucun forum en cours trouvé pour affecter l'offre");
+            }
+
+            // If there's a forum in progress but the number of offers exceeds the limit
+            if (p.getNumberOfOffers() <= numberOffer) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Saturé: vous ne pouvez plus ajouter d'offre");
+            }
+
+            // If a suitable forum is found, assign the offer and save it
+            for (Forum fo : f) {
+                if (fo.getForumStatus().equals(ForumStatus.In_Progress)) {
                     o.setForum(fo);
                     o.setSociety(s);
                     o.setEtatOffer(EtatOffer.Enattente);
+                    // Save the offer here since a suitable forum is found
+                    offerRepo.save(o);
+                    return ResponseEntity.ok().build();
                 }
             }
-            // Enregistrer l'offre dans la base de données
-            offerRepo.save(o);
         } else {
-            System.out.println("La société n'est pas un utilisateur");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La société n'est pas un utilisateur");
         }
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur inconnue");
     }
+
+
+
 
     private String convertFileToBase64(byte[] fileBytes) {
         // Encoder les octets du fichier en base64
         return Base64.getEncoder().encodeToString(fileBytes);
     }
-
-
     @Override
     public List<Offer> getOfferBySociety(String idS) {
         Society s = societyRepo.findById(idS).orElse(null);
@@ -167,16 +181,18 @@ public class OfferService implements IOfferService {
 
     @Override
     public void changeEtatToApprouvé(Long idOffer) {
-        Offer offer= offerRepo.findById(idOffer).orElse(null);
+        Offer offer = offerRepo.findById(idOffer).orElse(null);
+        List<User> users = userRepo.findAll();
         Society s = offer.getSociety();
         offer.setEtatOffer(EtatOffer.Approuvé);
         offerRepo.save(offer);
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("allouchy.ryhem@gmail.com");
         message.setTo(s.email);
-        message.setText("Your offer"+offer.getOfferName()+" has been accepted !");
+        message.setText("Your offer" + offer.getOfferName() + " has been accepted !");
         message.setSubject("Offer Accepted");
         mailSender.send(message);
+
     }
     @Override
     public void changeEtatToRefuse(Long idOffer) {
@@ -245,7 +261,7 @@ public class OfferService implements IOfferService {
         return offreEnattente;
     }
 
-    @Scheduled(cron = "0 30 15 * * ?") // Execute everyday at 21:33 PM
+    @Scheduled(cron = "0 30 14 * * ?") // Execute everyday at 21:33 PM
     public void sentOffers() {
         List<Offer> offers = offerRepo.findAll();
         List<Offer> off = new ArrayList<>();
@@ -272,60 +288,6 @@ public class OfferService implements IOfferService {
             mailSender.send(message);
         }
     }
-    /*@Override
-    public Offer addFavorite(Long id) {
-        Offer offer = offerRepo.findById(id).orElse(null);
-            Integer favoris = offer.getFavoris();
-            if (favoris == null) {
-                favoris = 0; // Initialisation à zéro si favoris est null
-            }
-            offer.setFavoris(favoris + 1);
-            return offerRepo.save(offer);
-    }*/
-
-    /*@Override
-    public List<Offer> getSuggestedOffers(User user, int numberOfSuggestions) {
-        List<Offer> allOffers = offerRepo.findAll();
-        List<Offer> suggestedOffers = new ArrayList<>();
-
-        try {
-            // Create an in-memory Lucene index
-            ByteBuffersDirectory directory = new ByteBuffersDirectory();
-            Analyzer analyzer = new StandardAnalyzer();
-
-            // Index the offers' descriptions
-            IndexWriterConfig config = new IndexWriterConfig(analyzer);
-            IndexWriter writer = new IndexWriter(directory, config);
-            for (Offer offer : allOffers) {
-                Document doc = new Document();
-                doc.add(new org.apache.lucene.document.TextField("description", offer.getDescription(), org.apache.lucene.document.Field.Store.YES));
-                writer.addDocument(doc);
-            }
-            writer.close();
-
-            // Search for offers similar to user's competence
-            IndexReader reader = DirectoryReader.open(directory);
-            IndexSearcher searcher = new IndexSearcher(reader);
-
-            Query query = new TermQuery(new Term("description", user.getCompetence()));
-            ScoreDoc[] hits = searcher.search(query, numberOfSuggestions).scoreDocs;
-
-            // Retrieve and add the suggested offers
-            for (ScoreDoc hit : hits) {
-                int docId = hit.doc;
-                Document d = searcher.doc(docId);
-                String description = d.get("description");
-                Offer offer = allOffers.stream().filter(o -> o.getDescription().equals(description)).findFirst().orElse(null);
-                if (offer != null) {
-                    suggestedOffers.add(offer);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return suggestedOffers;
-    }*/
     @Override
     public Offer favoris(String userId, Long offerId) {
         Offer offer = offerRepo.findById(offerId).orElse(null);
@@ -350,7 +312,7 @@ public class OfferService implements IOfferService {
 
     @Override
     public void deletefavorite(Long id) {
-
+        offerFavorisRepo.deleteById(id);
     }
     @Override
     public Map<Category, Long> getOfferCountsByCategory() {

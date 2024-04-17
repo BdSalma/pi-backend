@@ -2,10 +2,8 @@ package tn.examen.templateexamen2324.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import tn.examen.templateexamen2324.entity.Category;
-import tn.examen.templateexamen2324.entity.EtatOffer;
-import tn.examen.templateexamen2324.entity.Forum;
-import tn.examen.templateexamen2324.entity.Offer;
+import tn.examen.templateexamen2324.entity.*;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,4 +19,5 @@ public interface OfferRepo extends JpaRepository<Offer, Long> {
     @Query("SELECT c.offer, COUNT(c) FROM Candidature c GROUP BY c.offer")
     List<Object[]> countCandidaturesByOffer();
 
+    public int countOfferBySociety(Society idS);
 }

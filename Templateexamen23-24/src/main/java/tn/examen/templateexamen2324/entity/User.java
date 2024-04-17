@@ -23,9 +23,10 @@ public class User implements Serializable {
     public String username;
     public String password;
     public String email;
+    public String image;
     public boolean approve;
     public boolean activate;
-    private String competence;
+
     @ManyToMany(cascade = CascadeType.ALL,mappedBy = "User")
     @JsonIgnore
     Set<Forum> Forum = new HashSet<>();
@@ -39,7 +40,4 @@ public class User implements Serializable {
     @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL,mappedBy="individu")
     private Set<Candidature> candidatures = new HashSet<>();
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private Set<OfferFavoris> favoriteOffers = new HashSet<>();
 }

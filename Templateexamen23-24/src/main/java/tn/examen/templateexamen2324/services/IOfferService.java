@@ -1,5 +1,6 @@
 package tn.examen.templateexamen2324.services;
 
+import org.springframework.http.ResponseEntity;
 import tn.examen.templateexamen2324.entity.*;
 
 import java.time.LocalDate;
@@ -17,8 +18,7 @@ public interface IOfferService {
 
      void deleteOffer(Long id);
 
-     void affecetOfferToSociety(Offer o, String idS);
-
+     public ResponseEntity<String> affecetOfferToSociety(Offer o, String idU) ;
      List<Offer> getOfferBySociety(String idS);
 
      List<Offer> getOfferByCategory(Category categoryOffer,String idS);

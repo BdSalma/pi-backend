@@ -21,19 +21,19 @@ public class Pack {
     private TypePack typePack;
     private float prix;
     private Boolean statut;
-
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
     private Forum Forum;
-
     @OneToOne(cascade = CascadeType.ALL)
     private Stand Stand;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private User reserver;
-
     private LocalDate reservationDate;
     private LocalDate validationDate;
     private ReservationStatus reservationStatus = ReservationStatus.Not_Reserved;
-}
+    private int numberOfOffers;
+    private int numberOfBadges;
+    private int numberOfFlyers;
+    private boolean displayLogo;
+    private boolean insertFlyer;
 
+}
