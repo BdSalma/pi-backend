@@ -69,6 +69,7 @@ tn\examen\templateexamen2324\entity\Society.class
 tn\examen\templateexamen2324\entity\IndividuRole.class
 tn\examen\templateexamen2324\config\JwtAuthConverter.class
 tn\examen\templateexamen2324\controller\AuthController.class
+tn\examen\templateexamen2324\services\PackService$1.class
 tn\examen\templateexamen2324\entity\Stand.class
 tn\examen\templateexamen2324\services\ForumService.class
 tn\examen\templateexamen2324\entity\Interview.class

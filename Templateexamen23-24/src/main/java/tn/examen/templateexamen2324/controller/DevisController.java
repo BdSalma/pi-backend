@@ -15,6 +15,8 @@ import tn.examen.templateexamen2324.services.DevisIService;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
+
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
 @RequestMapping("/devis")
@@ -103,4 +105,7 @@ public class DevisController  {
                 .filename(fileName).build()); // Set filename in response
         return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
     }
+
+    // Calculate the total amount of money for accepted devis by each individu
+
 }

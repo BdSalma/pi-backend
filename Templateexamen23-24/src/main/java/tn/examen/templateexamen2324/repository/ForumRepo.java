@@ -6,7 +6,11 @@ import tn.examen.templateexamen2324.entity.Forum;
 import tn.examen.templateexamen2324.entity.ForumStatus;
 import tn.examen.templateexamen2324.entity.Stand;
 
+import java.util.ArrayList;
+
 @Repository
 public interface ForumRepo extends JpaRepository<Forum, Long> {
     Forum findForumByForumStatus(ForumStatus forumStatus);
+
+
 }

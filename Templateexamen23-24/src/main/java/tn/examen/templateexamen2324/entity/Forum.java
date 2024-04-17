@@ -6,11 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bouncycastle.tsp.ers.SortedHashList;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -26,6 +28,8 @@ public class Forum  implements Serializable{
     private String localisation ;
     private String theme;
     private String description ;
+    @JsonIgnore
+    private String affiche;
     private ForumStatus forumStatus = ForumStatus.In_Progress;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -34,5 +38,9 @@ public class Forum  implements Serializable{
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy="Forum")
     @JsonIgnore
-    Set<Pack> Pack = new HashSet<>();
+    List<Pack> Pack = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy="Forum")
+    @JsonIgnore
+    List<Stand> Stand = new ArrayList<>();
 }

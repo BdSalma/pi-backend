@@ -6,4 +6,7 @@ import tn.examen.templateexamen2324.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
+
+
+
 }

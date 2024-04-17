@@ -2,6 +2,7 @@ package tn.examen.templateexamen2324.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import tn.examen.templateexamen2324.entity.Pack;
 import tn.examen.templateexamen2324.entity.Stand;
 import tn.examen.templateexamen2324.repository.StandRepo;
@@ -36,6 +37,7 @@ public class StandService implements IStandService{
 
     @Override
     public Stand updateStand(long id, Stand stand) {
+
         Stand s = standRepo.findById(id).get();
         s.setPack(stand.getPack());
         s.setReserved(stand.getReserved());
@@ -53,8 +55,5 @@ public class StandService implements IStandService{
     public Stand findStandById(Long idStand) {
         return standRepo.findById(idStand).get();
     }
-    }
 
-
-
-
+}

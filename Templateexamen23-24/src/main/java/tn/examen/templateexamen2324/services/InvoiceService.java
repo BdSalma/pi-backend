@@ -3,10 +3,7 @@ package tn.examen.templateexamen2324.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import tn.examen.templateexamen2324.entity.Devis;
-import tn.examen.templateexamen2324.entity.Invoice;
-import tn.examen.templateexamen2324.entity.RequestSupply;
-import tn.examen.templateexamen2324.entity.RequestSupplyStatus;
+import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.repository.DevisRepository;
 import tn.examen.templateexamen2324.repository.InvoiceRepository;
 import tn.examen.templateexamen2324.repository.RequestSupplyRepository;
@@ -16,11 +13,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
-
 @Service
 public class InvoiceService implements InvoiceIService {
     @Autowired
@@ -167,5 +161,32 @@ public class InvoiceService implements InvoiceIService {
                 })
                 .collect(Collectors.toList());
     }
+
+    // Calculate the total amount of money for accepted devis by each individu
+    @Override
+    public Map<String, Float> calculateTotalAmountByIndividu(String individuId) {
+        // Retrieve all devis with running requests
+        List<Devis> allDevis = devisRepository.findByRequestSupplyStatusAndAndRequestSupply_Individu_Id(RequestSupplyStatus.Running, individuId);
+        // Initialize a map to store the total amount by individu
+        Map<String, Float> totalAmountByIndividu = new HashMap<>();
+
+        // Iterate over all devis
+        for (Devis devis : allDevis) {
+            // Check if the devis is accepted
+            if (devis.getStatus() == DevisStatus.Accepted) {
+                // Get the current total amount for the individu, or 0 if it doesn't exist yet
+                float currentTotalAmount = totalAmountByIndividu.getOrDefault(individuId, 0f);
+                // Add the price of the current devis to the total amount for the individu
+                currentTotalAmount += devis.getPrice();
+                // Update the total amount for the individu in the map
+                totalAmountByIndividu.put(individuId, currentTotalAmount);
+
+            }
+        }
+
+        return totalAmountByIndividu;
+    }
+
+
 
 }

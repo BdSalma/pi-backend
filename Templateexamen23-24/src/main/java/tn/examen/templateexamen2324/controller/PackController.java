@@ -1,5 +1,4 @@
 package tn.examen.templateexamen2324.controller;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -10,6 +9,7 @@ import tn.examen.templateexamen2324.entity.Stand;
 import tn.examen.templateexamen2324.services.IPackService;
 import tn.examen.templateexamen2324.services.IStandService;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -27,6 +27,19 @@ public class PackController {
         return listPack;
     }
 
+    @GetMapping("/getPacksStatistics")
+    @ResponseBody
+    public HashMap<String,HashMap<String,Float>> getPacksStatistics() {
+        return packService.getPackStatistics();
+    }
+
+    @GetMapping("/getListOfParticipants")
+    @ResponseBody
+    public List<User> getListOfParticipants() {
+        List<User> listParticipants = packService.getListOfParticipants();
+        return listParticipants;
+    }
+
     @GetMapping("/find-all-packs-by-forum/{forum}")
     @ResponseBody
     public List<Pack> getPacksByForum(@PathVariable("forum") Forum forum) {
@@ -37,7 +50,7 @@ public class PackController {
     @GetMapping("/find-pack/{packId}")
     @ResponseBody
     public Pack getPackById(@PathVariable("packId") long packId) {
-       return  packService.getPackById(packId);
+        return  packService.getPackById(packId);
 
     }
 
@@ -81,10 +94,15 @@ public class PackController {
     public Pack unassignStandfromPack(@PathVariable("idPack") Long idPack){
         return packService.unassignStandfromPack(idPack);
     }
+    @PostMapping("/createPersonalizedPackPrice/{standId}")
+    public Pack createPersonalizedPackPrice(@RequestBody Pack pack, Authentication authentication, @PathVariable("standId") Long standId) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        return packService.createPersonlizedPackPrice(pack, userId, standId);
+    }
 
     @PutMapping("/book_Pack/{idPack}")
     @ResponseBody
-
     public Pack bookPack(@PathVariable("idPack") Long idPack, Authentication authentication){
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
         String userId = jwtToken.getClaim("sub");
@@ -113,4 +131,5 @@ public class PackController {
     @ResponseBody
     public Pack updateBloc(@PathVariable("id") int packId, @RequestBody Pack pack) {
         return packService.updatePack(packId, pack);
+
     }}

@@ -4,7 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="merge offer reclamation user candidature" />
+=======
+    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/ForumController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/ForumStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/ForumRepo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/ForumService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IForumService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/PackController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/PackController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/StandController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/StandController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Forum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Forum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Pack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Pack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Stand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Stand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IPackService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IPackService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/PackService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/PackService.java" afterDir="false" />
+    </list>
+>>>>>>> origin/fatma
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,6 +40,7 @@
     </option>
   </component>
   <component name="Git.Settings">
+<<<<<<< HEAD
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$/.." value="gestion-offre" />
@@ -41,6 +62,10 @@
       </UrlAndAccount>
     </option>
   </component>
+=======
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+>>>>>>> origin/fatma
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -52,6 +77,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RequestMappingsPanelOrder0": "0",
@@ -73,16 +99,45 @@
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.externalResources",
     "vue.rearranger.settings.migration": "true"
+=======
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;fatma&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Fattouma PC/Desktop/Pi/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/services&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+>>>>>>> origin/fatma
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+<<<<<<< HEAD
       <recent name="C:\Users\asus\IdeaProjects\lastForum\pi-backend\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\services" />
       <recent name="C:\Users\Salma\Desktop\back-end\Salma_Beddakhlia\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\entity" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="tn.examen.templateexamen2324.controller" />
       <recent name="tn.examen.templateexamen2324.repository" />
+=======
+      <recent name="C:\Users\Fattouma PC\Desktop\Pi\pi-backend\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\services" />
+      <recent name="C:\Users\Salma\Desktop\back-end\Salma_Beddakhlia\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\entity" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="tn.examen.templateexamen2324.entity" />
+      <recent name="tn.examen.templateexamen2324.repository" />
+      <recent name="tn.examen.templateexamen2324.controller" />
+      <recent name="tn.examen.templateexamen2324.services" />
+>>>>>>> origin/fatma
     </key>
   </component>
   <component name="RunManager">
@@ -104,6 +159,7 @@
       <updated>1701685534513</updated>
       <workItem from="1701685536998" duration="1132000" />
       <workItem from="1708379055176" duration="1345000" />
+<<<<<<< HEAD
       <workItem from="1709061435307" duration="2251000" />
       <workItem from="1709109446934" duration="25049000" />
       <workItem from="1709195113578" duration="11303000" />
@@ -113,6 +169,11 @@
       <workItem from="1709640476457" duration="18650000" />
       <workItem from="1709715340521" duration="1042000" />
       <workItem from="1709718416082" duration="24133000" />
+=======
+      <workItem from="1708381463794" duration="3371000" />
+      <workItem from="1708416884541" duration="1734000" />
+      <workItem from="1708458746172" duration="10671000" />
+>>>>>>> origin/fatma
     </task>
     <task id="LOCAL-00001" summary="update candidat and interview">
       <option name="closed" value="true" />

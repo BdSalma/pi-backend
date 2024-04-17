@@ -5,6 +5,7 @@ import tn.examen.templateexamen2324.entity.Invoice;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface InvoiceIService {
     Invoice addInvoice(Invoice invoice);
@@ -22,4 +23,7 @@ public interface InvoiceIService {
     public byte[] getFileBytes(String fileName) throws IOException ;
     List<Invoice> retrieveOldInvoicesByUserId(String userId);
     List<Invoice> getOldInvoicesBySocietyId(String societyId);
+    Map<String, Float> calculateTotalAmountByIndividu(String individuId) ;
+
+
 }

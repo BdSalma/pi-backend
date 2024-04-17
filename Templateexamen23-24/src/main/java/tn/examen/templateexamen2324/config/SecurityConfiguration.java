@@ -70,7 +70,8 @@ public class SecurityConfiguration {
                     "/Offer/allOffers",
                     "/Offer/AcceptedOffer",
                     "/Offer/Offer/filterByCriteria/{criteria}",
-                    "/user-images/**"
+                    "/user-images/**",
+                    "/forum/**"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.POST,

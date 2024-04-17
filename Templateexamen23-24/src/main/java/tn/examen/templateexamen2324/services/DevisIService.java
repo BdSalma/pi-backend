@@ -6,6 +6,7 @@ import tn.examen.templateexamen2324.entity.DevisStatus;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface DevisIService {
     Devis addDevis(Devis devis);
@@ -19,4 +20,7 @@ public interface DevisIService {
     Devis updateDevisStatus(int idDevis, DevisStatus status);
     public byte[] getFileBytes(String fileName) throws IOException ;
     List<Devis> getOldDevisBySociety(String idS);
+    // Calculate the total amount of money for accepted devis by each individu
+
+
     }

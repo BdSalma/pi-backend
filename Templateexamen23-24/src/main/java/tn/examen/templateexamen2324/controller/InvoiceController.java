@@ -14,6 +14,8 @@ import tn.examen.templateexamen2324.services.InvoiceIService;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
+
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
 @RequestMapping("/invoice")
@@ -104,5 +106,13 @@ public class InvoiceController {
                 .filename(fileName).build()); // Set filename in response
         return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
     }
+    @GetMapping("/calculateTotalAmountByIndividu")
+    public Map<String, Float> calculateTotalAmountByIndividu(Authentication authentication) {
+        Jwt jwtToken = (Jwt) authentication.getPrincipal();
+        String userId = jwtToken.getClaim("sub");
+        return invoiceIService.calculateTotalAmountByIndividu(userId);
+    }
+
+
 
 }
