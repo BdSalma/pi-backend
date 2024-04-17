@@ -1,16 +1,10 @@
 package tn.examen.templateexamen2324.services;
-import jakarta.mail.MessagingException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tn.examen.templateexamen2324.dao.CandidatureRepo;
 import tn.examen.templateexamen2324.dao.InterviewRepo;
 import tn.examen.templateexamen2324.dao.OfferRepo;
-import tn.examen.templateexamen2324.dao.UserRepo;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.repository.UserRepository;
 

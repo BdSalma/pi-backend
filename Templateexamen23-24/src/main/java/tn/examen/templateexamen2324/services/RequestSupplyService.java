@@ -2,13 +2,12 @@ package tn.examen.templateexamen2324.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.examen.templateexamen2324.dao.IndividuRepo;
-import tn.examen.templateexamen2324.dao.SocietyRepo;
-import tn.examen.templateexamen2324.dao.UserRepo;
 import tn.examen.templateexamen2324.entity.Individu;
 import tn.examen.templateexamen2324.entity.RequestSupply;
-import tn.examen.templateexamen2324.entity.User;
+import tn.examen.templateexamen2324.repository.IndividuRepository;
 import tn.examen.templateexamen2324.repository.RequestSupplyRepository;
+import tn.examen.templateexamen2324.repository.SocietyRepository;
+import tn.examen.templateexamen2324.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,11 +18,11 @@ public class RequestSupplyService implements RequestSupplyIService{
     @Autowired
     RequestSupplyRepository requestSupplyRepository;
     @Autowired
-    SocietyRepo societyRepo;
+    SocietyRepository societyRepo;
     @Autowired
-    UserRepo userRepo;
+    UserRepository userRepo;
     @Autowired
-    IndividuRepo individuRepo;
+    IndividuRepository individuRepo;
     @Override
     public RequestSupply addRequestSupply(RequestSupply requestSupply,String idU) {
         if (LocalDate.now().plusDays(4).isAfter(requestSupply.getDate())) {

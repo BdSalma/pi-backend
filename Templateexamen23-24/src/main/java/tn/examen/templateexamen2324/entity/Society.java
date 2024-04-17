@@ -18,12 +18,10 @@ import java.util.Set;
 @Entity
 @Table(name = "Society")
 public class Society extends User implements Serializable {
-    private int matricule;
-    public String logo;
+    private String matricule;
     public String adresse;
     private String representative;
     private String sector;
-    public String sitFin;
     @Column(name = "society_role")
     @Enumerated(EnumType.STRING)
     private SocietyRole role;
@@ -38,12 +36,11 @@ public class Society extends User implements Serializable {
         this.username = userData.get("username");
         this.password = userData.get("password");
         this.email = userData.get("email");
-        this.matricule = Integer.parseInt(userData.get("matricule"));
-        this.logo = userData.get("logo");
+        this.matricule = userData.get("matricule");
+        this.image = userData.get("image");
         this.adresse = userData.get("adresse");
         this.representative = userData.get("representative");
         this.sector = userData.get("sector");
-        this.sitFin = userData.get("sitFin");
         this.role = SocietyRole.valueOf(userData.get("role"));
     }
 }

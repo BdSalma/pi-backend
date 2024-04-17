@@ -37,38 +37,11 @@ public class SecurityConfiguration {
         auth.authenticationProvider(provider);
     }
 
-    /*@Bean
-    @Override
-    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
-    }*/
-
-
-
-   /* public SecurityFilterChain securityFilterChainMethod(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .cors(Customizer.withDefaults())
-                .csrf(CsrfConfigurer::disable)
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers(HttpMethod.POST, "/auth/addRoleToUser").hasRole("ROLE_NAME")
-                                .anyRequest().permitAll()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer(oauth2ResourceServer ->
-                        oauth2ResourceServer.jwt(jwt ->
-                                jwt.jwtAuthenticationConverter(jwtAuthConverter)
-                        )
-                );
-
-       return httpSecurity.build();
-    }*/
     @Bean
     public SecurityFilterChain securityFilterChainMethod(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .cors(Customizer.withDefaults())
                 .csrf(CsrfConfigurer::disable)
-
               //  .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().permitAll())
                 .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -97,20 +70,24 @@ public class SecurityConfiguration {
                     "/Offer/allOffers",
                     "/Offer/AcceptedOffer",
                     "/Offer/Offer/filterByCriteria/{criteria}",
-                    "/Offer/offer/{idffer}"
+                    "/user-images/**",
+                    "/reclamation/feed",
+                    "/reclamation/{reclamationId}/rating",
+                    "/Offer/Offer/filterByCriteria/{criteria}"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.POST,
                     "/auth/create-user",
                     "/auth/login",
                     "/auth/logout",
-                    "/Offer/favoris/{id}"
+                    "/auth/refreshToken",
+                    "/reclamation/contact/**"
 
-            );
+                    );
             web.ignoring().requestMatchers(
                     HttpMethod.PUT,
                     "/auth/forgot-password"
-                    //"/auth/addRealmRoleToUser/**"
+                    //"/auth/addRoleToUser/**"
             );
             web.ignoring().requestMatchers(
                             HttpMethod.OPTIONS,

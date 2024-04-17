@@ -2,11 +2,10 @@ package tn.examen.templateexamen2324.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.examen.templateexamen2324.dao.SocietyRepo;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.repository.DevisRepository;
-import tn.examen.templateexamen2324.repository.InvoiceRepository;
 import tn.examen.templateexamen2324.repository.RequestSupplyRepository;
+import tn.examen.templateexamen2324.repository.SocietyRepository;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class DevisService implements DevisIService {
     @Autowired
     RequestSupplyRepository requestSupplyRepository;
     @Autowired
-    SocietyRepo societyRepo;
+    SocietyRepository societyRepo;
     @Override
     public Devis addDevis(Devis devis) {
 

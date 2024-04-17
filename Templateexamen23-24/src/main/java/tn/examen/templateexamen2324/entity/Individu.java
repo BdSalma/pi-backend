@@ -8,6 +8,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,6 +26,9 @@ public class Individu extends User implements Serializable {
     @Column(name = "individu_role")
     @Enumerated(EnumType.STRING)
     private IndividuRole role;
+    public String description;
+    public String portfolio;
+    public String linkedin;
 
     @JsonIgnore
     @OneToMany(mappedBy="individu", cascade = CascadeType.ALL)
@@ -38,9 +42,13 @@ public class Individu extends User implements Serializable {
         this.username = userData.get("username");
         this.password = userData.get("password");
         this.email = userData.get("email");
+        this.image = userData.get("image");
         this.identity = userData.get("identity");
         this.firstName = userData.get("firstName");
         this.lastName = userData.get("lastName");
+        this.description = userData.get("description");
+        this.portfolio = userData.get("portfolio");
+        this.linkedin = userData.get("linkedin");
         this.role = IndividuRole.valueOf(userData.get("role"));
     }
 }

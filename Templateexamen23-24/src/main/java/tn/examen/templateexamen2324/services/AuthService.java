@@ -1,10 +1,19 @@
 package tn.examen.templateexamen2324.services;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import jakarta.activation.DataSource;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.core.Response;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.james.mime4j.dom.Multipart;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.RolesResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -12,26 +21,49 @@ import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.*;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.repository.IndividuRepository;
 import tn.examen.templateexamen2324.repository.SocietyRepository;
 import tn.examen.templateexamen2324.repository.UserRepository;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.security.oauth2.jwt.Jwt;
+
+import javax.imageio.ImageIO;
 
 @Service
 public class AuthService implements IAuthService{
 
     private static final String UPDATE_PASSWORD = "UPDATE_PASSWORD";
+    @Autowired
+    private JavaMailSender mailSender;
     @Autowired
     RestTemplate restTemplate;
     @Autowired
@@ -57,6 +89,7 @@ public class AuthService implements IAuthService{
     @Value("${spring.security.oauth2.client.registration.oauth2-client-credentials.client-secret}")
     private String clientSecret;
     private Keycloak keycloak;
+    private static final String uploadPath = "C:/Users/MSI/piForumProject/backend/pi-backend/Templateexamen23-24/src/main/resources/fils";
 
     public AuthService(Keycloak keycloak) {
         this.keycloak = keycloak;
@@ -161,20 +194,15 @@ public class AuthService implements IAuthService{
                     userData.setPassword(hashedPassword);
                     userData.setActivate(true);
                     userData.setApprove(false);
+                    userData.setImage("user.png");
                     userRepository.save(userData);
 
-                    emailVerification(userId);
-                    /*UserResource userResource = getUserResource(userId);
-                    RolesResource rolesResource = keycloak.realm(realm).roles();
-                    RoleRepresentation representation = rolesResource.get("test").toRepresentation();
-                    System.out.println("this is role "+representation);
-                    userResource.roles().realmLevel().add(Collections.singletonList(representation));*/
-
+                    //emailVerification(userId);
+                    assignRole(userId,userRegistration.getRole().toString());
                     message.setMessage("Account created successfully");
-
                 }
             } else if (statusId == 409) {
-                message.setMessage("this account already exists");
+                message.setMessage("the username or email already exists");
             } else {
                 message.setMessage("there was an error while creating this account");
             }
@@ -217,14 +245,11 @@ public class AuthService implements IAuthService{
                     userData.setPassword(hashedPassword);
                     userData.setActivate(true);
                     userData.setApprove(false);
+                    userData.setImage("user.png");
                     userRepository.save(userData);
 
-                    emailVerification(userId);
-                    /*UserResource userResource = getUserResource(userId);
-                    RolesResource rolesResource = keycloak.realm(realm).roles();
-                    RoleRepresentation representation = rolesResource.get("test").toRepresentation();
-                    System.out.println("this is role "+representation);
-                    userResource.roles().realmLevel().add(Collections.singletonList(representation));*/
+                    //emailVerification(userId);
+                    assignRole(userId,userRegistration.getRole().toString());
                     message.setMessage("Account created successfully");
                 }
             } else if (statusId == 409) {
@@ -286,33 +311,17 @@ public class AuthService implements IAuthService{
         }
     }
 
-    @Override
-  /*  public void addRoleToUser(String userId, String roleName) {
-        RealmResource realmResource = keycloak.realm(realm);
-        UsersResource usersResource = getUsersResource();
-        List<RoleRepresentation> roles = realmResource.roles().list();
-        RoleRepresentation role = roles.stream()
-                .filter(r -> r.getName().equals(roleName))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
-        usersResource.get(userId).roles().realmLevel().add((role));*/
+    public void assignRole(String userId, String roleName) {
+        UserResource userResource = getUserResource(userId);
+        RolesResource rolesResource = getRolesResource();
+        RoleRepresentation representation = rolesResource.get(roleName).toRepresentation();
+        System.out.println(representation);
+        userResource.roles().realmLevel().add(Collections.singletonList(representation));
+    }
 
-
-        public void addRoleToUser(String userId, String roleName) {
-            RealmResource realmResource = keycloak.realm(realm);
-            UsersResource usersResource = getUsersResource();
-            List<RoleRepresentation> roles = realmResource.roles().list();
-            RoleRepresentation role = roles.stream()
-                    .filter(r -> r.getName().equals(roleName))
-                    .findFirst()
-                    .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
-            usersResource.get(userId).roles().realmLevel().add(Arrays.asList(role));
-        }
-
-
-
-
-
+    private RolesResource getRolesResource(){
+        return  keycloak.realm(realm).roles();
+    }
 
     @Override
     public Object[] updateUser(String id,Map<String, String> userRegistration) {
@@ -342,10 +351,14 @@ public class AuthService implements IAuthService{
             updatedUser.setFirstName(individu.getFirstName());
             updatedUser.setLastName(individu.getLastName());
             userResource.update(updatedUser);
-            Individu individu1 = this.individuRepository.findById(id).orElse(null);
+            Individu individu1 = individuRepository.findById(id).orElse(null);
             assert individu1 != null;
             individu1.setFirstName(individu.getFirstName());
             individu1.setLastName(individu.getLastName());
+            individu1.setPortfolio(individu.getPortfolio());
+            individu1.setLinkedin(individu.getLinkedin());
+
+            individu1.setDescription(individu.getDescription());
             userRepository.save(individu1);
             return new Object[]{statusId, individu1};
         } catch (Exception e) {
@@ -361,7 +374,6 @@ public class AuthService implements IAuthService{
             Society society1 = this.societyRepository.findById(id).orElse(null);
             society1.setSector(society.getSector());
             society1.setMatricule(society.getMatricule());
-            society1.setLogo(society.getLogo());
             society1.setAdresse(society.getAdresse());
             society1.setRepresentative(society.getRepresentative());
             userRepository.save(society1);
@@ -450,19 +462,16 @@ public class AuthService implements IAuthService{
         ResponseMessage message = new ResponseMessage();
         try {
             UsersResource usersResource = getUsersResource();
-            System.out.println("username:"+username);
             boolean isValid = EmailValidator.getInstance().isValid(username);
             if (isValid) {
                 List<UserRepresentation> users = usersResource.searchByEmail(username,true);
                 UserRepresentation userRepresentation = users.stream().findFirst().orElse(null);
-                System.out.println("user:"+userRepresentation);
                 if (userRepresentation!=null) {
                     return sendPasswordResetEmail(userRepresentation,usersResource);
                 }
             } else {
                 List<UserRepresentation> usersByEmail = usersResource.searchByUsername(username,true);
                 UserRepresentation usersByEmailRepresentation = usersByEmail.stream().findFirst().orElse(null);
-                System.out.println("user:"+usersByEmailRepresentation);
                 if (usersByEmailRepresentation!=null) {
                     return sendPasswordResetEmail(usersByEmailRepresentation,usersResource);
                 }
@@ -493,7 +502,6 @@ public class AuthService implements IAuthService{
             List<UserRepresentation> users = usersResource.searchByUsername(username,true);
             UserRepresentation userRepresentation = users.stream().findFirst().orElse(null);
             User user = userRepository.findById(userRepresentation.getId()).orElse(null);
-            System.out.println(user);
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             if (userRepresentation != null && user != null) {
                 if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
@@ -517,4 +525,200 @@ public class AuthService implements IAuthService{
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
         }
     }
+
+    @Override
+    public ResponseEntity<?> refreshToken(String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+        requestBody.add("grant_type", "refresh_token");
+        requestBody.add("client_id", clientId);
+        requestBody.add("client_secret", secret);
+        requestBody.add("refresh_token", token);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestBody, headers);
+        try {
+            ResponseEntity<LoginResponse> response = restTemplate.postForEntity("http://localhost:8082/realms/esprit-piazza/protocol/openid-connect/token", httpEntity, LoginResponse.class);
+            return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+        } catch (HttpClientErrorException ex) {
+            ResponseMessage message = new ResponseMessage();
+            if (ex.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+                message.setMessage("There is no account with the provided credentials");
+                return new ResponseEntity<>(message, ex.getStatusCode());
+            } else {
+                message.setMessage(ex.getResponseBodyAsString());
+                return new ResponseEntity<>( message, ex.getStatusCode());
+            }
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> addImageToUser(String userId, MultipartFile image) {
+        ResponseMessage message = new ResponseMessage();
+        try {
+            User user = userRepository.findById(userId).orElse(null);
+            if (image != null) {
+                String newPhotoName = nameFile(image);
+                String oldPhotoName = user.getImage();
+                System.out.println(oldPhotoName);
+                user.setImage(newPhotoName);
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdir();
+                }
+                if(!oldPhotoName.equals("user.png")){
+                    deleteFile(oldPhotoName);
+                }
+                saveFile(image,newPhotoName);
+                return ResponseEntity.status(HttpStatus.OK).body(userRepository.save(user));
+            }else {
+                message.setMessage("There is no image");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+            }
+        } catch (IOException e) {
+            message.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+        }
+    }
+
+    public void saveFile(MultipartFile multipartFile,String fileName) throws IOException{
+        Path upload = Paths.get(uploadPath);
+        if(!Files.exists(upload)){
+            Files.createDirectories(upload);
+        }
+        try (InputStream inputStream = multipartFile.getInputStream()){
+            Path filePath = upload.resolve(fileName);
+            Files.copy(inputStream,filePath, StandardCopyOption.REPLACE_EXISTING);
+        }catch (IOException e){
+            throw new IOException("Could not save file");
+        }
+    }
+
+    public String nameFile(MultipartFile multipartFile){
+        String originalFileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        Integer fileDotIndex = originalFileName.lastIndexOf('.');
+        String fileExtension = originalFileName.substring(fileDotIndex);
+        return UUID.randomUUID().toString() + fileExtension;
+    }
+
+    public void deleteFile(String fileName) throws IOException{
+        Path upload = Paths.get(uploadPath);
+        Path filePath = upload.resolve(fileName);
+        Files.deleteIfExists(filePath);
+        System.out.println(fileName);
+        System.out.println("deleted");
+    }
+
+    @Override
+    public ResponseEntity<Resource> getUserImage(String userId)  throws IOException {
+        User user = userRepository.findById(userId).orElse(null);
+        Path imagePath = Paths.get(uploadPath,"/"+ user.getImage());
+        if (Files.exists(imagePath) && Files.isReadable(imagePath)) {
+            byte[] imageBytes = Files.readAllBytes(imagePath);
+            ByteArrayResource resource = new ByteArrayResource(imageBytes);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            String fileExtension = Files.probeContentType(imagePath);
+            if (fileExtension != null) {
+                headers.setContentType(MediaType.parseMediaType(fileExtension));
+            }
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + userId + fileExtension);
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(resource);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @Override
+    public Map<String, Long> listOfUsersByType() {
+        Map<String, Long> combinedCountByRole = new HashMap<>();
+
+        convertListToObjectMapIndividu(individuRepository.getIndividuCountByRole())
+                .forEach((role, count) -> combinedCountByRole.merge(role, count, Long::sum));
+
+        convertListToObjectMapSociety(societyRepository.getSocietyCountByRole())
+                .forEach((role, count) -> combinedCountByRole.merge(role, count, Long::sum));
+
+        return combinedCountByRole;
+    }
+
+    private Map<String, Long> convertListToObjectMapIndividu(List<Object[]> counts) {
+        return counts.stream()
+                .collect(Collectors.toMap(
+                        count -> ((IndividuRole) count[0]).toString(),
+                        count -> (Long) count[1],
+                        Long::sum));
+    }
+
+    private Map<String, Long> convertListToObjectMapSociety(List<Object[]> counts) {
+        return counts.stream()
+                .collect(Collectors.toMap(
+                        count -> ((SocietyRole) count[0]).toString(),
+                        count -> (Long) count[1],
+                        Long::sum));
+    }
+
+    public byte[] generateQrCodeImage(String content) throws IOException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        Map<EncodeHintType, Object> hintMap = new HashMap<>();
+        hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        BitMatrix bitMatrix;
+        try {
+            bitMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, 200, 200, hintMap);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate qr code image", e);
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        BufferedImage qrImage = toBufferedImage(bitMatrix);
+        try {
+            ImageIO.write(qrImage, "png", outputStream);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write qr code image", e);
+        }
+        return outputStream.toByteArray();
+    }
+
+    private BufferedImage toBufferedImage(BitMatrix matrix) {
+        int width = matrix.getWidth();
+        int height = matrix.getHeight();
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics = (Graphics2D) image.getGraphics();
+        graphics.setColor(Color.WHITE);
+        graphics.fillRect(0, 0, width, height);
+        graphics.setColor(Color.BLACK);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (matrix.get(x, y)) {
+                    graphics.fillRect(x, y, 1, 1);
+                }
+            }
+        }
+        return image;
+    }
+
+    @Override
+    public void sendEmailToUser(String userId) {
+        Individu user = individuRepository.findById(userId).orElse(null);
+        System.out.println(user);
+        String email = user.getEmail();
+        String content = "Nom et prénom: "+user.getFirstName()+" "+user.getLastName()+" - Identifiant: "+user.getIdentity();
+        try {
+            byte[] qrCodeImageBytes = generateQrCodeImage(content);
+            ByteArrayResource byteArrayResource = new ByteArrayResource(qrCodeImageBytes);
+
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("walahamdi0@gmail.com");
+            helper.setTo(email);
+            helper.setSubject("Votre code QR pour les opportunités futures");
+            helper.setText("Cher étudiant, Nous vous avons envoyé un code QR que vous pourrez utiliser à l'avenir pour des stages, des opportunités d'emploi et d'autres perspectives passionnantes. Veuillez trouver le code QR joint. Cordialement, L'équipe de Esprit piazza");
+            helper.addAttachment("qr_code.png", byteArrayResource, "image/png");
+            mailSender.send(message);
+
+        } catch (MessagingException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
