@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="merge offer reclamation user candidature" />
+    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="merge offer reclamation user candidature">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/SponsorsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/UserRepo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/SponsorsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/SponsorsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/SponsorsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,8 +44,8 @@
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
-        <option name="accountId" value="9951e7a9-7af2-47f1-af10-b0f0fc97511d" />
-        <option name="url" value="https://github.com/BdSalma/pi-backend.git" />
+        <option name="accountId" value="d8e5d7d0-6a43-4d12-a4fd-ccdcc6a902a3" />
+        <option name="url" value="https://github.com/BdSalma/pi-backend" />
       </UrlAndAccount>
     </option>
   </component>
@@ -61,8 +69,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "salma",
-    "last_opened_file_path": "C:/Users/asus/IdeaProjects/lastForum/pi-backend/Templateexamen23-24/src/main/java/tn/examen/templateexamen2324/services",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/user/OneDrive/Bureau/final integration/backk/pi-backend/Templateexamen23-24",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -81,8 +89,10 @@
       <recent name="C:\Users\Salma\Desktop\back-end\Salma_Beddakhlia\Templateexamen23-24\src\main\java\tn\examen\templateexamen2324\entity" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="tn.examen.templateexamen2324.controller" />
+      <recent name="tn.examen.templateexamen2324.services" />
       <recent name="tn.examen.templateexamen2324.repository" />
+      <recent name="tn.examen.templateexamen2324.dao" />
+      <recent name="tn.examen.templateexamen2324.controller" />
     </key>
   </component>
   <component name="RunManager">
@@ -113,6 +123,8 @@
       <workItem from="1709640476457" duration="18650000" />
       <workItem from="1709715340521" duration="1042000" />
       <workItem from="1709718416082" duration="24133000" />
+      <workItem from="1711808102938" duration="671000" />
+      <workItem from="1713351241199" duration="33000" />
     </task>
     <task id="LOCAL-00001" summary="update candidat and interview">
       <option name="closed" value="true" />
