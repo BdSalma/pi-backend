@@ -4,20 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="last push">
+    <list default="true" id="32454ce9-d1ad-4643-8331-d22e3fb604f1" name="Changes" comment="final correction">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/OfferRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/dao/OfferRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/ForumStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/ForumStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Pack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/Pack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/PackRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/repository/PackRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IOfferService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/IOfferService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/examen/templateexamen2324/services/OfferService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/OfferController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/controller/OfferController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IOfferService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/IOfferService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/OfferService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/services/OfferService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/OfferRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/dao/OfferRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Individu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Individu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Pack.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/Pack.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/entity/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/repository/PackRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/examen/templateexamen2324/repository/PackRepo.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +48,9 @@
       </UrlAndAccount>
     </option>
   </component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -161,7 +157,8 @@
       <workItem from="1713293588092" duration="3592000" />
       <workItem from="1713298248389" duration="3955000" />
       <workItem from="1713303173627" duration="2518000" />
-      <workItem from="1713342169865" duration="8520000" />
+      <workItem from="1713342169865" duration="8590000" />
+      <workItem from="1713358080533" duration="372000" />
     </task>
     <task id="LOCAL-00001" summary="update candidat and interview">
       <option name="closed" value="true" />
@@ -203,7 +200,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713300395044</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="final correction">
+      <option name="closed" value="true" />
+      <created>1713350998757</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1713350998757</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -228,7 +233,8 @@
     <MESSAGE value="telecharger cv" />
     <MESSAGE value="merge offer reclamation user candidature" />
     <MESSAGE value="last push" />
-    <option name="LAST_COMMIT_MESSAGE" value="last push" />
+    <MESSAGE value="final correction" />
+    <option name="LAST_COMMIT_MESSAGE" value="final correction" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
