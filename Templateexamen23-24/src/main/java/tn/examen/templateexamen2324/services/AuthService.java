@@ -1,5 +1,12 @@
 package tn.examen.templateexamen2324.services;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import jakarta.activation.DataSource;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.core.Response;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -14,7 +21,14 @@ import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.*;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -28,21 +42,28 @@ import tn.examen.templateexamen2324.repository.IndividuRepository;
 import tn.examen.templateexamen2324.repository.SocietyRepository;
 import tn.examen.templateexamen2324.repository.UserRepository;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.security.oauth2.jwt.Jwt;
+
+import javax.imageio.ImageIO;
 
 @Service
 public class AuthService implements IAuthService{
 
     private static final String UPDATE_PASSWORD = "UPDATE_PASSWORD";
+    @Autowired
+    private JavaMailSender mailSender;
     @Autowired
     RestTemplate restTemplate;
     @Autowired
@@ -330,10 +351,14 @@ public class AuthService implements IAuthService{
             updatedUser.setFirstName(individu.getFirstName());
             updatedUser.setLastName(individu.getLastName());
             userResource.update(updatedUser);
-            Individu individu1 = this.individuRepository.findById(id).orElse(null);
+            Individu individu1 = individuRepository.findById(id).orElse(null);
             assert individu1 != null;
             individu1.setFirstName(individu.getFirstName());
             individu1.setLastName(individu.getLastName());
+            individu1.setPortfolio(individu.getPortfolio());
+            individu1.setLinkedin(individu.getLinkedin());
+
+            individu1.setDescription(individu.getDescription());
             userRepository.save(individu1);
             return new Object[]{statusId, individu1};
         } catch (Exception e) {
@@ -582,4 +607,118 @@ public class AuthService implements IAuthService{
         System.out.println(fileName);
         System.out.println("deleted");
     }
+
+    @Override
+    public ResponseEntity<Resource> getUserImage(String userId)  throws IOException {
+        User user = userRepository.findById(userId).orElse(null);
+        Path imagePath = Paths.get(uploadPath,"/"+ user.getImage());
+        if (Files.exists(imagePath) && Files.isReadable(imagePath)) {
+            byte[] imageBytes = Files.readAllBytes(imagePath);
+            ByteArrayResource resource = new ByteArrayResource(imageBytes);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            String fileExtension = Files.probeContentType(imagePath);
+            if (fileExtension != null) {
+                headers.setContentType(MediaType.parseMediaType(fileExtension));
+            }
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + userId + fileExtension);
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(resource);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @Override
+    public Map<String, Long> listOfUsersByType() {
+        Map<String, Long> combinedCountByRole = new HashMap<>();
+
+        convertListToObjectMapIndividu(individuRepository.getIndividuCountByRole())
+                .forEach((role, count) -> combinedCountByRole.merge(role, count, Long::sum));
+
+        convertListToObjectMapSociety(societyRepository.getSocietyCountByRole())
+                .forEach((role, count) -> combinedCountByRole.merge(role, count, Long::sum));
+
+        return combinedCountByRole;
+    }
+
+    private Map<String, Long> convertListToObjectMapIndividu(List<Object[]> counts) {
+        return counts.stream()
+                .collect(Collectors.toMap(
+                        count -> ((IndividuRole) count[0]).toString(),
+                        count -> (Long) count[1],
+                        Long::sum));
+    }
+
+    private Map<String, Long> convertListToObjectMapSociety(List<Object[]> counts) {
+        return counts.stream()
+                .collect(Collectors.toMap(
+                        count -> ((SocietyRole) count[0]).toString(),
+                        count -> (Long) count[1],
+                        Long::sum));
+    }
+
+    public byte[] generateQrCodeImage(String content) throws IOException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        Map<EncodeHintType, Object> hintMap = new HashMap<>();
+        hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        BitMatrix bitMatrix;
+        try {
+            bitMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, 200, 200, hintMap);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate qr code image", e);
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        BufferedImage qrImage = toBufferedImage(bitMatrix);
+        try {
+            ImageIO.write(qrImage, "png", outputStream);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write qr code image", e);
+        }
+        return outputStream.toByteArray();
+    }
+
+    private BufferedImage toBufferedImage(BitMatrix matrix) {
+        int width = matrix.getWidth();
+        int height = matrix.getHeight();
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics = (Graphics2D) image.getGraphics();
+        graphics.setColor(Color.WHITE);
+        graphics.fillRect(0, 0, width, height);
+        graphics.setColor(Color.BLACK);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (matrix.get(x, y)) {
+                    graphics.fillRect(x, y, 1, 1);
+                }
+            }
+        }
+        return image;
+    }
+
+    @Override
+    public void sendEmailToUser(String userId) {
+        Individu user = individuRepository.findById(userId).orElse(null);
+        System.out.println(user);
+        String email = user.getEmail();
+        String content = "Nom et prénom: "+user.getFirstName()+" "+user.getLastName()+" - Identifiant: "+user.getIdentity();
+        try {
+            byte[] qrCodeImageBytes = generateQrCodeImage(content);
+            ByteArrayResource byteArrayResource = new ByteArrayResource(qrCodeImageBytes);
+
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("walahamdi0@gmail.com");
+            helper.setTo(email);
+            helper.setSubject("Votre code QR pour les opportunités futures");
+            helper.setText("Cher étudiant, Nous vous avons envoyé un code QR que vous pourrez utiliser à l'avenir pour des stages, des opportunités d'emploi et d'autres perspectives passionnantes. Veuillez trouver le code QR joint. Cordialement, L'équipe de Esprit piazza");
+            helper.addAttachment("qr_code.png", byteArrayResource, "image/png");
+            mailSender.send(message);
+
+        } catch (MessagingException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

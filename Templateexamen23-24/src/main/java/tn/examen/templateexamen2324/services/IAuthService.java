@@ -1,5 +1,6 @@
 package tn.examen.templateexamen2324.services;
 
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,4 +32,7 @@ public interface IAuthService {
     public ResponseEntity<?> updatePassword(String oldPassword,String newPassword,String username);
     public ResponseEntity<?> refreshToken(String token);
     public ResponseEntity<?> addImageToUser(String userId, MultipartFile image);
+    public ResponseEntity<Resource> getUserImage(String userId)  throws IOException;
+    public Map<String, Long> listOfUsersByType();
+    public void sendEmailToUser(String id);
 }

@@ -1,4 +1,5 @@
 package tn.examen.templateexamen2324.controller;
+import com.google.zxing.WriterException;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
@@ -113,6 +114,7 @@ public class AuthController {
     public ResponseEntity<Object> updateUser(Authentication authentication,@RequestBody Map<String, String> requestBody) {
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
         String userId = jwtToken.getClaim("sub");
+        System.out.println(requestBody.get("socialLinks"));
         Object[] result = authService.updateUser(userId, requestBody);
         int statusCode = (Integer) result[0];
         if (statusCode == 200) {
@@ -200,27 +202,28 @@ public class AuthController {
 
     @GetMapping("user-image")
     public ResponseEntity<Resource> getUserImage(Authentication authentication)  throws IOException {
-        String USER_IMAGE_DIRECTORY = "C:/Users/MSI/piForumProject/backend/pi-backend/Templateexamen23-24/src/main/resources/fils";
         Jwt jwtToken = (Jwt) authentication.getPrincipal();
         String userId = jwtToken.getClaim("sub");
-        User user = userRepository.findById(userId).orElse(null);
-        Path imagePath = Paths.get(USER_IMAGE_DIRECTORY,"/"+ user.getImage());
-        if (Files.exists(imagePath) && Files.isReadable(imagePath)) {
-            byte[] imageBytes = Files.readAllBytes(imagePath);
-            ByteArrayResource resource = new ByteArrayResource(imageBytes);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG);
-            String fileExtension = Files.probeContentType(imagePath);
-            if (fileExtension != null) {
-                headers.setContentType(MediaType.parseMediaType(fileExtension));
-            }
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + userId + fileExtension);
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .body(resource);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        return authService.getUserImage(userId);
+    }
+
+    @GetMapping("user-image-admin/{userId}")
+    @PreAuthorize("hasRole('Admin')")
+    public ResponseEntity<Resource> getUserImageByAdmin(@PathVariable String userId)  throws IOException {
+        return authService.getUserImage(userId);
+    }
+
+    @GetMapping("count-by-role")
+    //@PreAuthorize("hasRole('Admin')")
+    public ResponseEntity<Map<String, Long>> getUserCountByRole() {
+        Map<String, Long> userCountByRole = authService.listOfUsersByType();
+        return ResponseEntity.ok(userCountByRole);
+    }
+
+    @GetMapping(value = "generateQRCode/{userId}",produces = MediaType.IMAGE_PNG_VALUE)
+    @PreAuthorize("hasRole('Admin')")
+    public void generateQrCodeImage(@PathVariable String userId) {
+        authService.sendEmailToUser(userId);
     }
 
 }

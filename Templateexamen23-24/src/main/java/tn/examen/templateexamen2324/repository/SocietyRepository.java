@@ -20,4 +20,7 @@ public interface SocietyRepository extends JpaRepository<Society,String> {
     public List<Society> findAllByFields(@Param("field") String field);
 
     public List<Society> findAllByRole(SocietyRole role);
+
+    @Query("SELECT s.role, COUNT(s) FROM Society s GROUP BY s.role")
+    List<Object[]> getSocietyCountByRole();
 }
