@@ -43,4 +43,9 @@ public class Forum  implements Serializable{
     @OneToMany(cascade = CascadeType.ALL,mappedBy="Forum")
     @JsonIgnore
     List<Stand> Stand = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy="forum")
+    @JsonIgnore
+    Set<Offer> offres = new HashSet<>();
 }
+

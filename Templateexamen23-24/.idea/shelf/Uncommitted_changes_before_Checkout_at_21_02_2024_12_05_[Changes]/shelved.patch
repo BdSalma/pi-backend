@@ -1,0 +1,23 @@
+Index: src/main/java/tn/examen/templateexamen2324/controller/OfferController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package tn.examen.templateexamen2324.controller;\r\n\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.web.bind.annotation.*;\r\nimport tn.examen.templateexamen2324.entity.Offer;\r\nimport tn.examen.templateexamen2324.services.OfferService;\r\n\r\nimport java.util.List;\r\n\r\n@RestController\r\n@RequestMapping(\"/Offer\")\r\npublic class OfferController {\r\n    @Autowired\r\n    OfferService offerService;\r\n\r\n    @GetMapping(\"/allOffers\")\r\n    @ResponseBody\r\n    public List<Offer> getOffers() {\r\n\r\n        List<Offer> listOffers = offerService.getOffers();\r\n\r\n        return listOffers;\r\n\r\n    }\r\n    @GetMapping(\"/offer/{idOffer}\")\r\n    @ResponseBody\r\n    public Offer getOfferById(@PathVariable(\"idOffer\") Long id) {\r\n        return offerService.getOfferById(id);\r\n\r\n    }\r\n    @PostMapping(\"/add-offer\")\r\n    @ResponseBody\r\n    public Offer addOffer(@RequestBody Offer o){\r\n        return offerService.addOffer(o);\r\n    }\r\n    @DeleteMapping(\"/deleteOffer/{idOffer}\")\r\n    @ResponseBody\r\n    public void deleteOffer(@PathVariable(\"idOffer\") Long idOffer) {\r\n        offerService.deleteOffer(idOffer);\r\n    }\r\n    @PutMapping(\"/updateOffer/{id}\")\r\n    @ResponseBody\r\n    public ResponseEntity<String> updateOffer(@PathVariable(\"id\") Long id, @RequestBody Offer updatedOffer) {\r\n        Offer existingOffer = offerService.getOfferById(id);\r\n\r\n        if (existingOffer!=null) {\r\n            existingOffer.setCandidatnumber(updatedOffer.getCandidatnumber());\r\n            existingOffer.setDescription(updatedOffer.getDescription());\r\n            existingOffer.setDuree(updatedOffer.getDuree());\r\n            existingOffer.setOffreCategory(updatedOffer.getOffreCategory());\r\n            existingOffer.setCandidatProfil(updatedOffer.getCandidatProfil());\r\n\r\n\r\n            offerService.updateOffer(existingOffer.getIdOffre());\r\n            return ResponseEntity.ok(\"L'offre a été mis à jour avec succès.\");\r\n        } else {\r\n            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(\"L'offre avec l'ID \" + id + \" n'existe pas.\");\r\n        }\r\n    }}\r\n
+===================================================================
+diff --git a/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java b/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java
+--- a/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java	
++++ b/src/main/java/tn/examen/templateexamen2324/controller/OfferController.java	
+@@ -8,13 +8,12 @@
+ import tn.examen.templateexamen2324.services.OfferService;
+ 
+ import java.util.List;
+-
++@CrossOrigin(origins = "http://localhost:4200")
+ @RestController
+ @RequestMapping("/Offer")
+ public class OfferController {
+     @Autowired
+     OfferService offerService;
+-
+     @GetMapping("/allOffers")
+     @ResponseBody
+     public List<Offer> getOffers() {

@@ -1,9 +1,7 @@
 package tn.examen.templateexamen2324.services;
 
-import tn.examen.templateexamen2324.entity.Category;
-import tn.examen.templateexamen2324.entity.Offer;
-import tn.examen.templateexamen2324.entity.Society;
-import tn.examen.templateexamen2324.entity.User;
+import org.springframework.http.ResponseEntity;
+import tn.examen.templateexamen2324.entity.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,8 +18,7 @@ public interface IOfferService {
 
      void deleteOffer(Long id);
 
-     void affecetOfferToSociety(Offer o, String idS);
-
+     public ResponseEntity<String> affecetOfferToSociety(Offer o, String idU) ;
      List<Offer> getOfferBySociety(String idS);
 
      List<Offer> getOfferByCategory(Category categoryOffer,String idS);
@@ -36,7 +33,17 @@ public interface IOfferService {
 
      List<Offer> getAcceptedOffer();
 
-     double calculateAverageOffersPerDay() ;
      int numberOffersEnAttente();
      List<Offer> getOfferEnAttente();
-}
+     void sentOffers();
+     //public Offer addFavorite(Long id);
+     //public List<Offer> getSuggestedOffers(User user, int numberOfSuggestions) ;
+     public Offer favoris(String userId, Long offerId) ;
+     public List<OfferFavoris> getFavoriteOffersByUserId(String userId) ;
+
+     public void deletefavorite(Long id);
+     public Map<Category, Long> getOfferCountsByCategory() ;
+     public Map<Offer, Long> countCandidaturesByOffer() ;
+
+     public boolean getCandidatureByOffer(Long idOffer,String idUser);
+     }

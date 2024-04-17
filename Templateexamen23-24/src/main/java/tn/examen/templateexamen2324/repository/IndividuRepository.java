@@ -22,4 +22,7 @@ public interface IndividuRepository extends JpaRepository<Individu,String> {
 
     public List<Individu> findAllByRole(IndividuRole role);
 
+    @Query("SELECT i.role, COUNT(i) FROM Individu i GROUP BY i.role")
+    List<Object[]> getIndividuCountByRole();
+
 }

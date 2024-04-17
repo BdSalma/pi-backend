@@ -18,7 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "Society")
 public class Society extends User implements Serializable {
-    private int matricule;
+    private String matricule;
     public String adresse;
     private String representative;
     private String sector;
@@ -36,7 +36,7 @@ public class Society extends User implements Serializable {
         this.username = userData.get("username");
         this.password = userData.get("password");
         this.email = userData.get("email");
-        this.matricule = Integer.parseInt(userData.get("matricule"));
+        this.matricule = userData.get("matricule");
         this.image = userData.get("image");
         this.adresse = userData.get("adresse");
         this.representative = userData.get("representative");

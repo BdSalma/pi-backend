@@ -11,9 +11,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 import tn.examen.templateexamen2324.services.ReclamationService;
-
+@EnableScheduling
 @SpringBootApplication
-@EnableScheduling // Enable Spring's scheduled tasks
 
 public class Templateexamen2324Application {
 

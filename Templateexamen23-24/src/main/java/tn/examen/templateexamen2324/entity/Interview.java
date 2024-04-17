@@ -24,7 +24,8 @@ public class Interview implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idInterview;
-
+    @Enumerated(EnumType.STRING)
+    private EtatInterview etatInterview;
     @Enumerated(EnumType.STRING)
     private InterviewType interviewType;
     @Temporal(TemporalType.TIMESTAMP)

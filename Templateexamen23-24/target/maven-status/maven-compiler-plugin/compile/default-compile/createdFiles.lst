@@ -8,8 +8,10 @@ tn\examen\templateexamen2324\repository\InvoiceRepository.class
 tn\examen\templateexamen2324\entity\Category.class
 tn\examen\templateexamen2324\services\RequestSupplyService.class
 tn\examen\templateexamen2324\dao\OfferRepo.class
+tn\examen\templateexamen2324\services\InterviewServiceImpl$1.class
 tn\examen\templateexamen2324\services\DevisIService.class
 tn\examen\templateexamen2324\repository\DevisRepository.class
+tn\examen\templateexamen2324\entity\EtatInterview.class
 tn\examen\templateexamen2324\services\InterviewServiceImpl.class
 tn\examen\templateexamen2324\entity\Individu.class
 tn\examen\templateexamen2324\controller\OfferController.class
@@ -17,6 +19,7 @@ tn\examen\templateexamen2324\entity\roomStatus.class
 tn\examen\templateexamen2324\entity\User.class
 tn\examen\templateexamen2324\services\IinterviewService.class
 tn\examen\templateexamen2324\services\AuthService.class
+tn\examen\templateexamen2324\entity\OfferFavoris.class
 tn\examen\templateexamen2324\controller\RequestSupplyController.class
 tn\examen\templateexamen2324\controller\DevisController.class
 tn\examen\templateexamen2324\services\ReclamationService.class
@@ -26,6 +29,7 @@ tn\examen\templateexamen2324\config\KeycloackSecurityUtil.class
 tn\examen\templateexamen2324\config\SecurityConfiguration.class
 tn\examen\templateexamen2324\dao\RoomRepo.class
 tn\examen\templateexamen2324\repository\StandRepo.class
+tn\examen\templateexamen2324\repository\RatingRepository.class
 tn\examen\templateexamen2324\entity\RequestSupply.class
 tn\examen\templateexamen2324\entity\ResponseMessage.class
 tn\examen\templateexamen2324\services\IRoomService.class
@@ -38,6 +42,8 @@ tn\examen\templateexamen2324\entity\SocietyRole.class
 tn\examen\templateexamen2324\repository\IndividuRepository.class
 tn\examen\templateexamen2324\repository\SocietyRepository.class
 tn\examen\templateexamen2324\services\CandidatureService.class
+tn\examen\templateexamen2324\entity\Rating.class
+tn\examen\templateexamen2324\repository\FavoriteRepository.class
 tn\examen\templateexamen2324\entity\TypeReclamation.class
 tn\examen\templateexamen2324\entity\ForumStatus.class
 tn\examen\templateexamen2324\repository\UserRepository.class
@@ -56,6 +62,7 @@ tn\examen\templateexamen2324\entity\Forum.class
 tn\examen\templateexamen2324\entity\Status.class
 tn\examen\templateexamen2324\dao\InterviewRepo.class
 tn\examen\templateexamen2324\entity\Devis.class
+tn\examen\templateexamen2324\dao\UserRepo.class
 tn\examen\templateexamen2324\controller\InvoiceController.class
 tn\examen\templateexamen2324\entity\Invoice.class
 tn\examen\templateexamen2324\services\IPackService.class
@@ -64,6 +71,7 @@ tn\examen\templateexamen2324\entity\Pack.class
 tn\examen\templateexamen2324\entity\Sponsors.class
 tn\examen\templateexamen2324\services\InvoiceIService.class
 tn\examen\templateexamen2324\repository\RequestSupplyRepository.class
+tn\examen\templateexamen2324\dao\OfferFavorisRepo.class
 tn\examen\templateexamen2324\controller\PackController.class
 tn\examen\templateexamen2324\entity\Society.class
 tn\examen\templateexamen2324\entity\IndividuRole.class
@@ -83,6 +91,7 @@ tn\examen\templateexamen2324\entity\InvoiceStatus.class
 tn\examen\templateexamen2324\services\IReclamationService.class
 tn\examen\templateexamen2324\services\IStandService.class
 tn\examen\templateexamen2324\controller\StandController.class
+tn\examen\templateexamen2324\entity\Favorite.class
 tn\examen\templateexamen2324\services\IOfferService.class
 tn\examen\templateexamen2324\entity\Candidature.class
 tn\examen\templateexamen2324\entity\RequestSupplyStatus.class
