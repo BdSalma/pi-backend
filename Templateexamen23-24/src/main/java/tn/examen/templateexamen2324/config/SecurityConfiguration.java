@@ -78,8 +78,10 @@ public class SecurityConfiguration {
                     "/auth/create-user",
                     "/auth/login",
                     "/auth/logout",
-                    "/auth/refreshToken"
-            );
+                    "/auth/refreshToken",
+                    "/reclamation/contact/**"
+
+                    );
             web.ignoring().requestMatchers(
                     HttpMethod.PUT,
                     "/auth/forgot-password"

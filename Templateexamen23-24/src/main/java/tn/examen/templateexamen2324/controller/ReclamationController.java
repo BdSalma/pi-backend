@@ -16,6 +16,7 @@ import tn.examen.templateexamen2324.repository.ReclamationRepository;
 import tn.examen.templateexamen2324.services.IReclamationService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins="http://localhost:4200")
@@ -112,6 +113,17 @@ public class ReclamationController {
     public ResponseEntity<Integer> getRating(@PathVariable int reclamationId) {
         Integer rating = iReclamationService.getRatingForReclamation(reclamationId);
         return ResponseEntity.ok(rating);
+    }
+    @PostMapping("/contact/{email}")
+    @ResponseBody
+    public void Contact(@PathVariable("email") String email,@RequestBody String context){
+        iReclamationService.Contact(email,context);
+    }
+
+    @GetMapping("/count-by-type")
+    public ResponseEntity<Map<String, Long>> getReclamationCount() {
+        Map<String, Long> userCountByRole = iReclamationService.listOfReclamationByType();
+        return ResponseEntity.ok(userCountByRole);
     }
 
 }

@@ -22,4 +22,7 @@ public interface ReclamationRepository extends JpaRepository<Reclamation,Integer
 
     @Query("SELECT r FROM Reclamation r JOIN r.favorites f WHERE f.userId = :userId")
     List<Reclamation> findFavoritesByUserId(@Param("userId") String userId);
+
+    @Query("SELECT i.typeReclamation, COUNT(i) FROM Reclamation i GROUP BY i.typeReclamation")
+    List<Object[]> getReclamationCountByType();
 }

@@ -11,9 +11,9 @@ import tn.examen.templateexamen2324.repository.FavoriteRepository;
 import tn.examen.templateexamen2324.repository.RatingRepository;
 import tn.examen.templateexamen2324.repository.ReclamationRepository;
 import tn.examen.templateexamen2324.repository.UserRepository;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ReclamationService implements IReclamationService {
@@ -80,28 +80,6 @@ public class ReclamationService implements IReclamationService {
         TypeReclamation reclamationType = TypeReclamation.Feed;
         return reclamationRepository.getFeed(reclamationType);
     }
-
-    /*@Override
-    public void addToFavorites(int reclamationId, String userId) {
-        // Retrieve the reclamation from the database
-        Reclamation reclamation = reclamationRepository.findById( reclamationId)
-                .orElseThrow(() -> new EntityNotFoundException("Reclamation not found with id: " + reclamationId));
-
-        // Check if the reclamation is already in the user's favorites
-        if (reclamation.getFavorites().stream().anyMatch(favorite -> favorite.getUserId() == userId)) {
-            throw new IllegalStateException("Reclamation is already in the user's favorites");
-        }
-
-        // Create a new favorite and add it to the reclamation
-        Favorite favorite = new Favorite();
-        favorite.setUserId((userId));
-        favorite.setReclamation(reclamation);
-
-        reclamation.getFavorites().add(favorite);
-
-        // Save the updated reclamation back to the database
-        reclamationRepository.save(reclamation);
-    }*/
     @Override
     public void addToFavorites(int reclamationId, String userId) {
         // Retrieve the reclamation from the database
@@ -176,19 +154,35 @@ public class ReclamationService implements IReclamationService {
         return rating != null ? rating.getRating() : null;
     }
 
-    /*@Override
-    public void removeFavorite(int reclamationId, String userId) {
-        Reclamation reclamation = reclamationRepository.findById(reclamationId)
-                .orElseThrow(() -> new EntityNotFoundException("Reclamation not found with id: " + reclamationId));
+    @Override
+    public void Contact(String email,String context) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(email);
+        message.setTo("walahamdi0@gmail.com");
+        message.setText(context);
+        message.setSubject("Contact");
+        mailSender.send(message);
+
+    }
+
+    @Override
+    public Map<String, Long> listOfReclamationByType() {
+        Map<String, Long> ReclamationCount = new HashMap<>();
+
+        convertListToObjectMap(reclamationRepository.getReclamationCountByType())
+                .forEach((type, count) -> ReclamationCount.merge(type, count, Long::sum));
 
 
-        // Try to find the favorite by its ID
-        Favorite favorite = favoriteRepository.findByReclamationUser(reclamation,userId);
+        return ReclamationCount;
 
-        // Delete the favorite
-        favoriteRepository.delete(favorite);
-
-    }*/
+    }
+    private Map<String, Long> convertListToObjectMap(List<Object[]> counts) {
+        return counts.stream()
+                .collect(Collectors.toMap(
+                        count -> ((TypeReclamation) count[0]).toString(),
+                        count -> (Long) count[1],
+                        Long::sum));
+    }
 
 
     @Autowired
