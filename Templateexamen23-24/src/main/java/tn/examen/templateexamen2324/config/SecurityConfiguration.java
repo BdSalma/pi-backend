@@ -70,15 +70,20 @@ public class SecurityConfiguration {
                     "/Offer/allOffers",
                     "/Offer/AcceptedOffer",
                     "/Offer/Offer/filterByCriteria/{criteria}",
-                    "/user-images/**"
+                    "/user-images/**",
+                    "/reclamation/feed",
+                    "/reclamation/{reclamationId}/rating",
+                    "/Offer/Offer/filterByCriteria/{criteria}"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.POST,
                     "/auth/create-user",
                     "/auth/login",
                     "/auth/logout",
-                    "/auth/refreshToken"
-            );
+                    "/auth/refreshToken",
+                    "/reclamation/contact/**"
+
+                    );
             web.ignoring().requestMatchers(
                     HttpMethod.PUT,
                     "/auth/forgot-password"

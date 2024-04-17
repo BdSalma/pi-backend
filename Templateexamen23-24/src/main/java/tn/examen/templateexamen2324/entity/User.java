@@ -28,11 +28,14 @@ public class User implements Serializable {
     public boolean activate;
 
     @ManyToMany(cascade = CascadeType.ALL,mappedBy = "User")
-    @JsonIgnore
+    //@JsonIgnore
     Set<Forum> Forum = new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "User")
+    //@ToString.Exclude
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "User" ,fetch = FetchType.LAZY)   //EAGER
     @JsonIgnore
     Set<Reclamation> Reclamation = new HashSet<>();
+
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "User")
     @JsonIgnore
     Set<Sponsors> Sponsors = new HashSet<>();
