@@ -1,6 +1,7 @@
 package tn.examen.templateexamen2324.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -27,4 +31,9 @@ public class Sponsors implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     private User User;
+    @OneToMany(mappedBy = "sponsor", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<SponsorView> views = new HashSet<>();
+
+
 }
