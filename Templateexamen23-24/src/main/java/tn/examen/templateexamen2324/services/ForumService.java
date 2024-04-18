@@ -107,25 +107,38 @@ public class ForumService implements IForumService{
 
     @Override
     public Forum cancelForum(long forumId) {
-        Forum f = forumRepo.findById(forumId).get();
-        String mailBody="Le forum a été annulé";
-        f.setForumStatus(ForumStatus.Canceled);
-        for (Pack p : f.getPack()) {
-            p.setReservationStatus(ReservationStatus.Archived);
-            p.getStand().setReserved(false);
-            this.sendSimpleEmail(p.getReserver().getId(),"Annulation du forum",mailBody);
-            this.standRepo.save(p.getStand());
-            this.packRepo.save(p);
+        Forum f = forumRepo.findById(forumId).orElse(null);
+        if (f == null) {
+            // Handle case where forum is not found
+            return null;
         }
-        List<RequestSupply> RequestSulyList = this.requestSuplyRepo.findByForum(f);
-        for (RequestSupply r: RequestSulyList) {
+
+        String mailBody = "Le forum a été annulé";
+        f.setForumStatus(ForumStatus.Canceled);
+
+        // Cancel packs and update stands
+        List<Pack> packList = new ArrayList<>(f.getPack());
+        for (Pack p : packList) {
+            if(p.getReservationStatus() == ReservationStatus.Reserved || p.getReservationStatus()==ReservationStatus.On_Hold){
+                this.sendSimpleEmail(p.getReserver().getEmail(), "Annulation du forum", mailBody);
+                this.standRepo.save(p.getStand());
+                this.packRepo.save(p);}
+        }
+
+        // Cancel requests and associated devis
+        List<RequestSupply> requestSupplyList = new ArrayList<>(this.requestSuplyRepo.findByForum(f));
+        for (RequestSupply r: requestSupplyList) {
             r.setStatus(RequestSupplyStatus.Archived);
-            for ( Devis d: r.getDevis()) {
-                this.sendSimpleEmail(d.getSocietyDevis().getEmail(),"Annulation du forum",mailBody);
+            Iterator<Devis> iterator = r.getDevis().iterator();
+            while (iterator.hasNext()) {
+                Devis d = iterator.next();
+                this.sendSimpleEmail(d.getSocietyDevis().getEmail(), "Annulation du forum", mailBody);
                 this.devisRepository.save(d);
             }
             this.requestSuplyRepo.save(r);
         }
+
+
         return this.forumRepo.save(f);
     }
 
@@ -242,6 +255,14 @@ public class ForumService implements IForumService{
         }
         Collections.sort(forums, (f1, f2) -> f2.getDate().compareTo(f1.getDate()));
         return forums.get(1);
+    }
+
+    @Override
+    public Forum getCurrentForumOrLatest() {
+        if( forumRepo.findForumByForumStatus(ForumStatus.In_Progress)==null){
+            return this.getLatestForum();
+        }else {
+            return forumRepo.findForumByForumStatus(ForumStatus.In_Progress);}
     }
 
 

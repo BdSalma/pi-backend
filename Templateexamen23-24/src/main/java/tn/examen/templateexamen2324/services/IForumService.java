@@ -20,6 +20,7 @@ public interface IForumService {
      Forum getForumById(long forumId);
      Map<String, Float> calculateIncomes();
      Forum cancelForum(long forumId);
+     public Forum getCurrentForumOrLatest();
 
 
 }

@@ -75,4 +75,11 @@ public class ForumController {
     }
 
 
+    @GetMapping("/find-current-forum-or_latest")
+    @ResponseBody
+    public Forum getCurrentForumOrLatest() {
+        return  forumService.getCurrentForumOrLatest();
+    }
+
+
 }
