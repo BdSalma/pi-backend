@@ -89,7 +89,7 @@ public class AuthService implements IAuthService{
     @Value("${spring.security.oauth2.client.registration.oauth2-client-credentials.client-secret}")
     private String clientSecret;
     private Keycloak keycloak;
-    private static final String uploadPath = "C:/Users/MSI/piForumProject/backend/pi-backend/Templateexamen23-24/src/main/resources/fils";
+    private static final String uploadPath = "C:/Users/ASUS/Desktop/PIbackend/Last clone/pi-backend/Templateexamen23-24/src/main/resources/fils";
 
     public AuthService(Keycloak keycloak) {
         this.keycloak = keycloak;

@@ -185,6 +185,8 @@ public class PackService implements IPackService{
         Stand s = this.standRepo.findById(standId).get();
             pack.setTypePack(TypePack.Personalized);
             pack.setStand(s);
+            pack.setDisplayLogo(true);
+            pack.setInsertFlyer(true);
             pack.setReserver(u);
             pack.setForum(f);
             LocalDate date = LocalDate.now();
@@ -338,24 +340,24 @@ public class PackService implements IPackService{
         return revenue;
     }
 
-    @Scheduled(cron = "0 0 8 * * *")
-    //  @Scheduled(fixedRate = 30000)// Run at 8:00 AM every day
+    //@Scheduled(cron = "0 0 8 * * *")
+    @Scheduled(fixedRate = 30000)// Run at 8:00 AM every day
     public void notificationManagment() {
         Forum forumInProgress = forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
         if (forumInProgress != null) { // Check if there is a forum in progress
             LocalDate currentDate = LocalDate.now();
             long daysLeftUntilForum = ChronoUnit.DAYS.between(currentDate, forumInProgress.getDate());
-            if (daysLeftUntilForum >= 3) {
+            if (daysLeftUntilForum >= 1) {
                 List<Pack> packs = packRepo.findPackByForum(forumInProgress.getId());
                 for (Pack pack : packs) {
-                    if (!pack.getStatut()) {
+                    if (pack.getReservationStatus() == ReservationStatus.On_Hold && pack.getReservationDate() != null) {
                         long daysDifference = ChronoUnit.DAYS.between(pack.getReservationDate(), currentDate);
-                        if (daysDifference == 3) {
-                            sendSimpleEmail(pack.getReserver().getEmail(), "Rappel de reservation", "Merci de valider votre reservation");
-                            log.info("Email Sent");
+                        if (daysDifference <= 3) {
+                            // sendSimpleEmail(pack.getReserver().getEmail(), "Rappel de reservation", "Merci de valider votre reservation");
+                            log.info("Email Sent to rappel");
                         } else if (daysDifference >= 7) {
                             cancelReservation(pack.getId());
-                            log.info("reservation cacelled");
+                            log.info("reservation cacelled to cancel");
                         }
                     }
                 }

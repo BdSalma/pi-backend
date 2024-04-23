@@ -46,7 +46,7 @@ public class CandidatureService implements ICandidatureService{
         User user = urepo.findById(idUser).orElseThrow(() -> new IllegalArgumentException("User not found"));
         if (cv != null) {
             String fileName = UUID.randomUUID().toString() + "." + getFileExtension(cv);
-            String uploadPath = "C:/Users/the cast/Desktop/pi/pi-backend/Templateexamen23-24/src/main/resources/fils"; // Replace with your designated upload path
+            String uploadPath = "C:/Users/ASUS/Desktop/PIbackend/Last clone/pi-backend/Templateexamen23-24/src/main/resources/fils"; // Replace with your designated upload path
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
@@ -60,7 +60,7 @@ public class CandidatureService implements ICandidatureService{
         // File upload logic
         if (lettre != null) { // Ensure a file was actually uploaded
             String filelettre = UUID.randomUUID().toString() + "." + getFileExtension(lettre);
-            String uploadPath = "C:/Users/the cast/Desktop/pi/pi-backend/Templateexamen23-24/src/main/resources/fils"; // Replace with your designated upload path
+            String uploadPath = "C:/Users/ASUS/Desktop/PIbackend/Last clone/pi-backend/Templateexamen23-24/src/main/resources/fils"; // Replace with your designated upload path
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdir(); // Create the directory if it doesn't exist

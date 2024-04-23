@@ -42,7 +42,7 @@ public class ForumService implements IForumService{
     @Autowired
     private JavaMailSender mailSender;
 
-    private static final String uploadPath = "C:/Users/Fattouma PC/Desktop/Backend/pi-backend/Templateexamen23-24/src/main/resources/fils";
+    private static final String uploadPath = "C:/Users/ASUS/Desktop/PIbackend/Last clone/pi-backend/Templateexamen23-24/src/main/resources/fils";
 
     @Override
     public Forum addForum(Forum forum, MultipartFile  image) {

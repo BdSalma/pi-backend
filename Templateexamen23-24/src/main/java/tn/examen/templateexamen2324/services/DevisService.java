@@ -73,7 +73,7 @@ public class DevisService implements DevisIService {
 
     if (file != null) {
         String fileName = UUID.randomUUID().toString() + "." + getFileExtension(file);
-        String uploadPath = "C:/Users/ASUS/IdeaProjects/pi-backend/Templateexamen23-24/src/main/resources/fils"; // Replace with your designated upload path
+        String uploadPath = "C:/Users/ASUS/Desktop/PIbackend/Last clone/pi-backend/Templateexamen23-24/src/main/resources/fils";// Replace with your designated upload path
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
@@ -188,7 +188,7 @@ public class DevisService implements DevisIService {
 
         public byte[] getFileBytes(String fileName) throws IOException {
             // Read the file from disk
-            Path filePath = Paths.get("C:/Users/ASUS/IdeaProjects/pi-backend/Templateexamen23-24/src/main/resources/fils", fileName);
+            Path filePath = Paths.get("C:/Users/ASUS/Desktop/PIbackend/Last clone/pi-backend/Templateexamen23-24/src/main/resources/fils", fileName);
             return Files.readAllBytes(filePath);
         }
 

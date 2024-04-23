@@ -8,10 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-import tn.examen.templateexamen2324.entity.Rating;
-import tn.examen.templateexamen2324.entity.Reclamation;
-import tn.examen.templateexamen2324.entity.ResponseMessage;
-import tn.examen.templateexamen2324.entity.TypeReclamation;
+import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.repository.ReclamationRepository;
 import tn.examen.templateexamen2324.services.IReclamationService;
 
@@ -116,8 +113,8 @@ public class ReclamationController {
     }
     @PostMapping("/contact/{email}")
     @ResponseBody
-    public void Contact(@PathVariable("email") String email,@RequestBody String context){
-        iReclamationService.Contact(email,context);
+    public void Contact(@PathVariable("email") String email,@RequestBody ContactRequest context){
+        iReclamationService.Contact(email,context.getMessage());
     }
 
     @GetMapping("/count-by-type")

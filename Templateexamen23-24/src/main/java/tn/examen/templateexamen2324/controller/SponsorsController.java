@@ -11,6 +11,7 @@ import tn.examen.templateexamen2324.services.SponsorsService;
 import tn.examen.templateexamen2324.services.StripePaymentService;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -87,5 +88,14 @@ public class SponsorsController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
+    @GetMapping("/most-viewed")
+    public ResponseEntity<Sponsors> getMostViewedSponsor() {
+        return sponsorViewService.getMostViewedSponsor()
+                .map(ResponseEntity::ok) // Si l'Optional contient une valeur, utilisez-la pour construire une réponse OK.
+                .orElseGet(() -> ResponseEntity.notFound().build()); // Sinon, construisez une réponse Not Found.
+    }
+
 
 }
