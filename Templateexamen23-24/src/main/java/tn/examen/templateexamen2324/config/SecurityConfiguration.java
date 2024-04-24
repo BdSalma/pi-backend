@@ -81,15 +81,18 @@ public class SecurityConfiguration {
                     HttpMethod.POST,
                     "/auth/create-user",
                     "/auth/login",
+                    "/pack/**",
                     "/auth/logout",
                     "/auth/refreshToken",
                     "/reclamation/contact/**",
-                    "/pack/**"
-
+                    "/pack/**",
+                    "/forum/**",
+                    "/reclamation/contact/**"
                     );
             web.ignoring().requestMatchers(
                     HttpMethod.PUT,
                     "/auth/forgot-password",
+                    "/forum/**",
                     "/pack/**"
                     //"/auth/addRoleToUser/**"
             );

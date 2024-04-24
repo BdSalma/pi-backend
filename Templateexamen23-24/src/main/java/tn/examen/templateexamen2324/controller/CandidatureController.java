@@ -57,7 +57,7 @@ public class CandidatureController {
             throw new ClassNotFoundException("Candidate not found");
         }
 
-        String cvFilePath ="C:/Users/the cast/Desktop/pi/pi-backend/Templateexamen23-24/src/main/resources/fils/" + candidate.getCv(); // Adjust path if needed
+        String cvFilePath ="C:/Users/ASUS/Desktop/PIbackend/Last clone/pi-backend/Templateexamen23-24/src/main/resources/fils/" + candidate.getCv(); // Adjust path if needed
 
         // Read CV data as byte array
         File cvFile = new File(cvFilePath);

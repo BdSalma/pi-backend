@@ -260,7 +260,7 @@ public class OfferService implements IOfferService {
         return offreEnattente;
     }
 
-    @Scheduled(cron = "0 30 14 * * ?") // Execute everyday at 21:33 PM
+    @Scheduled(cron = "0 53 16 * * ?") // Execute everyday at 21:33 PM
     public void sentOffers() {
         List<Offer> offers = offerRepo.findAll();
         List<Offer> off = new ArrayList<>();
@@ -281,7 +281,7 @@ public class OfferService implements IOfferService {
 
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("walahamdi0@gmail.com");
-            message.setTo("allouchy.ryhem@gmail.com");
+            message.setTo("hadildghaies18@gmail.com");
             message.setText(messageText.toString());
             message.setSubject("Offres en attente");
             mailSender.send(message);
