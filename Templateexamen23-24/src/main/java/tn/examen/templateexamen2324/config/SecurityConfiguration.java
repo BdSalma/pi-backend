@@ -72,6 +72,7 @@ public class SecurityConfiguration {
                     "/Offer/Offer/filterByCriteria/{criteria}",
                     "/user-images/**",
                     "/forum/**",
+                    "/pack/**",
                     "/reclamation/feed",
                     "/reclamation/{reclamationId}/rating",
                     "/Offer/Offer/filterByCriteria/{criteria}"
@@ -82,12 +83,14 @@ public class SecurityConfiguration {
                     "/auth/login",
                     "/auth/logout",
                     "/auth/refreshToken",
-                    "/reclamation/contact/**"
+                    "/reclamation/contact/**",
+                    "/pack/**"
 
                     );
             web.ignoring().requestMatchers(
                     HttpMethod.PUT,
-                    "/auth/forgot-password"
+                    "/auth/forgot-password",
+                    "/pack/**"
                     //"/auth/addRoleToUser/**"
             );
             web.ignoring().requestMatchers(
