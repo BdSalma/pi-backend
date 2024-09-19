@@ -229,7 +229,7 @@ public class RequestSupplyService implements RequestSupplyIService{
         return statistics;
     }
     // Scheduled task to check for request expiry every hour
-    @Scheduled(cron = "0 */2 * * * *") // Run every 5 minutes
+    //@Scheduled(cron = "0 */2 * * * *") // Run every 5 minutes
     public void checkRequestExpiryAndArchive() {
         LocalDate now = LocalDate.now();
         LocalDate twentyFourHoursAgo = now.minusDays(1);

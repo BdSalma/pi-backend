@@ -1,4 +1,5 @@
 package tn.examen.templateexamen2324.controller;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -6,11 +7,17 @@ import org.springframework.web.bind.annotation.*;
 import tn.examen.templateexamen2324.entity.*;
 import tn.examen.templateexamen2324.entity.Pack;
 import tn.examen.templateexamen2324.entity.Stand;
+import tn.examen.templateexamen2324.repository.ForumRepo;
+import tn.examen.templateexamen2324.repository.PackRepo;
+import tn.examen.templateexamen2324.repository.StandRepo;
 import tn.examen.templateexamen2324.services.IPackService;
 import tn.examen.templateexamen2324.services.IStandService;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/pack")
@@ -19,6 +26,15 @@ public class PackController {
 
     @Autowired
     IPackService packService;
+
+    @Autowired
+    StandRepo standRepo;
+
+    @Autowired
+    ForumRepo forumRepo;
+
+    @Autowired
+    PackRepo packRepo;
 
     @GetMapping("/find-all-packs")
     @ResponseBody
@@ -53,6 +69,106 @@ public class PackController {
         return  packService.getPackById(packId);
 
     }
+
+    @PostMapping("/add-barcha-pack/{forumId}")
+    @ResponseBody
+    public void addbarchapacks(@PathVariable("forumId") long forumId) {
+        Forum f = this.forumRepo.findById(forumId).get();
+        List<Stand> stands = f.getStand();
+        LocalDate d = f.getDate();
+        Random random = new Random();
+
+        // Create a copy of the pack list to avoid ConcurrentModificationException
+        List<Pack> packsCopy = new ArrayList<>(f.getPack());
+
+        for (Stand s : stands) {
+            Pack p = new Pack();
+            p.setForum(f);
+            p.setStand(s);
+            float price = 0;
+
+            // Calculate price based on stand zone
+            switch(s.getZone()) {
+                case Zone1:
+                    price += 500;
+                    break;
+                case Zone2:
+                    price += 1000;
+                    break;
+                case Zone3:
+                    price += 1500;
+                    break;
+            }
+
+            // Set forum, type pack, and other attributes
+            int randomIndex = random.nextInt(TypePack.values().length);
+            TypePack randomType = TypePack.values()[randomIndex];
+            p.setTypePack(randomType);
+
+            // Update price based on type pack and other attributes
+            switch(randomType) {
+                case Diamond:
+                    price += 2500;
+                    p.setDisplayLogo(true);
+                    p.setInsertFlyer(true);
+                    p.setNumberOfBadges(5);
+                    p.setNumberOfOffers(8);
+                    break;
+                case Platinum:
+                    price += 3500;
+                    p.setDisplayLogo(true);
+                    p.setInsertFlyer(true);
+                    p.setNumberOfBadges(5);
+                    p.setNumberOfOffers(10);
+                    break;
+                case Silver:
+                    price += 1000;
+                    break;
+                case Gold:
+                    price += 2000;
+                    break;
+                case Personalized:
+                    p.setNumberOfOffers(random.nextInt(16) + 5); // Random number between 5 and 20
+                    p.setNumberOfFlyers(random.nextInt(171) + 30); // Random number between 30 and 200
+                    p.setNumberOfBadges(random.nextInt(8) + 3); // Random number between 3 and 10
+                    p.setInsertFlyer(random.nextBoolean()); // Randomly pick true or false
+                    p.setDisplayLogo(random.nextBoolean()); // Randomly pick true or false
+
+                    // Calculate personalized price
+                    price += calculatePersonalizedPrice(p);
+                    break;
+            }
+
+            // Set the calculated price
+            p.setPrix(price);
+
+            // Save the pack
+            this.packRepo.save(p);
+
+            // Add the pack to the copied list
+            packsCopy.add(p);
+        }
+
+        // Update the forum with the new pack list
+        f.setPack(packsCopy);
+        this.forumRepo.save(f);
+    }
+
+    // Method to calculate personalized price
+    private float calculatePersonalizedPrice(Pack pack) {
+        float personalizedPrice = 0;
+        if (pack.getNumberOfBadges() > 0) {
+            personalizedPrice += pack.getNumberOfBadges() * 25;
+        }
+        if (pack.getNumberOfFlyers() > 0) {
+            personalizedPrice += pack.getNumberOfFlyers() * 30;
+        }
+        if (pack.getNumberOfOffers() > 0) {
+            personalizedPrice += pack.getNumberOfOffers() * 90;
+        }
+        return personalizedPrice;
+    }
+
 
     @GetMapping("/find-pack-By-Status/{Status}")
     @ResponseBody

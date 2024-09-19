@@ -106,6 +106,5 @@ public class DevisController  {
         return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
     }
 
-    // Calculate the total amount of money for accepted devis by each individu
 
 }

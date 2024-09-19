@@ -42,7 +42,7 @@ public class SecurityConfiguration {
         return httpSecurity
                 .cors(Customizer.withDefaults())
                 .csrf(CsrfConfigurer::disable)
-              //  .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().permitAll())
+                //.authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().permitAll())
                 .authorizeHttpRequests(httpRequests -> httpRequests.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2ResourceServer ->
@@ -75,13 +75,14 @@ public class SecurityConfiguration {
                     "/pack/**",
                     "/reclamation/feed",
                     "/reclamation/{reclamationId}/rating",
-                    "/Offer/Offer/filterByCriteria/{criteria}"
+                    "/Offer/Offer/filterByCriteria/{criteria}",
+                    "/devis/file/{fileName}",
+                    "/invoice/file/{fileName}"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.POST,
                     "/auth/create-user",
                     "/auth/login",
-                    "/pack/**",
                     "/auth/logout",
                     "/auth/refreshToken",
                     "/forum/**",
@@ -91,8 +92,9 @@ public class SecurityConfiguration {
             web.ignoring().requestMatchers(
                     HttpMethod.PUT,
                     "/auth/forgot-password",
-                    "/forum/**",
-                    "/pack/**"
+                    "/pack/**",
+                    "/forum/**"
+
                     //"/auth/addRoleToUser/**"
             );
             web.ignoring().requestMatchers(

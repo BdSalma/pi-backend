@@ -167,7 +167,13 @@ public class PackService implements IPackService{
 
     @Override
     public List<Pack> findPackByTypePackAndReservationStatus(TypePack typePack, ReservationStatus reservationStatus) {
-        return this.packRepo.findPackByTypePackAndReservationStatus(typePack,reservationStatus);
+        List<Pack> listPack = new ArrayList<>();
+        for (Pack p :this.forumRepo.findForumByForumStatus(ForumStatus.In_Progress).getPack()) {
+            if(p.getTypePack()==typePack && p.getReservationStatus()== ReservationStatus.Not_Reserved){
+                listPack.add(p);
+            }
+        }
+        return listPack;
     }
 
 
@@ -341,7 +347,7 @@ public class PackService implements IPackService{
     }
 
     //@Scheduled(cron = "0 0 8 * * *")
-    @Scheduled(fixedRate = 30000)// Run at 8:00 AM every day
+  //  @Scheduled(fixedRate = 30000)// Run at 8:00 AM every day
     public void notificationManagment() {
         Forum forumInProgress = forumRepo.findForumByForumStatus(ForumStatus.In_Progress);
         if (forumInProgress != null) { // Check if there is a forum in progress

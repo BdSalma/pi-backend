@@ -197,7 +197,7 @@ public class AuthService implements IAuthService{
                     userData.setImage("user.png");
                     userRepository.save(userData);
 
-                    //emailVerification(userId);
+                    emailVerification(userId);
                     assignRole(userId,userRegistration.getRole().toString());
                     message.setMessage("Account created successfully");
                 }
@@ -248,7 +248,7 @@ public class AuthService implements IAuthService{
                     userData.setImage("user.png");
                     userRepository.save(userData);
 
-                    //emailVerification(userId);
+                    emailVerification(userId);
                     assignRole(userId,userRegistration.getRole().toString());
                     message.setMessage("Account created successfully");
                 }
